@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="0; url=reports.html">
+  <script>window.location.replace('reports.html');</script>
+  <meta name="description" content="Reports & Analytics — ResolveOne Support Engineer Portal">
+  <meta name="color-scheme" content="light dark">
+  <title>Reports — ResolveOne Engineer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/statistics.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>
+body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}
+.eng-page{padding:32px 0;min-height:calc(100vh - 64px);background:var(--color-bg);}
+.eng-page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:16px;}
+.eng-page-title{font-size:1.5rem;font-weight:700;color:var(--color-heading);margin:0;}
+.eng-page-subtitle{font-size:0.8125rem;color:var(--color-text);margin:4px 0 0;}
+.chart-card{background:var(--color-card);border-radius:12px;border:1px solid var(--color-border);padding:20px;margin-bottom:20px;}
+.chart-card h3{font-size:0.9375rem;font-weight:600;color:var(--color-heading);margin:0 0 16px;}
+.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.chart-bar-label{font-size:0.8125rem;color:var(--color-text);width:160px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chart-bar-track{flex:1;height:8px;background:var(--color-border);border-radius:4px;overflow:hidden;}
+.chart-bar-fill{height:100%;border-radius:4px;min-width:2px;}
+.chart-bar-count{font-size:0.75rem;color:var(--color-text);width:40px;text-align:right;flex-shrink:0;}
+.er-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:768px){.er-grid-2{grid-template-columns:1fr;}}
+.er-table-wrap{background:var(--color-card);border-radius:12px;border:1px solid var(--color-border);overflow:hidden;}
+.er-table{width:100%;border-collapse:collapse;}
+.er-table th{text-align:left;padding:12px 16px;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--color-text);border-bottom:1px solid var(--color-border);background:var(--color-bg);}
+.er-table td{padding:12px 16px;font-size:0.8125rem;color:var(--color-text);border-bottom:1px solid var(--color-border);}
+.er-table tr:last-child td{border-bottom:none;}
+</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+<nav class="navbar" role="navigation" aria-label="Engineer navigation">
+  <div class="navbar-inner">
+    <div class="navbar-left">
+      <a href="engineer-dashboard.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+      <div class="navbar-brand-text">
+        <span class="navbar-brand-name">ResolveOne</span>
+        <span class="navbar-brand-sub">Engineer Portal</span>
+      </div>
+    </div>
+    <div class="navbar-center" data-nav-links role="menubar">
+      <a href="engineer-dashboard.html" class="navbar-link" role="menuitem"><i data-lucide="layout-dashboard" size="16"></i>Dashboard</a>
+      <a href="engineer-tickets.html" class="navbar-link" role="menuitem"><i data-lucide="ticket" size="16"></i>Open Tickets</a>
+      <a href="engineer-resolution.html" class="navbar-link" role="menuitem"><i data-lucide="clipboard-check" size="16"></i>Resolution</a>
+      <a href="reports.html" class="navbar-link active" role="menuitem" aria-current="page"><i data-lucide="bar-chart-3" size="16"></i>Reports</a>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-dropdown-wrap">
+        <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>0</span></button>
+        <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+          <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+          <div class="dropdown-body" data-notif-list><div style="padding:24px;text-align:center;color:var(--color-text);font-size:0.8125rem;">No new notifications</div></div>
+          <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+        </div>
+      </div>
+      <div class="navbar-dropdown-wrap">
+        <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+          <div class="navbar-profile-avatar">EN</div>
+          <div class="navbar-profile-info"><span class="navbar-profile-name">Engineer</span></div>
+        </div>
+        <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+          <div class="dropdown-user-card"><div class="dropdown-user-avatar">EN</div><div class="dropdown-user-info"><span class="dropdown-user-name">Engineer</span><span class="dropdown-user-email">engineer@resolveone.com</span></div></div>
+          <div class="dropdown-divider"></div>
+          <a href="engineer-profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+        </div>
+      </div>
+      <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+    </div>
+  </div>
+</nav>
+
+<main class="eng-page">
+  <div class="container">
+    <div class="eng-page-header">
+      <div>
+        <h1 class="eng-page-title">Reports & Analytics</h1>
+        <p class="eng-page-subtitle">Ticket analytics, trends, and engineer performance metrics.</p>
+      </div>
+    </div>
+
+    <div class="statistics-grid" style="margin-bottom:20px;" data-kpi-container>
+      <div class="stat-card">
+        <div class="stat-card-icon orange"><i data-lucide="ticket" size="18"></i></div>
+        <div class="stat-card-value" data-report-total>0</div>
+        <div class="stat-card-label">Total Tickets</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon green"><i data-lucide="check-circle" size="18"></i></div>
+        <div class="stat-card-value" data-report-resolved>0</div>
+        <div class="stat-card-label">Resolved / Closed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon amber"><i data-lucide="clock" size="18"></i></div>
+        <div class="stat-card-value" data-report-open>0</div>
+        <div class="stat-card-label">Open / In Progress</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon warning"><i data-lucide="bar-chart-3" size="18"></i></div>
+        <div class="stat-card-value" data-report-high>0</div>
+        <div class="stat-card-label">High Priority</div>
+      </div>
+    </div>
+
+    <div class="er-grid-2">
+      <div class="chart-card">
+        <h3>Category-wise Analysis</h3>
+        <div data-category-chart></div>
+      </div>
+      <div class="chart-card">
+        <h3>Priority-wise Analysis</h3>
+        <div data-priority-chart></div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Engineer Performance Metrics</h3>
+      <div class="er-table-wrap">
+        <table class="er-table">
+          <thead>
+            <tr>
+              <th>Engineer</th>
+              <th>Assigned</th>
+              <th>Resolved</th>
+              <th>Open</th>
+              <th>Resolve Rate</th>
+            </tr>
+          </thead>
+          <tbody data-engineer-body></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" data-modal-overlay>
+  <div class="modal-box">
+    <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    <h3 class="modal-title">Sign out?</h3>
+    <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+    <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+  </div>
+</div>
+
+<script src="js/modules/session.js"></script>
+<script src="js/modules/auth.js"></script>
+<script>
+(function(){
+  try {
+    var u = window.ResolveOneSession && window.ResolveOneSession.getUser();
+    if (u && u.role !== 'engineer' && u.role !== 'support_engineer') {
+      var roleMap = { admin: 'users.html', user: 'index.html' };
+      window.location.href = roleMap[u.role] || 'index.html';
+    }
+  } catch(e){}
+})();
+</script>
+<script src="js/modules/engineer-navbar.js"></script>
+<script src="js/modules/engineer-reports.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    lucide.createIcons();
+    if (window.EngineerNavbar) window.EngineerNavbar.init();
+    if (window.EngineerReports) window.EngineerReports.init();
+  });
+</script>
+</body>
+</html>

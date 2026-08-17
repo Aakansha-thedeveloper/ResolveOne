@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reports & Analytics — ResolveOne Command Center.">
+  <meta name="color-scheme" content="light dark">
+  <title>Reports &amp; Analytics — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=5">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/reports.css?v=21">
+  <script src="js/vendor/lucide.js"></script>
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/modules/navbar.js?v=5"></script>
+<style>body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <div class="navbar-logo" aria-hidden="true">R</div>
+        <div class="navbar-brand-text">
+          <span class="navbar-brand-name">ResolveOne</span>
+          <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+        </div>
+      </div>
+      <div class="navbar-center" data-nav-links role="menubar">
+        <a href="index.html" class="navbar-link" role="menuitem"><i data-lucide="home" size="16"></i>Home</a>
+        <a href="ai-assistant.html" class="navbar-link" role="menuitem"><i data-lucide="bot" size="16"></i>AI Assistant<span class="navbar-link-badge">Online</span></a>
+        <a href="knowledge-base.html" class="navbar-link" role="menuitem"><i data-lucide="book-open" size="16"></i>Knowledge Base</a>
+        <a href="help-center.html" class="navbar-link" role="menuitem"><i data-lucide="circle-help" size="16"></i>Help Center</a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-dropdown-wrap">
+          <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>3</span></button>
+          <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+            <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+            <div class="dropdown-body" data-notif-list></div>
+            <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+          </div>
+        </div>
+        <div class="navbar-dropdown-wrap">
+          <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+            <div class="navbar-profile-avatar"></div>
+            <div class="navbar-profile-info"><span class="navbar-profile-name"></span></div>
+          </div>
+          <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+            <div class="dropdown-user-card"><div class="dropdown-user-avatar"></div><div class="dropdown-user-info"><span class="dropdown-user-name"></span><span class="dropdown-user-email"></span></div></div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+            <a href="help-center.html" class="dropdown-item"><i data-lucide="circle-help" size="16"></i> Help & Support</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+          </div>
+        </div>
+        <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    (function () {
+      try {
+        if (window.NavbarModule && window.NavbarModule.renderNavForRole) {
+          window.NavbarModule.renderNavForRole();
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <main class="cc-app">
+
+    <!-- â•â• MASTHEAD â•â• -->
+    <header class="cc-masthead">
+      <div class="cc-masthead-left">
+        <div class="cc-crumb"><span>Enterprise</span><i data-lucide="chevron-right" size="12"></i><span class="cc-crumb-cur">Analytics</span></div>
+        <h1 class="cc-title">Reports &amp; Analytics</h1>
+        <p class="cc-sub">Operational analytics computed live from the ticket database.</p>
+      </div>
+      <div class="cc-masthead-right">
+        <div class="cc-meta">
+          <span class="cc-live"><span class="cc-live-dot"></span>LIVE</span>
+          <span class="cc-meta-sep"></span>
+          <span class="cc-meta-label">Synced</span>
+          <span class="cc-meta-val mono" data-sync-time>—</span>
+        </div>
+        <div class="cc-meta">
+          <span class="cc-meta-label">Tickets in DB</span>
+          <span class="cc-meta-val mono" data-db-count>—</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- â•â• COMMAND BAR â•â• -->
+    <div class="cc-cmdbar">
+      <div class="cc-filters">
+        <label class="cc-field">
+          <span class="cc-field-label">Date Range</span>
+          <select class="cc-select" data-filter="range">
+            <option value="7">Last 7 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="all">All time</option>
+          </select>
+        </label>
+        <label class="cc-field">
+          <span class="cc-field-label">Department</span>
+          <select class="cc-select" data-filter="department">
+            <option value="all">All departments</option>
+          </select>
+        </label>
+        <label class="cc-field">
+          <span class="cc-field-label">Engineer</span>
+          <select class="cc-select" data-filter="engineer">
+            <option value="all">All engineers</option>
+          </select>
+        </label>
+        <label class="cc-field">
+          <span class="cc-field-label">Priority</span>
+          <select class="cc-select" data-filter="priority">
+            <option value="all">All priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </label>
+        <label class="cc-field">
+          <span class="cc-field-label">Status</span>
+          <select class="cc-select" data-filter="status">
+            <option value="all">All statuses</option>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Waiting User">Waiting User</option>
+            <option value="Escalated">Escalated</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Closed">Closed</option>
+          </select>
+        </label>
+      </div>
+      <div class="cc-actions">
+        <button class="cc-btn" data-refresh-btn title="Refresh data">
+          <i data-lucide="refresh-cw" size="15"></i><span>Refresh</span>
+        </button>
+        <button class="cc-btn cc-btn-primary" data-export-btn title="Export current view">
+          <i data-lucide="download" size="15"></i><span>Export</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- â•â• DRILL BAR â•â• -->
+    <div class="cc-drillbar" data-drillbar hidden>
+      <span class="cc-drillbar-label">Drill-down:</span>
+      <span class="cc-drill-chip" data-drill-chip></span>
+      <button class="cc-drill-clear" data-drill-clear type="button">Clear</button>
+    </div>
+
+    <!-- â•â• SIGNAL STRIP â•â• -->
+    <section class="cc-signals" aria-label="Key signals" data-signals>
+      <div class="cc-signal" data-signal="total">
+        <span class="cc-signal-top">
+          <span class="cc-signal-icon" aria-hidden="true"><i data-lucide="ticket" size="14"></i></span>
+          <span class="cc-signal-label">Total Tickets</span>
+        </span>
+        <span class="cc-signal-value mono" data-signal-value>—</span>
+        <span class="cc-signal-delta mono" data-signal-delta></span>
+      </div>
+      <div class="cc-signal" data-signal="open">
+        <span class="cc-signal-top">
+          <span class="cc-signal-icon" aria-hidden="true"><i data-lucide="inbox" size="14"></i></span>
+          <span class="cc-signal-label">Open</span>
+        </span>
+        <span class="cc-signal-value mono" data-signal-value>—</span>
+        <span class="cc-signal-delta mono" data-signal-delta></span>
+      </div>
+      <div class="cc-signal" data-signal="inprogress">
+        <span class="cc-signal-top">
+          <span class="cc-signal-icon" aria-hidden="true"><i data-lucide="activity" size="14"></i></span>
+          <span class="cc-signal-label">In Progress</span>
+        </span>
+        <span class="cc-signal-value mono" data-signal-value>—</span>
+        <span class="cc-signal-delta mono" data-signal-delta></span>
+      </div>
+      <div class="cc-signal" data-signal="sla">
+        <span class="cc-signal-top">
+          <span class="cc-signal-icon" aria-hidden="true"><i data-lucide="shield-check" size="14"></i></span>
+          <span class="cc-signal-label">SLA Compliance</span>
+        </span>
+        <span class="cc-signal-value mono" data-signal-value>—</span>
+        <span class="cc-signal-delta mono" data-signal-delta></span>
+      </div>
+      <div class="cc-signal" data-signal="escalated">
+        <span class="cc-signal-top">
+          <span class="cc-signal-icon" aria-hidden="true"><i data-lucide="triangle-alert" size="14"></i></span>
+          <span class="cc-signal-label">Escalated</span>
+        </span>
+        <span class="cc-signal-value mono" data-signal-value>—</span>
+        <span class="cc-signal-delta mono" data-signal-delta></span>
+      </div>
+    </section>
+
+    <!-- â•â• SECTION 01 Â· VOLUME â•â• -->
+    <section class="cc-band" data-band="volume" aria-labelledby="band-volume">
+      <header class="cc-band-head">
+        <span class="cc-band-num">01</span>
+        <div class="cc-band-heading">
+          <h2 class="cc-band-title" id="band-volume">Volume</h2>
+          <p class="cc-band-sub">Operational ticket trends over the selected period</p>
+        </div>
+      </header>
+      <div class="cc-band-grid cc-band-grid-73">
+        <div class="cc-panel">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Ticket Trend</span>
+            <span class="cc-panel-sub mono" data-sub="trend">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-canvas cc-canvas-tall">
+              <canvas data-chart="trend" role="img" aria-label="30-day ticket trend"></canvas>
+              <div class="cc-empty" data-empty="trend" hidden>
+                <i data-lucide="trending-up" size="28"></i>
+                <span>No ticket activity in this range</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cc-panel cc-panel-sep">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Status Mix</span>
+            <span class="cc-panel-sub mono" data-sub="statusmix">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-canvas">
+              <canvas data-chart="statusmix" role="img" aria-label="Current ticket status mix"></canvas>
+              <div class="cc-empty" data-empty="statusmix" hidden>
+                <i data-lucide="layers" size="28"></i>
+                <span>No tickets in this range</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â•â• SECTION 02 Â· FLOW â•â• -->
+    <section class="cc-band" data-band="flow" aria-labelledby="band-flow">
+      <header class="cc-band-head">
+        <span class="cc-band-num">02</span>
+        <div class="cc-band-heading">
+          <h2 class="cc-band-title" id="band-flow">Flow</h2>
+          <p class="cc-band-sub">How tickets progress through the lifecycle</p>
+        </div>
+      </header>
+      <div class="cc-band-grid cc-band-grid-11">
+        <div class="cc-panel">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Ticket Funnel</span>
+            <span class="cc-panel-sub mono" data-sub="funnel">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-funnel" data-funnel role="group" aria-label="Ticket lifecycle funnel"></div>
+          </div>
+        </div>
+        <div class="cc-panel cc-panel-sep">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Priority Urgency</span>
+            <span class="cc-panel-sub mono" data-sub="priority">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-canvas">
+              <canvas data-chart="priority" role="img" aria-label="Priority urgency: active versus resolved"></canvas>
+              <div class="cc-empty" data-empty="priority" hidden>
+                <i data-lucide="flag" size="28"></i>
+                <span>No priority data in this range</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â•â• SECTION 03 Â· WORK TYPE â•â• -->
+    <section class="cc-band" data-band="worktype" aria-labelledby="band-worktype">
+      <header class="cc-band-head">
+        <span class="cc-band-num">03</span>
+        <div class="cc-band-heading">
+          <h2 class="cc-band-title" id="band-worktype">Work Type</h2>
+          <p class="cc-band-sub">Work categorisation and arrival patterns</p>
+        </div>
+      </header>
+      <div class="cc-band-grid cc-band-grid-64">
+        <div class="cc-panel">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Category Mix</span>
+            <span class="cc-panel-sub mono" data-sub="category">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-canvas cc-canvas-cat">
+              <canvas data-chart="category" role="img" aria-label="Ticket category mix"></canvas>
+              <div class="cc-empty" data-empty="category" hidden>
+                <i data-lucide="tag" size="28"></i>
+                <span>No category data in this range</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cc-panel cc-panel-sep">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Arrival Heatmap</span>
+            <span class="cc-panel-sub mono" data-sub="heatmap">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-heatmap" data-heatmap></div>
+            <div class="cc-empty" data-empty="heatmap" hidden>
+              <i data-lucide="calendar-clock" size="28"></i>
+              <span>No arrivals in this range</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â•â• SECTION 04 Â· WORKFORCE â•â• -->
+    <section class="cc-band" data-band="workforce" aria-labelledby="band-workforce">
+      <header class="cc-band-head">
+        <span class="cc-band-num">04</span>
+        <div class="cc-band-heading">
+          <h2 class="cc-band-title" id="band-workforce">Workforce</h2>
+          <p class="cc-band-sub">Engineer and department performance</p>
+        </div>
+      </header>
+      <div class="cc-band-grid cc-band-grid-11">
+        <div class="cc-panel">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Engineer Workload</span>
+            <span class="cc-panel-sub mono" data-sub="engineer">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-canvas">
+              <canvas data-chart="engineer" role="img" aria-label="Engineer workload: active versus resolved"></canvas>
+              <div class="cc-empty" data-empty="engineer" hidden>
+                <i data-lucide="user-check" size="28"></i>
+                <span>No assigned work in this range</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cc-panel cc-panel-sep">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Department Comparison</span>
+            <span class="cc-panel-sub mono" data-sub="dept">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-canvas">
+              <canvas data-chart="dept" role="img" aria-label="Department comparison"></canvas>
+              <div class="cc-empty" data-empty="dept" hidden>
+                <i data-lucide="building-2" size="28"></i>
+                <span>No department data in this range</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="cc-band-grid">
+          <div class="cc-panel">
+            <div class="cc-panel-head">
+              <span class="cc-panel-title">Resolution Distribution</span>
+              <span class="cc-panel-sub mono" data-sub="resolution">—</span>
+            </div>
+            <div class="cc-panel-body">
+              <div class="cc-canvas">
+                <canvas data-chart="resolution" role="img" aria-label="Resolution time distribution"></canvas>
+                <div class="cc-empty" data-empty="resolution" hidden>
+                  <i data-lucide="timer" size="28"></i>
+                  <span>No resolution data in this range</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- â•â• SECTION 05 Â· LEDGER â•â• -->
+    <section class="cc-band" data-band="ledger" aria-labelledby="band-ledger">
+      <header class="cc-band-head">
+        <span class="cc-band-num">05</span>
+        <div class="cc-band-heading">
+          <h2 class="cc-band-title" id="band-ledger">Ledger</h2>
+          <p class="cc-band-sub">Audit trail of every ticket in view</p>
+        </div>
+      </header>
+      <div class="cc-band-grid cc-band-grid-37">
+        <div class="cc-panel">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Recent Activity</span>
+            <span class="cc-panel-sub mono" data-sub="activity">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <ul class="cc-activity" data-activity></ul>
+          </div>
+        </div>
+        <div class="cc-panel cc-panel-sep">
+          <div class="cc-panel-head">
+            <span class="cc-panel-title">Ticket Ledger</span>
+            <span class="cc-panel-sub mono" data-sub="table">—</span>
+          </div>
+          <div class="cc-panel-body">
+            <div class="cc-table-wrap">
+              <table class="cc-table" data-ledger>
+                <thead>
+                  <tr>
+                    <th data-sort="id" role="columnheader" aria-sort="none"><button>Ticket</button></th>
+                    <th data-sort="issue" role="columnheader" aria-sort="none"><button>Subject</button></th>
+                    <th data-sort="department" role="columnheader" aria-sort="none"><button>Dept</button></th>
+                    <th data-sort="engineer" role="columnheader" aria-sort="none"><button>Engineer</button></th>
+                    <th data-sort="priority" role="columnheader" aria-sort="none"><button>Priority</button></th>
+                    <th data-sort="status" role="columnheader" aria-sort="none"><button>Status</button></th>
+                    <th data-sort="created" role="columnheader" aria-sort="none"><button>Created</button></th>
+                  </tr>
+                </thead>
+                <tbody data-ledger-body></tbody>
+              </table>
+            </div>
+            <div class="cc-empty" data-empty="table" hidden>
+              <i data-lucide="table" size="28"></i>
+              <span>No tickets match this view</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- â•â• CONSOLE FOOTER â•â• -->
+  <footer class="cc-footer">
+    <span class="cc-footer-note">ResolveOne Command Center Â· operational metrics computed live from the ticket database</span>
+    <span class="cc-footer-sync mono">Last sync <span data-footer-sync>—</span></span>
+  </footer>
+
+  <div class="modal-overlay" data-modal-overlay>
+    <div class="modal-box">
+      <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+      <h3 class="modal-title">Sign out?</h3>
+      <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+      <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+    </div>
+  </div>
+
+  <script src="js/modules/session.js?v=5"></script>
+  <script src="js/modules/auth.js?v=5"></script>
+  <script src="js/modules/reports.js?v=19"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+      if (window.NavbarModule) window.NavbarModule.init();
+      if (window.ReportsModule) window.ReportsModule.init();
+    });
+  </script>
+</body>
+</html>

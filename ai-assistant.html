@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ResolveOne AI Assistant — Intelligent ticket resolution powered by AI.">
+  <meta name="color-scheme" content="light dark">
+  <title>AI Assistant — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/footer.css?v=7">
+  <link rel="stylesheet" href="css/components/ai-assistant.css?v=8">
+  <link rel="stylesheet" href="css/components/my-tickets.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <a href="index.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+        <div class="navbar-brand-text">
+          <span class="navbar-brand-name">ResolveOne</span>
+          <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+        </div>
+      </div>
+      <div class="navbar-center" data-nav-links role="menubar">
+        <a href="index.html" class="navbar-link" role="menuitem">
+          <i data-lucide="home" size="16"></i>
+          Home
+        </a>
+        <a href="ai-assistant.html" class="navbar-link active" role="menuitem" aria-current="page">
+          <i data-lucide="bot" size="16"></i>
+          AI Assistant
+          <span class="navbar-link-badge">Online</span>
+        </a>
+        <a href="knowledge-base.html" class="navbar-link" role="menuitem">
+          <i data-lucide="book-open" size="16"></i>
+          Knowledge Base
+        </a>
+        <a href="help-center.html" class="navbar-link" role="menuitem">
+          <i data-lucide="circle-help" size="16"></i>
+          Help Center
+        </a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-dropdown-wrap">
+          <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications">
+            <i data-lucide="bell" size="18"></i>
+            <span class="notif-dot" aria-hidden="true"></span>
+            <span class="notif-badge" data-notif-count>3</span>
+          </button>
+          <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+            <div class="dropdown-header">
+              <h3 class="dropdown-title">Notifications</h3>
+              <button class="dropdown-action" data-mark-read>Mark all as read</button>
+            </div>
+            <div class="dropdown-body" data-notif-list></div>
+            <div class="dropdown-footer">
+              <a href="#" class="dropdown-footer-link">View All Notifications</a>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-dropdown-wrap">
+          <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+            <div class="navbar-profile-avatar"></div>
+            <div class="navbar-profile-info">
+              <span class="navbar-profile-name"></span>
+            </div>
+          </div>
+          <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+            <div class="dropdown-user-card">
+              <div class="dropdown-user-avatar"></div>
+              <div class="dropdown-user-info">
+                <span class="dropdown-user-name"></span>
+                <span class="dropdown-user-email"></span>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+            <a href="help-center.html" class="dropdown-item"><i data-lucide="circle-help" size="16"></i> Help & Support</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+          </div>
+        </div>
+        <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+          <i data-lucide="menu" size="20"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="ai-page">
+    <div class="ai-page-container">
+
+      <div class="workspace-header">
+        <div class="workspace-header-left">
+          <div class="workspace-breadcrumb">
+            <a href="index.html">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <span>AI Assistant</span>
+          </div>
+          <h1 class="workspace-title">AI Assistant</h1>
+          <p class="workspace-subtitle">Describe your issue — let AI diagnose, match, and resolve it step by step.</p>
+        </div>
+        <div class="workspace-header-right">
+          <div class="workspace-status">
+            <span class="workspace-status-dot"></span>
+            <span class="workspace-status-label">AI Online</span>
+          </div>
+          <button class="workspace-clear-btn" data-clear-conversation aria-label="Start new conversation">
+            <i data-lucide="rotate-ccw" size="16"></i>
+            New
+          </button>
+        </div>
+      </div>
+
+      <div class="workspace-layout">
+
+        <div class="conversation-workspace">
+          <div class="conversation-area" data-conversation>
+            <div class="conversation-scroll" data-conversation-scroll>
+              <div class="conversation-messages" data-messages>
+              </div>
+            </div>
+          </div>
+
+          <div class="conversation-input-wrap">
+            <div class="conversation-input-row">
+              <button class="conv-input-btn" data-attach-btn aria-label="Attach file">
+                <i data-lucide="paperclip" size="18"></i>
+              </button>
+              <input type="text" class="conversation-input" data-conversation-input placeholder="Describe your issue..." autocomplete="off">
+              <button class="conv-input-btn" data-voice-btn aria-label="Voice input">
+                <i data-lucide="mic" size="18"></i>
+              </button>
+              <button class="conv-send-btn" data-send-btn aria-label="Send">
+                <i data-lucide="send" size="18"></i>
+              </button>
+            </div>
+            <div class="conversation-suggested" data-suggested-chips>
+              <button class="suggested-chip" data-chip="I can't connect to the VPN">I can't connect to the VPN</button>
+              <button class="suggested-chip" data-chip="My email stopped syncing">My email stopped syncing</button>
+              <button class="suggested-chip" data-chip="I need access to a shared drive">I need access to a shared drive</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="workspace-sidebar">
+          <div class="step-progress" data-step-progress>
+            <div class="step-progress-steps">
+              <div class="step-progress-item active" data-step="1">
+                <div class="step-progress-circle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="step-check"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="step-number">1</span>
+                </div>
+                <span class="step-progress-label">Report</span>
+              </div>
+              <div class="step-progress-line" data-step="1"></div>
+              <div class="step-progress-item" data-step="2">
+                <div class="step-progress-circle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="step-check"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="step-number">2</span>
+                </div>
+                <span class="step-progress-label">Analysis</span>
+              </div>
+              <div class="step-progress-line" data-step="2"></div>
+              <div class="step-progress-item" data-step="3">
+                <div class="step-progress-circle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="step-check"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="step-number">3</span>
+                </div>
+                <span class="step-progress-label">Similar</span>
+              </div>
+              <div class="step-progress-line" data-step="3"></div>
+              <div class="step-progress-item" data-step="4">
+                <div class="step-progress-circle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="step-check"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="step-number">4</span>
+                </div>
+                <span class="step-progress-label">Solutions</span>
+              </div>
+              <div class="step-progress-line" data-step="4"></div>
+              <div class="step-progress-item" data-step="5">
+                <div class="step-progress-circle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="step-check"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="step-number">5</span>
+                </div>
+                <span class="step-progress-label">Ticket</span>
+              </div>
+              <div class="step-progress-line" data-step="5"></div>
+              <div class="step-progress-item" data-step="6">
+                <div class="step-progress-circle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="step-check"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="step-number">6</span>
+                </div>
+                <span class="step-progress-label">Tracking</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <section id="my-tickets-section" class="mt-page">
+    <div class="mt-page-container">
+      <div class="mt-header" data-mt-header>
+        <div class="mt-header-left">
+          <h2 class="mt-header-title">My Tickets</h2>
+          <p class="mt-section-subtitle">Track all your support requests and monitor their progress in real time.</p>
+          <span class="mt-header-count" data-ticket-count>0 tickets</span>
+        </div>
+      </div>
+      <div class="mt-toolbar">
+        <div class="mt-search-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="mt-search-input" data-search-input placeholder="Search tickets...">
+        </div>
+        <div class="mt-filters">
+          <select class="mt-filter-select" data-filter="status">
+            <option value="all">All Status</option>
+            <option value="open">Open</option>
+            <option value="in progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+          <select class="mt-filter-select" data-filter="department">
+            <option value="all">All Departments</option>
+            <option value="Network & VPN">Network & VPN</option>
+            <option value="Email & Collaboration">Email & Collaboration</option>
+            <option value="IT Support">IT Support</option>
+            <option value="Software / Applications">Software / Applications</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Security & Access">Security & Access</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-table-wrap" data-table-wrap>
+        <table class="mt-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Issue</th>
+              <th>Department</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody data-table-body></tbody>
+        </table>
+      </div>
+      <div class="mt-empty" data-empty style="display:none;"></div>
+      <div class="mt-drawer-overlay" data-drawer-overlay></div>
+      <div class="mt-drawer" data-drawer role="dialog" aria-hidden="true" aria-label="Ticket details">
+        <div class="mt-drawer-body" data-drawer-body></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/modules/session.js"></script>
+  <script src="js/modules/auth.js"></script>
+  <script src="js/modules/data-store.js?v=6"></script>
+  <script src="js/modules/ai-service.js"></script>
+  <script src="js/modules/ai-assistant.js"></script>
+  <script src="js/modules/my-tickets.js"></script>
+  <script src="js/modules/navbar.js?v=5"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+      if (window.NavbarModule) window.NavbarModule.init();
+      window.AIAssistant.init();
+      if (window.MyTickets) window.MyTickets.init();
+    });
+  </script>
+  <div class="modal-overlay" data-modal-overlay>
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <h3 class="modal-title">Sign out?</h3>
+      <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" data-modal-cancel>Cancel</button>
+        <button class="btn btn-danger" data-modal-confirm>Logout</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

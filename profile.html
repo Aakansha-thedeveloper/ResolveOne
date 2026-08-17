@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="My Profile — ResolveOne Enterprise AI Support Platform.">
+  <meta name="color-scheme" content="light dark">
+  <title>My Profile — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/settings.css?v=7">
+  <link rel="stylesheet" href="css/components/profile.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <div class="navbar-logo" aria-hidden="true">R</div>
+        <div class="navbar-brand-text">
+          <span class="navbar-brand-name">ResolveOne</span>
+          <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+        </div>
+      </div>
+      <div class="navbar-center" data-nav-links role="menubar">
+        <a href="index.html" class="navbar-link" role="menuitem"><i data-lucide="home" size="16"></i>Home</a>
+        <a href="ai-assistant.html" class="navbar-link" role="menuitem"><i data-lucide="bot" size="16"></i>AI Assistant<span class="navbar-link-badge">Online</span></a>
+        <a href="knowledge-base.html" class="navbar-link" role="menuitem"><i data-lucide="book-open" size="16"></i>Knowledge Base</a>
+        <a href="help-center.html" class="navbar-link" role="menuitem"><i data-lucide="circle-help" size="16"></i>Help Center</a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-dropdown-wrap">
+          <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>3</span></button>
+          <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+            <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+            <div class="dropdown-body" data-notif-list></div>
+            <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+          </div>
+        </div>
+        <div class="navbar-dropdown-wrap">
+          <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+            <div class="navbar-profile-avatar"></div>
+            <div class="navbar-profile-info"><span class="navbar-profile-name"></span></div>
+          </div>
+          <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+            <div class="dropdown-user-card"><div class="dropdown-user-avatar"></div><div class="dropdown-user-info"><span class="dropdown-user-name"></span><span class="dropdown-user-email"></span></div></div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+            <a href="help-center.html" class="dropdown-item"><i data-lucide="circle-help" size="16"></i> Help & Support</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+          </div>
+        </div>
+        <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="profile-page">
+    <div class="profile-container">
+
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar-container">
+            <div class="profile-avatar" data-profile-avatar></div>
+            <div class="profile-avatar-overlay" data-photo-btn>
+              <i data-lucide="camera" size="18"></i>
+              <span>Change Photo</span>
+            </div>
+          </div>
+          <div class="profile-photo-actions">
+            <button class="profile-photo-btn" data-photo-btn type="button">Change photo</button>
+            <button class="profile-photo-btn profile-photo-btn--remove" data-remove-photo-btn type="button">Remove photo</button>
+          </div>
+        </div>
+        <h1 class="profile-name" data-profile-name>Neha Kapoor</h1>
+        <p class="profile-email" data-profile-email>neha.kapoor@resolveone.com</p>
+        <p class="profile-role-label" data-profile-role>Product Designer</p>
+      </div>
+
+      <!-- Personal Information -->
+      <div class="settings-card">
+        <div class="settings-card-header settings-card-header-row">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="settings-card-icon"><i data-lucide="user" size="18"></i></div>
+            <div>
+              <div class="settings-card-title">Personal Information</div>
+              <div class="settings-card-desc">Your basic contact details</div>
+            </div>
+          </div>
+          <div class="profile-card-actions">
+            <button class="btn btn-outline btn-sm" data-edit-btn><i data-lucide="edit" size="14"></i> Edit Profile</button>
+            <button class="btn btn-primary btn-sm" data-save-btn disabled><i data-lucide="check" size="14"></i> Save</button>
+          </div>
+        </div>
+        <div class="settings-card-body">
+          <div class="settings-field">
+            <label class="settings-label" for="profile-name-input">Full Name</label>
+            <div class="settings-input-wrap">
+              <span class="settings-input-icon"><i data-lucide="user" size="16"></i></span>
+              <input type="text" class="settings-input" id="profile-name-input" data-field-name value="Neha Kapoor" readonly>
+            </div>
+          </div>
+          <div class="settings-field">
+            <label class="settings-label" for="profile-email-input">Email Address</label>
+            <div class="settings-input-wrap">
+              <span class="settings-input-icon"><i data-lucide="mail" size="16"></i></span>
+              <input type="email" class="settings-input" id="profile-email-input" data-field-email value="neha.kapoor@resolveone.com" readonly>
+            </div>
+          </div>
+          <div class="settings-field">
+            <label class="settings-label" for="profile-phone-input">Phone Number</label>
+            <div class="settings-input-wrap">
+              <span class="settings-input-icon"><i data-lucide="phone" size="16"></i></span>
+              <input type="tel" class="settings-input" id="profile-phone-input" data-field-phone value="+1 (555) 289-1746" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appearance -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <div class="settings-card-icon"><i data-lucide="palette" size="18"></i></div>
+          <div>
+            <div class="settings-card-title">Appearance</div>
+            <div class="settings-card-desc">Choose your display theme</div>
+          </div>
+        </div>
+        <div class="settings-card-body">
+          <div class="profile-theme-group">
+            <button class="profile-theme-btn active" data-theme-option="light"><i data-lucide="sun" size="20"></i><span class="settings-theme-label">Light</span></button>
+            <button class="profile-theme-btn" data-theme-option="dark"><i data-lucide="moon" size="20"></i><span class="settings-theme-label">Dark</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <div class="settings-card-icon"><i data-lucide="shield" size="18"></i></div>
+          <div>
+            <div class="settings-card-title">Security</div>
+            <div class="settings-card-desc">Manage your account security</div>
+          </div>
+        </div>
+        <div class="settings-card-body">
+          <div class="profile-security-row">
+            <div class="profile-security-info">
+              <span class="profile-security-title">Password</span>
+              <span class="profile-security-desc">Last changed 3 months ago</span>
+            </div>
+            <button class="btn btn-outline btn-sm" data-pw-change-btn><i data-lucide="lock" size="14"></i> Change Password</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Logout Modal -->
+  <div class="modal-overlay" data-modal-overlay>
+    <div class="modal-box">
+      <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+      <h3 class="modal-title">Sign out?</h3>
+      <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+      <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal-overlay" data-pw-modal-overlay>
+    <div class="modal-box modal-box--sm">
+      <div class="modal-box-header">
+        <h3 class="modal-title">Change Password</h3>
+        <button class="modal-close-btn" data-pw-modal-close><i data-lucide="x" size="18"></i></button>
+      </div>
+      <div class="modal-box-body">
+        <div class="settings-field">
+          <label class="settings-label" for="pw-current">Current Password</label>
+          <div class="settings-input-wrap">
+            <span class="settings-input-icon"><i data-lucide="lock" size="16"></i></span>
+            <input type="password" class="settings-input" id="pw-current" data-pw-current placeholder="Enter current password">
+            <button class="settings-pw-toggle" data-pw-toggle="pw-current" type="button" aria-label="Toggle password visibility"><i data-lucide="eye" size="16"></i></button>
+          </div>
+        </div>
+        <div class="settings-field">
+          <label class="settings-label" for="pw-new">New Password</label>
+          <div class="settings-input-wrap">
+            <span class="settings-input-icon"><i data-lucide="lock" size="16"></i></span>
+            <input type="password" class="settings-input" id="pw-new" data-pw-new placeholder="Enter new password">
+            <button class="settings-pw-toggle" data-pw-toggle="pw-new" type="button" aria-label="Toggle password visibility"><i data-lucide="eye" size="16"></i></button>
+          </div>
+          <div class="settings-pw-strength" data-pw-strength>
+            <div class="settings-pw-bar"><div class="settings-pw-bar-fill" data-pw-bar></div></div>
+            <ul class="settings-pw-rules">
+              <li data-rule="length"><i data-lucide="check" size="12"></i> 12+ characters</li>
+              <li data-rule="upper"><i data-lucide="check" size="12"></i> Uppercase letter</li>
+              <li data-rule="number"><i data-lucide="check" size="12"></i> Number</li>
+              <li data-rule="symbol"><i data-lucide="check" size="12"></i> Symbol</li>
+            </ul>
+          </div>
+        </div>
+        <div class="settings-field">
+          <label class="settings-label" for="pw-confirm">Confirm New Password</label>
+          <div class="settings-input-wrap">
+            <span class="settings-input-icon"><i data-lucide="lock" size="16"></i></span>
+            <input type="password" class="settings-input" id="pw-confirm" data-pw-confirm placeholder="Confirm new password">
+            <button class="settings-pw-toggle" data-pw-toggle="pw-confirm" type="button" aria-label="Toggle password visibility"><i data-lucide="eye" size="16"></i></button>
+          </div>
+          <span class="pw-match-error" data-pw-match-error></span>
+        </div>
+        <div class="pw-modal-actions">
+          <button class="btn btn-secondary" data-pw-cancel>Cancel</button>
+          <button class="btn btn-primary" data-pw-submit disabled><i data-lucide="check" size="16"></i> Update Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crop Modal -->
+  <div class="modal-overlay crop-overlay" data-crop-overlay>
+    <div class="crop-modal">
+      <div class="crop-modal-header">
+        <h3 class="crop-modal-title">Edit Photo</h3>
+        <button class="modal-close-btn" data-crop-close type="button"><i data-lucide="x" size="18"></i></button>
+      </div>
+      <div class="crop-modal-body">
+        <div class="crop-viewport" data-crop-viewport>
+          <div class="crop-image-wrap" data-crop-wrap>
+            <img class="crop-image" data-crop-image src="" alt="Crop preview">
+          </div>
+          <div class="crop-circle-overlay" data-crop-circle></div>
+        </div>
+      </div>
+      <div class="crop-modal-footer">
+        <div class="crop-controls-bar">
+          <button class="crop-ctrl-btn" data-crop-zoom-out type="button" title="Zoom out"><i data-lucide="minus" size="16"></i></button>
+          <span class="crop-zoom-label" data-crop-zoom-label>100%</span>
+          <button class="crop-ctrl-btn" data-crop-zoom-in type="button" title="Zoom in"><i data-lucide="plus" size="16"></i></button>
+          <div class="crop-divider"></div>
+          <button class="crop-ctrl-btn" data-crop-rotate-btn type="button" title="Rotate"><i data-lucide="rotate-cw" size="16"></i></button>
+        </div>
+        <div class="crop-action-btns">
+          <button class="btn btn-secondary" data-crop-cancel type="button">Cancel</button>
+          <button class="btn btn-primary" data-crop-apply type="button">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unsaved Changes Confirmation Modal -->
+  <div class="modal-overlay" data-unsaved-overlay>
+    <div class="modal-box">
+      <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.535a1.5 1.5 0 0 0 1.29 2.274h16.906a1.5 1.5 0 0 0 1.29-2.274L13.637 3.59a1.5 1.5 0 0 0-2.546 0z"/><path d="M12 17h.01"/></svg></div>
+      <h3 class="modal-title">Unsaved Changes</h3>
+      <p class="modal-desc">You have unsaved profile changes.</p>
+      <div class="modal-actions modal-actions--three">
+        <button class="btn btn-secondary" data-unsaved-cancel type="button">Cancel</button>
+        <button class="btn btn-danger" data-unsaved-discard type="button">Discard</button>
+        <button class="btn btn-primary" data-unsaved-save type="button">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/modules/session.js"></script>
+  <script src="js/modules/auth.js"></script>
+  <script src="js/modules/navbar.js?v=5"></script>
+  <script src="js/modules/profile.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+      if (window.NavbarModule) window.NavbarModule.init();
+      if (window.ProfileModule) window.ProfileModule.init();
+    });
+  </script>
+</body>
+</html>

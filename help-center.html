@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Help Center — Documentation, FAQs and support resources for ResolveOne.">
+  <meta name="color-scheme" content="light dark">
+  <title>Help Center — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/help-center.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <a href="index.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+        <div class="navbar-brand-text">
+          <span class="navbar-brand-name">ResolveOne</span>
+          <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+        </div>
+      </div>
+      <div class="navbar-center" data-nav-links role="menubar">
+        <a href="index.html" class="navbar-link" role="menuitem">
+          <i data-lucide="home" size="16"></i>
+          Home
+        </a>
+        <a href="ai-assistant.html" class="navbar-link" role="menuitem">
+          <i data-lucide="bot" size="16"></i>
+          AI Assistant
+          <span class="navbar-link-badge">Online</span>
+        </a>
+        <a href="knowledge-base.html" class="navbar-link" role="menuitem">
+          <i data-lucide="book-open" size="16"></i>
+          Knowledge Base
+        </a>
+        <a href="help-center.html" class="navbar-link active" role="menuitem" aria-current="page">
+          <i data-lucide="circle-help" size="16"></i>
+          Help Center
+        </a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-dropdown-wrap">
+          <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications">
+            <i data-lucide="bell" size="18"></i>
+            <span class="notif-dot" aria-hidden="true"></span>
+            <span class="notif-badge" data-notif-count>3</span>
+          </button>
+          <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+            <div class="dropdown-header">
+              <h3 class="dropdown-title">Notifications</h3>
+              <button class="dropdown-action" data-mark-read>Mark all as read</button>
+            </div>
+            <div class="dropdown-body" data-notif-list></div>
+            <div class="dropdown-footer">
+              <a href="#" class="dropdown-footer-link">View All Notifications</a>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-dropdown-wrap">
+          <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+            <div class="navbar-profile-avatar"></div>
+            <div class="navbar-profile-info">
+              <span class="navbar-profile-name"></span>
+            </div>
+          </div>
+          <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+            <div class="dropdown-user-card">
+              <div class="dropdown-user-avatar"></div>
+              <div class="dropdown-user-info">
+                <span class="dropdown-user-name"></span>
+                <span class="dropdown-user-email"></span>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+            <a href="help-center.html" class="dropdown-item"><i data-lucide="circle-help" size="16"></i> Help & Support</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+          </div>
+        </div>
+        <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+          <i data-lucide="menu" size="20"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="hc-page">
+    <div class="hc-container">
+
+      <div class="hc-header">
+        <div class="hc-header-left">
+          <div class="hc-breadcrumb">
+            <a href="index.html">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <span>Help Center</span>
+          </div>
+          <h1 class="hc-title">Help Center</h1>
+          <p class="hc-subtitle">Find documentation, FAQs, platform guides and support resources to get the most out of ResolveOne.</p>
+        </div>
+        <div class="hc-header-right">
+          <div class="hc-live-badge">
+            <span class="hc-live-dot"></span>
+            Support Online
+          </div>
+        </div>
+      </div>
+
+      <div class="hc-search" data-hc-search>
+        <div class="hc-search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <input type="text" class="hc-search-input" placeholder="Search documentation, guides, FAQs or tutorials..." data-hc-search-input autocomplete="off">
+        <button class="hc-search-btn" data-hc-search-btn>Search</button>
+      </div>
+
+      <div class="hc-platform-guides">
+        <h2 class="hc-section-label">Product Documentation</h2>
+        <div class="hc-guides-grid">
+          <a href="#" class="hc-guide-card" data-hc-guide="home">
+            <div class="hc-guide-icon-wrap">
+              <div class="hc-guide-icon hc-guide-icon--home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+            </div>
+            <div class="hc-guide-body">
+              <span class="hc-guide-name">Home Overview</span>
+              <span class="hc-guide-desc">Dashboard, quick actions and platform navigation.</span>
+              <span class="hc-guide-badge">Documentation</span>
+            </div>
+            <span class="hc-guide-arrow">&rarr;</span>
+          </a>
+          <a href="#" class="hc-guide-card" data-hc-guide="ai">
+            <div class="hc-guide-icon-wrap">
+              <div class="hc-guide-icon hc-guide-icon--ai">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+              </div>
+            </div>
+            <div class="hc-guide-body">
+              <span class="hc-guide-name">AI Assistant Guide</span>
+              <span class="hc-guide-desc">Diagnosis, confidence scoring and ticket generation.</span>
+              <span class="hc-guide-badge">Documentation</span>
+            </div>
+            <span class="hc-guide-arrow">&rarr;</span>
+          </a>
+          <a href="#" class="hc-guide-card" data-hc-guide="tickets">
+            <div class="hc-guide-icon-wrap">
+              <div class="hc-guide-icon hc-guide-icon--tickets">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+              </div>
+            </div>
+            <div class="hc-guide-body">
+              <span class="hc-guide-name">My Tickets Guide</span>
+              <span class="hc-guide-desc">Lifecycle, priorities, SLA tracking and filters.</span>
+              <span class="hc-guide-badge">Documentation</span>
+            </div>
+            <span class="hc-guide-arrow">&rarr;</span>
+          </a>
+          <a href="#" class="hc-guide-card" data-hc-guide="kb">
+            <div class="hc-guide-icon-wrap">
+              <div class="hc-guide-icon hc-guide-icon--kb">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              </div>
+            </div>
+            <div class="hc-guide-body">
+              <span class="hc-guide-name">Knowledge Base Guide</span>
+              <span class="hc-guide-desc">Semantic search, categories and AI suggestions.</span>
+              <span class="hc-guide-badge">Documentation</span>
+            </div>
+            <span class="hc-guide-arrow">&rarr;</span>
+          </a>
+          <a href="#" class="hc-guide-card" data-hc-guide="analytics">
+            <div class="hc-guide-icon-wrap">
+              <div class="hc-guide-icon hc-guide-icon--analytics">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              </div>
+            </div>
+            <div class="hc-guide-body">
+              <span class="hc-guide-name">Analytics Guide</span>
+              <span class="hc-guide-desc">KPIs, trend charts, filters and performance metrics.</span>
+              <span class="hc-guide-badge">Documentation</span>
+            </div>
+            <span class="hc-guide-arrow">&rarr;</span>
+          </a>
+          <a href="#" class="hc-guide-card hc-guide-card--current" data-hc-guide="help">
+            <div class="hc-guide-icon-wrap">
+              <div class="hc-guide-icon hc-guide-icon--help">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+            </div>
+            <div class="hc-guide-body">
+              <span class="hc-guide-name">Help Center</span>
+              <span class="hc-guide-desc">Platform documentation, tutorials, FAQs and support.</span>
+              <span class="hc-guide-badge">Documentation</span>
+            </div>
+            <span class="hc-guide-chip">Current</span>
+          </a>
+        </div>
+      </div>
+
+
+      <div class="hc-section-split">
+        <div class="hc-faq">
+          <h2 class="hc-section-label">Frequently Asked Questions</h2>
+          <div class="hc-accordion" data-hc-accordion>
+            <div class="hc-accordion-item" data-hc-accordion-item>
+              <button class="hc-accordion-trigger" data-hc-accordion-trigger>
+                <span>How does AI diagnose issues?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="hc-accordion-content">
+                <p>ResolveOne uses a multi-step AI diagnostic engine. It first analyzes the ticket description through natural language processing to identify the core issue. It then cross-references the Knowledge Base for similar resolved cases, checks historical resolution patterns, and calculates a confidence score. If the confidence is above 85%, the AI automatically suggests the resolution and creates a detailed explanation.</p>
+              </div>
+            </div>
+            <div class="hc-accordion-item" data-hc-accordion-item>
+              <button class="hc-accordion-trigger" data-hc-accordion-trigger>
+                <span>How are tickets automatically assigned?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="hc-accordion-content">
+                <p>Tickets are assigned based on category matching, team workload balancing, and skill-based routing. The AI evaluates the issue category detected in the ticket, checks current team capacity across departments, and routes the ticket to the most qualified available team. Escalation rules apply automatically for priority tickets.</p>
+              </div>
+            </div>
+            <div class="hc-accordion-item" data-hc-accordion-item>
+              <button class="hc-accordion-trigger" data-hc-accordion-trigger>
+                <span>Can I reopen a closed ticket?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="hc-accordion-content">
+                <p>Yes, closed tickets can be reopened within 14 days of resolution. Navigate to My Tickets, find the closed ticket, and select the reopen option. The ticket will be reassigned to the original support team with full context preserved. After 14 days, we recommend creating a new ticket and referencing the previous one for continuity.</p>
+              </div>
+            </div>
+            <div class="hc-accordion-item" data-hc-accordion-item>
+              <button class="hc-accordion-trigger" data-hc-accordion-trigger>
+                <span>How do I track my support request?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="hc-accordion-content">
+                <p>Every ticket created in ResolveOne is assigned a unique ID visible in My Tickets. The dashboard shows real-time status updates including assignment, diagnosis, resolution progress, and SLA compliance. You can also view the full timeline of events for each ticket including AI actions, human interventions, and escalations.</p>
+              </div>
+            </div>
+            <div class="hc-accordion-item" data-hc-accordion-item>
+              <button class="hc-accordion-trigger" data-hc-accordion-trigger>
+                <span>How does the Knowledge Base search work?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="hc-accordion-content">
+                <p>The Knowledge Base uses semantic search powered by natural language understanding. It indexes article content, titles, categories, and metadata. When you search, it finds the most relevant articles based on meaning rather than exact keyword matching. Results are ranked by relevance score and AI recommendation confidence.</p>
+              </div>
+            </div>
+            <div class="hc-accordion-item" data-hc-accordion-item>
+              <button class="hc-accordion-trigger" data-hc-accordion-trigger>
+                <span>Can I use ResolveOne without AI?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="hc-accordion-content">
+                <p>Yes, the platform supports manual ticket creation and management without AI assistance. However, the AI features significantly improve resolution speed (up to 4&times; faster in testing) and reduce manual workload. Disabling AI means you lose automated diagnosis, smart recommendations, and proactive routing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hc-tutorials">
+          <h2 class="hc-section-label">Video Tutorials</h2>
+          <div class="hc-tutorial-list">
+            <button class="hc-tutorial-card" data-hc-video="getting-started">
+              <div class="hc-tutorial-thumb">
+                <div class="hc-tutorial-play-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <span class="hc-tutorial-duration-tag">6:00</span>
+              </div>
+              <div class="hc-tutorial-info">
+                <span class="hc-tutorial-title">Getting Started</span>
+                <span class="hc-tutorial-duration">6 min</span>
+                <span class="hc-tutorial-desc">Navigate the platform and explore core features.</span>
+              </div>
+            </button>
+            <button class="hc-tutorial-card" data-hc-video="using-ai">
+              <div class="hc-tutorial-thumb">
+                <div class="hc-tutorial-play-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <span class="hc-tutorial-duration-tag">8:00</span>
+              </div>
+              <div class="hc-tutorial-info">
+                <span class="hc-tutorial-title">Using AI Assistant</span>
+                <span class="hc-tutorial-duration">8 min</span>
+                <span class="hc-tutorial-desc">Diagnose issues and create tickets with AI.</span>
+              </div>
+            </button>
+            <button class="hc-tutorial-card" data-hc-video="managing-tickets">
+              <div class="hc-tutorial-thumb">
+                <div class="hc-tutorial-play-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <span class="hc-tutorial-duration-tag">5:00</span>
+              </div>
+              <div class="hc-tutorial-info">
+                <span class="hc-tutorial-title">Managing Tickets</span>
+                <span class="hc-tutorial-duration">5 min</span>
+                <span class="hc-tutorial-desc">Track, filter and resolve support tickets.</span>
+              </div>
+            </button>
+            <button class="hc-tutorial-card" data-hc-video="analytics-overview">
+              <div class="hc-tutorial-thumb">
+                <div class="hc-tutorial-play-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <span class="hc-tutorial-duration-tag">7:00</span>
+              </div>
+              <div class="hc-tutorial-info">
+                <span class="hc-tutorial-title">Analytics Overview</span>
+                <span class="hc-tutorial-duration">7 min</span>
+                <span class="hc-tutorial-desc">Understand KPIs, charts and performance data.</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="hc-empty" data-hc-empty style="display:none;">
+        <p class="hc-empty-text">No documentation found.</p>
+        <button class="hc-empty-btn" data-hc-clear>Clear Search</button>
+      </div>
+
+      <div class="hc-support">
+        <div class="hc-support-card">
+          <h2 class="hc-support-title">Still need help?</h2>
+          <p class="hc-support-text">If you couldn't find the answer, our IT support team is here to help.</p>
+          <div class="hc-support-actions">
+            <a href="ai-assistant.html" class="hc-support-btn hc-support-btn--primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+              Open AI Assistant
+            </a>
+            <a href="ai-assistant.html" class="hc-support-btn hc-support-btn--secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+              Go to My Tickets
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hc-footer">
+        <div class="hc-footer-item">
+          <span class="hc-footer-label">Platform Version</span>
+          <span class="hc-footer-value">ResolveOne Enterprise v2.0</span>
+        </div>
+        <div class="hc-footer-item">
+          <span class="hc-footer-label">Documentation Updated</span>
+          <span class="hc-footer-value">Today</span>
+        </div>
+        <div class="hc-footer-item">
+          <span class="hc-footer-label">Support Hours</span>
+          <span class="hc-footer-value">24&times;7 Enterprise Support</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="hc-modal" data-hc-modal style="display:none;">
+    <div class="hc-modal-backdrop" data-hc-modal-close></div>
+    <div class="hc-modal-body">
+      <button class="hc-modal-close" data-hc-modal-close>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="hc-modal-preview">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <h3 class="hc-modal-title" data-hc-modal-title></h3>
+      <p class="hc-modal-duration" data-hc-modal-duration></p>
+      <p class="hc-modal-desc" data-hc-modal-desc></p>
+      <p class="hc-modal-note">Video player placeholder &mdash; embed your tutorial video here.</p>
+    </div>
+  </div>
+
+  <div class="hc-doc-modal" data-hc-doc-modal style="display:none;">
+    <div class="hc-doc-backdrop" data-hc-doc-close></div>
+    <div class="hc-doc-modal-body">
+      <button class="hc-doc-modal-close" data-hc-doc-close>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="hc-doc-modal-header">
+        <div class="hc-doc-modal-icon" data-hc-doc-icon></div>
+        <h2 class="hc-doc-modal-title" data-hc-doc-title></h2>
+      </div>
+      <div class="hc-doc-modal-content" data-hc-doc-content></div>
+    </div>
+  </div>
+
+  <script src="js/modules/session.js"></script>
+  <script src="js/modules/auth.js"></script>
+  <script src="js/modules/help-center.js?v=6"></script>
+  <script src="js/modules/navbar.js?v=5"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+      if (window.NavbarModule) window.NavbarModule.init();
+      window.HelpCenter.init();
+    });
+  </script>
+  <div class="modal-overlay" data-modal-overlay>
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <h3 class="modal-title">Sign out?</h3>
+      <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" data-modal-cancel>Cancel</button>
+        <button class="btn btn-danger" data-modal-confirm>Logout</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

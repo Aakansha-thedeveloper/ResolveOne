@@ -1,0 +1,15 @@
+@import url('variables.css?v=10');
+@import url('base.css?v=8');
+@import url('utilities.css?v=9');
+@import url('components/navbar.css?v=8');
+@import url('components/hero.css?v=11');
+@import url('components/ai-workspace.css?v=11');
+@import url('components/statistics.css?v=11');
+@import url('components/quick-actions.css?v=11');
+@import url('components/workflow.css?v=11');
+@import url('components/capabilities.css?v=11');
+@import url('components/knowledge-base.css?v=8');
+@import url('components/recent-tickets.css?v=11');
+@import url('components/cta.css?v=11');
+@import url('components/footer.css?v=8');
+@import url('components/dropdowns.css?v=8');

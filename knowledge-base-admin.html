@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Knowledge Base Management — ResolveOne Admin.">
+  <meta name="color-scheme" content="light dark">
+  <title>Knowledge Base Management — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>
+body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}
+
+/* â”€â”€ Toast â”€â”€ */
+.kbm-toast-container{position:fixed;bottom:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.kbm-toast{pointer-events:auto;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;font-size:0.8125rem;font-weight:500;color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.15);animation:kbmToastIn .25s ease;max-width:380px}
+.kbm-toast--success{background:#059669}
+.kbm-toast--error{background:#dc2626}
+.kbm-toast--info{background:#2563eb}
+@keyframes kbmToastOut{0%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(60px)}}
+@keyframes kbmToastIn{0%{opacity:0;transform:translateX(60px)}100%{opacity:1;transform:translateX(0)}}
+
+/* â”€â”€ Page Layout â”€â”€ */
+.kbm-page{max-width:1440px;margin:0 auto;padding:32px 24px;min-height:calc(100vh - 64px)}
+.kbm-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.kbm-header-left{display:flex;align-items:center;gap:16px}
+.kbm-header-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1F7A8C,#022B3A);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.kbm-header-text h1{font-size:1.5rem;font-weight:700;color:var(--color-heading);margin:0;letter-spacing:-.02em}
+.kbm-header-text p{font-size:0.8125rem;color:var(--color-text);margin:4px 0 0;opacity:.7}
+.kbm-header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* â”€â”€ Stats â”€â”€ */
+.kbm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:24px}
+.kbm-stat{background:#fff;border:1px solid var(--color-border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.kbm-stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.kbm-stat-icon--total{background:rgba(99,102,241,.1);color:#6366f1}
+.kbm-stat-icon--published{background:rgba(5,150,105,.1);color:#059669}
+.kbm-stat-icon--draft{background:rgba(245,158,11,.1);color:#f59e0b}
+.kbm-stat-icon--archived{background:rgba(239,68,68,.1);color:#ef4444}
+.kbm-stat-icon--review{background:rgba(31,122,140,.1);color:#1F7A8C}
+.kbm-stat-icon--views{background:rgba(139,92,246,.1);color:#8b5cf6}
+.kbm-stat-info{display:flex;flex-direction:column}
+.kbm-stat-number{font-size:1.125rem;font-weight:700;color:var(--color-heading);line-height:1.2}
+.kbm-stat-label{font-size:0.6875rem;color:var(--color-text);opacity:.7;text-transform:uppercase;letter-spacing:.04em}
+
+/* â”€â”€ Toolbar â”€â”€ */
+.kbm-toolbar{background:#fff;border:1px solid var(--color-border);border-radius:12px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.kbm-toolbar .kbm-search-wrap{position:relative;flex:1;min-width:180px;max-width:320px}
+.kbm-toolbar .kbm-search-wrap input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--color-border);border-radius:8px;font-size:0.8125rem;background:var(--color-bg);color:var(--color-heading);outline:0;transition:border-color .15s}
+.kbm-toolbar .kbm-search-wrap input:focus{border-color:var(--color-primary)}
+.kbm-toolbar .kbm-search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--color-text);opacity:.5;pointer-events:none}
+.kbm-toolbar select{padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;font-size:0.8125rem;background:var(--color-bg);color:var(--color-heading);outline:0;cursor:pointer}
+.kbm-toolbar select:focus{border-color:var(--color-primary)}
+.kbm-toolbar .kbm-bulk-bar{display:flex;gap:6px;align-items:center}
+.kbm-toolbar .kbm-bulk-bar .kbm-bulk-count{font-size:0.75rem;color:var(--color-text);opacity:.7}
+
+/* â”€â”€ Table â”€â”€ */
+.kbm-table-wrap{background:#fff;border:1px solid var(--color-border);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);margin-bottom:20px}
+.kbm-table{width:100%;border-collapse:collapse;font-size:0.8125rem}
+.kbm-table th{text-align:left;padding:10px 14px;font-weight:600;color:var(--color-text);font-size:0.6875rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--color-border);background:var(--color-bg);white-space:nowrap;user-select:none;cursor:pointer}
+.kbm-table th.kbm-sort-active{color:var(--color-primary)}
+.kbm-table td{padding:10px 14px;border-bottom:1px solid var(--color-border);color:var(--color-heading);vertical-align:middle}
+.kbm-table tr:last-child td{border-bottom:none}
+.kbm-table tr:hover td{background:rgba(31, 122, 140,.02)}
+.kbm-table .kbm-cell-title{max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.kbm-table .kbm-cell-summary{max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-text);font-size:0.75rem;opacity:.75}
+.kbm-table .kbm-cell-article{font-size:0.7rem;color:var(--color-text);opacity:.6;font-family:monospace}
+.kbm-table td.kbm-cell-actions{white-space:nowrap;text-align:right}
+.kbm-table td.kbm-cell-actions .btn{padding:5px 10px;font-size:0.75rem}
+.kbm-table td.kbm-cell-check{width:36px;text-align:center}
+.kbm-table td.kbm-cell-check input{cursor:pointer;accent-color:var(--color-primary)}
+.kbm-table .kbm-status{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:0.6875rem;font-weight:600;white-space:nowrap}
+.kbm-status--published{background:rgba(5,150,105,.12);color:#059669}
+.kbm-status--draft{background:rgba(245,158,11,.12);color:#92400e}
+.kbm-status--archived{background:rgba(239,68,68,.12);color:#dc2626}
+.kbm-status--review_required{background:rgba(217,119,6,.12);color:#B45309}
+.kbm-table .kbm-featured-badge{display:inline-flex;align-items:center;gap:3px;background:rgba(251,191,36,.15);color:#92400e;padding:2px 8px;border-radius:20px;font-size:0.625rem;font-weight:600}
+
+/* â”€â”€ Pagination â”€â”€ */
+.kbm-pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--color-border);font-size:0.8125rem}
+.kbm-pagination .kbm-pg-info{color:var(--color-text);opacity:.7}
+.kbm-pagination .kbm-pg-btns{display:flex;gap:4px}
+.kbm-pagination .kbm-pg-btns button{padding:5px 11px;border:1px solid var(--color-border);border-radius:6px;background:var(--color-bg);color:var(--color-heading);cursor:pointer;font-size:0.75rem;transition:all .12s}
+.kbm-pagination .kbm-pg-btns button:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.kbm-pagination .kbm-pg-btns button:disabled{opacity:.3;cursor:default}
+.kbm-pagination .kbm-pg-btns button.kbm-pg-active{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+
+/* â”€â”€ Slide Panel â”€â”€ */
+.kbm-panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:9998;opacity:0;transition:opacity .2s;pointer-events:none}
+.kbm-panel-overlay.open{opacity:1;pointer-events:auto}
+.kbm-slide-panel{position:fixed;top:0;right:0;bottom:0;width:620px;max-width:100vw;background:#fff;z-index:9999;box-shadow:-4px 0 40px rgba(0,0,0,.12);transform:translateX(100%);transition:transform .3s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;overflow:hidden}
+.kbm-slide-panel.open{transform:translateX(0)}
+:root.dark-theme .kbm-slide-panel{background:#1a1a2e}
+:root.dark-theme .kbm-panel-overlay{background:rgba(0,0,0,.5)}
+.kbm-panel-header{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--color-border);flex-shrink:0}
+.kbm-panel-header h2{font-size:1.05rem;font-weight:700;color:var(--color-heading);margin:0;display:flex;align-items:center;gap:8px}
+.kbm-panel-header .kbm-panel-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--color-bg);color:var(--color-text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.kbm-panel-header .kbm-panel-close:hover{background:rgba(239,68,68,.1);color:#dc2626}
+.kbm-panel-body{flex:1;overflow-y:auto;padding:22px}
+.kbm-panel-footer{display:flex;gap:10px;justify-content:flex-end;padding:16px 22px;border-top:1px solid var(--color-border);flex-shrink:0}
+
+/* â”€â”€ Form Fields (panel) â”€â”€ */
+.kbm-field-group{margin-bottom:16px}
+.kbm-field-group label{display:block;font-size:0.75rem;font-weight:600;color:var(--color-heading);margin-bottom:4px;text-transform:uppercase;letter-spacing:.03em}
+.kbm-field-group .kbm-field-hint{font-size:0.6875rem;color:var(--color-text);opacity:.6;margin-bottom:4px}
+.kbm-field-group input,.kbm-field-group select,.kbm-field-group textarea{width:100%;padding:9px 12px;border:1px solid var(--color-border);border-radius:8px;font-size:0.8125rem;background:var(--color-bg);color:var(--color-heading);outline:0;transition:border-color .15s;font-family:inherit}
+.kbm-field-group input:focus,.kbm-field-group select:focus,.kbm-field-group textarea:focus{border-color:var(--color-primary)}
+.kbm-field-group textarea{resize:vertical;min-height:70px}
+.kbm-field-group .kbm-field-row{display:flex;gap:12px}
+.kbm-field-group .kbm-field-row > *{flex:1}
+.kbm-field-group input[type="checkbox"]{width:auto;accent-color:var(--color-primary);cursor:pointer}
+
+/* â”€â”€ Empty â”€â”€ */
+.kbm-empty{text-align:center;padding:60px 20px}
+.kbm-empty-icon{width:56px;height:56px;border-radius:16px;background:rgba(31, 122, 140,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--color-primary)}
+.kbm-empty h3{font-size:1rem;font-weight:600;color:var(--color-heading);margin:0 0 6px}
+.kbm-empty p{font-size:0.8125rem;color:var(--color-text);margin:0;opacity:.7}
+
+/* â”€â”€ Loading â”€â”€ */
+.kbm-loading{text-align:center;padding:60px 20px;color:var(--color-text);opacity:.5;font-size:0.8125rem}
+
+/* â”€â”€ Confirm Dialog â”€â”€ */
+.kbm-confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:10001;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none}
+.kbm-confirm-overlay.open{opacity:1;pointer-events:auto}
+.kbm-confirm-box{background:#fff;border-radius:14px;padding:28px 32px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.18);text-align:center}
+:root.dark-theme .kbm-confirm-box{background:#1a1a2e}
+.kbm-confirm-box h3{margin:0 0 8px;font-size:1.1rem;font-weight:700;color:var(--color-heading)}
+.kbm-confirm-box p{margin:0 0 20px;font-size:0.8125rem;color:var(--color-text);opacity:.7;line-height:1.5}
+.kbm-confirm-actions{display:flex;gap:10px;justify-content:center}
+</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <a href="index.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+        <div class="navbar-brand-text">
+          <span class="navbar-brand-name">ResolveOne</span>
+          <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+        </div>
+      </div>
+      <div class="navbar-center" data-nav-links role="menubar">
+        <a href="index.html" class="navbar-link" role="menuitem"><i data-lucide="home" size="16"></i>Home</a>
+        <a href="users.html" class="navbar-link" role="menuitem"><i data-lucide="users" size="16"></i>Users</a>
+        <a href="knowledge-base-admin.html" class="navbar-link active" role="menuitem" aria-current="page"><i data-lucide="book-open" size="16"></i>KB Manager</a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-dropdown-wrap">
+          <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>3</span></button>
+          <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+            <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+            <div class="dropdown-body" data-notif-list></div>
+            <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+          </div>
+        </div>
+        <div class="navbar-dropdown-wrap">
+          <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+            <div class="navbar-profile-avatar"></div>
+            <div class="navbar-profile-info"><span class="navbar-profile-name"></span></div>
+          </div>
+          <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+            <div class="dropdown-user-card"><div class="dropdown-user-avatar"></div><div class="dropdown-user-info"><span class="dropdown-user-name"></span><span class="dropdown-user-email"></span></div></div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+            <a href="help-center.html" class="dropdown-item"><i data-lucide="circle-help" size="16"></i> Help & Support</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+          </div>
+        </div>
+        <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="kbm-page" data-kbm-page>
+    <div class="kbm-header">
+      <div class="kbm-header-left">
+        <div class="kbm-header-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M16 8.2C14.6 7.5 12.8 7 12 7c-.8 0-2.6.5-4 1.2"/><path d="M16 12.2c-1.4.7-3.2 1.2-4 1.2-.8 0-2.6-.5-4-1.2"/><path d="M16 16.2c-1.4.7-3.2 1.2-4 1.2-.8 0-2.6-.5-4-1.2"/></svg></div>
+        <div class="kbm-header-text">
+          <h1>Knowledge Base Management</h1>
+          <p>Create, edit, organize, and publish enterprise support articles</p>
+        </div>
+      </div>
+      <div class="kbm-header-actions">
+        <button class="btn btn-outline btn-sm" data-kbm-refresh><i data-lucide="refresh-cw" size="14"></i> Refresh</button>
+        <button class="btn btn-primary btn-sm" data-kbm-add><i data-lucide="plus" size="14"></i> New Article</button>
+      </div>
+    </div>
+
+    <div class="kbm-stats" data-kbm-stats></div>
+
+    <div class="kbm-toolbar" data-kbm-toolbar>
+      <div class="kbm-search-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" data-kbm-search placeholder="Search articles..." autocomplete="off">
+      </div>
+      <select data-kbm-filter-category><option value="">All Categories</option></select>
+      <select data-kbm-filter-status><option value="">All Status</option><option value="published">Published</option><option value="draft">Draft</option><option value="archived">Archived</option><option value="review_required">Review Required</option></select>
+      <div class="kbm-bulk-bar" data-kbm-bulk-bar style="display:none;">
+        <span class="kbm-bulk-count" data-kbm-bulk-count>0 selected</span>
+        <select data-kbm-bulk-action style="padding:6px 10px;font-size:0.75rem;">
+          <option value="">Bulk Action</option>
+          <option value="publish">Publish</option>
+          <option value="draft">Move to Draft</option>
+          <option value="archive">Archive</option>
+          <option value="delete">Delete</option>
+        </select>
+        <button class="btn btn-sm btn-secondary" data-kbm-bulk-apply disabled>Apply</button>
+      </div>
+    </div>
+
+    <div class="kbm-table-wrap">
+      <div data-kbm-loading class="kbm-loading" style="display:none;">Loading articles...</div>
+      <div data-kbm-empty class="kbm-empty" style="display:none;">
+        <div class="kbm-empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M16 8.2C14.6 7.5 12.8 7 12 7c-.8 0-2.6.5-4 1.2"/><path d="M16 12.2c-1.4.7-3.2 1.2-4 1.2-.8 0-2.6-.5-4-1.2"/><path d="M16 16.2c-1.4.7-3.2 1.2-4 1.2-.8 0-2.6-.5-4-1.2"/></svg></div>
+        <h3>No articles found</h3>
+        <p>Create your first knowledge base article to get started.</p>
+        <button class="btn btn-primary btn-sm" data-kbm-add-empty style="margin-top:12px;"><i data-lucide="plus" size="14"></i> Create Article</button>
+      </div>
+      <div data-kbm-table-wrap style="display:none;">
+        <table class="kbm-table">
+          <thead>
+            <tr>
+              <th class="kbm-cell-check"><input type="checkbox" data-kbm-select-all></th>
+              <th data-kbm-sort="article_number">Article</th>
+              <th data-kbm-sort="title">Title</th>
+              <th data-kbm-sort="category">Category</th>
+              <th data-kbm-sort="status">Status</th>
+              <th data-kbm-sort="author">Author</th>
+              <th data-kbm-sort="views">Views</th>
+              <th data-kbm-sort="updated_at">Updated</th>
+              <th class="kbm-cell-actions"></th>
+            </tr>
+          </thead>
+          <tbody data-kbm-table-body></tbody>
+        </table>
+        <div class="kbm-pagination" data-kbm-pagination>
+          <span class="kbm-pg-info" data-kbm-pg-info></span>
+          <div class="kbm-pg-btns" data-kbm-pg-btns></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="kbm-panel-overlay" data-kbm-panel-overlay></div>
+  <div class="kbm-slide-panel" data-kbm-slide-panel>
+    <div class="kbm-panel-header">
+      <h2><i data-lucide="book-open" size="16"></i> <span data-kbm-panel-title>New Article</span></h2>
+      <button class="kbm-panel-close" data-kbm-panel-close><i data-lucide="x" size="16"></i></button>
+    </div>
+    <div class="kbm-panel-body">
+      <input type="hidden" data-kbm-field-id>
+      <div class="kbm-field-group">
+        <label>Title *</label>
+        <input type="text" data-kbm-field-title placeholder="e.g. VPN not connecting after Windows Update">
+      </div>
+      <div class="kbm-field-group">
+        <div class="kbm-field-row">
+          <div>
+            <label>Category</label>
+            <select data-kbm-field-category>
+              <option value="">Select category...</option>
+              <option value="Network & Connectivity">Network & Connectivity</option>
+              <option value="Email & Collaboration">Email & Collaboration</option>
+              <option value="Account & Access">Account & Access</option>
+              <option value="Hardware">Hardware</option>
+              <option value="Printer">Printer</option>
+              <option value="ERP / SAP">ERP / SAP</option>
+              <option value="Cloud & SaaS">Cloud & SaaS</option>
+              <option value="Windows & OS">Windows & OS</option>
+              <option value="Security & Access">Security & Access</option>
+              <option value="Software / Applications">Software / Applications</option>
+            </select>
+          </div>
+          <div>
+            <label>Status</label>
+            <select data-kbm-field-status>
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="review_required">Review Required</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="kbm-field-group">
+        <label>Author</label>
+        <input type="text" data-kbm-field-author placeholder="Author name">
+      </div>
+      <div class="kbm-field-group">
+        <label>Summary</label>
+        <textarea data-kbm-field-summary placeholder="Brief summary of the article" style="min-height:60px;"></textarea>
+      </div>
+      <div class="kbm-field-group">
+        <label>Problem</label>
+        <textarea data-kbm-field-problem placeholder="Describe the problem the user faces" style="min-height:80px;"></textarea>
+      </div>
+      <div class="kbm-field-group">
+        <label>Root Cause</label>
+        <textarea data-kbm-field-root-cause placeholder="Explain the root cause" style="min-height:60px;"></textarea>
+      </div>
+      <div class="kbm-field-group">
+        <label>Solution</label>
+        <textarea data-kbm-field-solution placeholder="Step-by-step solution" style="min-height:100px;"></textarea>
+      </div>
+      <div class="kbm-field-group">
+        <label>Tags (comma-separated)</label>
+        <input type="text" data-kbm-field-tags placeholder="e.g. vpn, windows, update">
+      </div>
+      <div class="kbm-field-group">
+        <label>Reading Time (minutes)</label>
+        <input type="number" data-kbm-field-reading-time min="1" max="60" value="5">
+      </div>
+      <div class="kbm-field-group">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;">
+          <input type="checkbox" data-kbm-field-featured> Featured article
+        </label>
+      </div>
+    </div>
+    <div class="kbm-panel-footer">
+      <button class="btn btn-secondary" data-kbm-panel-cancel>Cancel</button>
+      <button class="btn btn-primary" data-kbm-panel-save><i data-lucide="check" size="14"></i> Save Article</button>
+    </div>
+  </div>
+
+  <div class="kbm-confirm-overlay" data-kbm-confirm-overlay>
+    <div class="kbm-confirm-box">
+      <h3 data-kbm-confirm-title>Confirm</h3>
+      <p data-kbm-confirm-message>Are you sure?</p>
+      <div class="kbm-confirm-actions">
+        <button class="btn btn-secondary" data-kbm-confirm-cancel>Cancel</button>
+        <button class="btn btn-danger" data-kbm-confirm-ok>Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" data-modal-overlay>
+    <div class="modal-box">
+      <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+      <h3 class="modal-title">Sign out?</h3>
+      <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+      <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+    </div>
+  </div>
+
+  <div class="kbm-toast-container" data-kbm-toast></div>
+
+  <script src="js/modules/session.js"></script>
+  <script src="js/modules/auth.js"></script>
+  <script src="js/modules/navbar.js?v=5"></script>
+  <script src="js/modules/kb-management.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+      if (window.NavbarModule) window.NavbarModule.init();
+      if (window.KBManagement) window.KBManagement.init();
+    });
+  </script>
+</body>
+</html>

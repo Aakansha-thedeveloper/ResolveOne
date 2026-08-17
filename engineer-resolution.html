@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ticket Resolution — ResolveOne Support Engineer Portal">
+  <meta name="color-scheme" content="light dark">
+  <title>Resolution Workspace — ResolveOne Engineer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>
+body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}
+.spinning{animation:rwSpin .8s linear infinite}@keyframes rwSpin{to{transform:rotate(360deg)}}
+
+/* â”€â”€â”€ Workspace shell â”€â”€â”€ */
+.rw-page{min-height:calc(100vh - var(--nav-height));background:var(--color-bg)}
+.rw-body{padding:var(--spacing-lg) var(--spacing-xl) var(--spacing-2xl)}
+.rw-body-inner{max-width:var(--container-wide);margin:0 auto}
+
+/* â”€â”€â”€ Sticky top bar â”€â”€â”€ */
+.rw-topbar{position:sticky;top:var(--nav-height);z-index:900;background:var(--color-card);border-bottom:1px solid var(--color-border)}
+.rw-topbar-inner{max-width:var(--container-wide);margin:0 auto;padding:12px var(--spacing-lg);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rw-topbar-left{display:flex;align-items:center;gap:10px;min-width:260px;flex:1}
+.rw-topbar-select{flex:1;max-width:420px;height:38px;padding:0 32px 0 12px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-bg);color:var(--color-heading);font-size:.8125rem;font-weight:600;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;font-family:var(--font-primary)}
+.rw-topbar-select:focus{border-color:var(--color-primary)}
+.rw-topbar-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
+.rw-chip{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 11px;border-radius:100px;font-size:.625rem;font-weight:800;line-height:1;white-space:nowrap}
+.rw-chip.open{background:#FEF3C7;color:#92400E}
+.rw-chip.progress{background:#DBEAFE;color:#1E40AF}
+.rw-chip.resolved{background:#D1FAE5;color:#065F46}
+.rw-chip.closed{background:#F3F4F6;color:#6B7280}
+.rw-chip.escalated{background:#FEE2E2;color:#991B1B}
+.rw-chip.p-high{background:#FEE2E2;color:#991B1B}
+.rw-chip.p-medium{background:#FEF3C7;color:#92400E}
+.rw-chip.p-low{background:#D1FAE5;color:#065F46}
+.rw-chip.sla-ok{background:#D1FAE5;color:#065F46}
+.rw-chip.sla-warning{background:#FEF3C7;color:#92400E}
+.rw-chip.sla-breach{background:#FEE2E2;color:#991B1B}
+.rw-topbar-eng{display:inline-flex;align-items:center;gap:6px;height:24px;font-size:.625rem;font-weight:700;color:var(--color-text)}
+.rw-topbar-eng .dot{width:6px;height:6px;border-radius:50%;background:var(--color-success)}
+.rw-topbar-eng .dot.unassigned{background:var(--color-text-light)}
+.rw-topbar-updated{font-size:.625rem;color:var(--color-text-light);white-space:nowrap}
+
+/* â”€â”€â”€ Grid â”€â”€â”€ */
+.rw-grid{display:grid;grid-template-columns:minmax(0,72%) minmax(280px,28%);gap:var(--spacing-lg);align-items:start}
+
+/* â”€â”€â”€ Left: independent module cards â”€â”€â”€ */
+.rw-left{display:flex;flex-direction:column;gap:var(--spacing-lg);min-width:0}
+
+/* Engineer action sections inside the left column */
+.rw-left .ops-title{font-size:.8125rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--color-heading);margin:0 0 14px}
+.rw-left .ops-title svg{width:16px;height:16px;color:var(--color-primary);flex-shrink:0}
+
+/* â”€â”€â”€ Module card surfaces â”€â”€â”€ */
+.rw-panel{background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+
+/* â”€â”€â”€ Collapsible panel headers â”€â”€â”€ */
+.rw-panel-header{display:flex;align-items:center;gap:12px;padding:18px 22px;cursor:pointer;user-select:none;border-bottom:1px solid var(--color-border-light);background:var(--color-card-header);transition:background .15s}
+.rw-panel-header:hover{background:var(--color-bg)}
+.rw-panel.open .rw-panel-header{border-bottom-color:var(--color-border)}
+.rw-panel-title{display:flex;align-items:center;gap:9px;font-size:.8125rem;font-weight:800;color:var(--color-heading);text-transform:uppercase;letter-spacing:.05em}
+.rw-panel-title svg{width:16px;height:16px;color:var(--color-primary);flex-shrink:0}
+.rw-panel-chevron{margin-left:auto;display:flex;align-items:center;color:var(--color-text-light);transition:transform .2s}
+.rw-panel.open .rw-panel-chevron{transform:rotate(180deg)}
+.rw-panel-body{display:none;padding:18px 22px}
+.rw-panel.open .rw-panel-body{display:block}
+/* Always-expanded panels: body is ALWAYS visible, regardless of any state */
+.rw-panel[data-static] .rw-panel-body{display:block}
+.rw-panel[data-static] .rw-panel-chevron{display:none}
+.rw-panel-header{position:relative}
+.rw-panel-header .rw-ai-summary{margin-left:auto;margin-right:2px}
+.rw-panel-header:has(.rw-ai-summary) .rw-panel-chevron{margin-left:0}
+.rw-panel.open .rw-ai-summary{display:none}
+
+/* â”€â”€â”€ Always-expanded panels are not collapsible â”€â”€â”€ */
+.rw-left .rw-panel[data-panel="workspace"] .rw-panel-header{cursor:default}
+
+/* â”€â”€â”€ Engineer Workspace: primary focus (largest card) â”€â”€â”€ */
+.rw-left .rw-panel[data-panel="workspace"]{border-color:color-mix(in srgb, var(--color-primary) 28%, var(--color-border));box-shadow:inset 3px 0 0 var(--color-primary),var(--shadow-sm)}
+.rw-left .rw-panel[data-panel="workspace"] .rw-panel-header{background:linear-gradient(180deg,rgba(31, 122, 140,.07),rgba(31, 122, 140,.02))}
+.rw-left .rw-panel[data-panel="workspace"] .rw-panel-title{font-size:.875rem;color:var(--color-primary)}
+.rw-left .rw-panel[data-panel="workspace"] .rw-panel-body{padding:24px 28px 28px}
+
+/* â”€â”€â”€ AI Recommendation: highlighted panel (reference sidebar) â”€â”€â”€ */
+.rw-panel[data-panel="recommendation"]{background:linear-gradient(180deg,rgba(31, 122, 140,.05),rgba(255,255,255,0) 44%)}
+.rw-rec-badge{display:inline-flex;align-items:center;gap:3px;height:19px;padding:0 8px;border-radius:100px;background:var(--color-primary);color:#fff;font-size:.5625rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.rw-rec-badge svg{width:9px;height:9px}
+.rw-panel[data-panel="recommendation"] .rw-panel-title{color:var(--color-primary)}
+.rw-panel[data-panel="recommendation"] .rw-ai-step{background:rgba(255,255,255,.6)}
+
+/* â”€â”€â”€ AI panels inside the reference sidebar (independent cards) â”€â”€â”€ */
+.ops-panel .rw-panel{background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+.ops-panel .rw-panel .rw-ai-empty{padding:12px;text-align:center;color:var(--color-text-light);font-size:.75rem}
+.ops-panel .rw-panel[data-panel="recommendation"]{background:linear-gradient(180deg,rgba(31, 122, 140,.05),rgba(255,255,255,0) 44%),var(--color-card)}
+
+/* â”€â”€â”€ AI summary chips (collapsed header) â”€â”€â”€ */
+.rw-ai-summary{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow:hidden;min-width:0}
+.rw-ai-summary .chip{display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 9px;border-radius:100px;background:var(--color-bg);border:1px solid var(--color-border);font-size:.5625rem;font-weight:700;color:var(--color-text);white-space:nowrap;max-width:190px;overflow:hidden;text-overflow:ellipsis}
+.rw-ai-summary .chip b{color:var(--color-heading);font-weight:700;overflow:hidden;text-overflow:ellipsis}
+.rw-ai-summary .chip.primary{background:var(--color-soft);border-color:rgba(31, 122, 140,.25);color:var(--color-primary)}
+.rw-ai-summary .chip .dotpct{font-family:var(--font-mono)}
+
+/* â”€â”€â”€ Compact Ticket Overview â”€â”€â”€ */
+.rw-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 26px}
+.rw-info-item{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rw-info-label{font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-light)}
+.rw-info-value{font-size:.8125rem;font-weight:700;color:var(--color-heading);word-break:break-word}
+.rw-info-full{grid-column:1/-1}
+.rw-desc{background:var(--color-bg);border:1px solid var(--color-border);border-radius:8px;padding:9px 12px;font-size:.8125rem;color:var(--color-heading);line-height:1.55;white-space:pre-wrap;word-break:break-word;margin-top:4px}
+
+/* â”€â”€â”€ AI content â”€â”€â”€ */
+.rw-ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rw-ai-full{grid-column:1/-1}
+.rw-ai-item{display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:var(--color-bg);border:1px solid var(--color-border-light);border-radius:8px}
+.rw-ai-label{font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-light)}
+.rw-ai-value{font-size:.8125rem;font-weight:600;color:var(--color-heading);line-height:1.5;word-break:break-word}
+.rw-ai-empty{padding:12px;text-align:center;color:var(--color-text-light);font-size:.75rem}
+.rw-ai-confidence{display:flex;align-items:center;gap:10px}
+.rw-ai-confidence .bar{flex:1;height:7px;background:var(--color-border);border-radius:100px;overflow:hidden}
+.rw-ai-confidence .bar .fill{height:100%;border-radius:100px;background:var(--color-primary);transition:width .5s}
+.rw-ai-confidence .pct{font-size:.8125rem;font-weight:800;color:var(--color-primary);min-width:40px;text-align:right;font-family:var(--font-mono)}
+.rw-ai-risk{display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:.625rem;font-weight:800}
+.rw-ai-risk.low{background:#D1FAE5;color:#065F46}
+.rw-ai-risk.medium{background:#FEF3C7;color:#92400E}
+.rw-ai-risk.high{background:#FEE2E2;color:#991B1B}
+.rw-ai-keywords{display:flex;flex-wrap:wrap;gap:6px}
+.rw-ai-keyword{display:inline-flex;padding:5px 12px;border-radius:100px;font-size:.6875rem;font-weight:700;background:var(--color-soft);color:var(--color-primary)}
+.rw-ai-steps{display:flex;flex-direction:column;gap:8px;margin-top:8px;counter-reset:rwstep}
+.rw-ai-step{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;background:var(--color-card);border:1px solid var(--color-border-light);border-radius:8px;font-size:.75rem;color:var(--color-text);line-height:1.5}
+.rw-ai-step::before{counter-increment:rwstep;content:counter(rwstep);font-size:.5625rem;font-weight:800;color:var(--color-primary);background:rgba(31, 122, 140,.08);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* â”€â”€â”€ Engineer workspace tabs â”€â”€â”€ */
+.rw-tabs{display:flex;gap:6px;border-bottom:1px solid var(--color-border);margin-bottom:18px;overflow-x:auto;scrollbar-width:none}
+.rw-tabs::-webkit-scrollbar{display:none}
+.rw-tab{padding:11px 20px;font-size:.8125rem;font-weight:700;color:var(--color-text-light);cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;transition:color .15s,border-color .15s,background .15s;display:flex;align-items:center;gap:8px;white-space:nowrap;border-radius:8px 8px 0 0}
+.rw-tab:hover{color:var(--color-heading);background:var(--color-bg)}
+.rw-tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary);background:var(--color-soft);font-weight:800}
+.rw-tab.active svg{color:var(--color-primary)}
+.rw-tab svg{width:15px;height:15px}
+.rw-tab-pane{display:none}
+.rw-tab-pane.active{display:block}
+.rw-tab-pane textarea{width:100%;min-height:220px;padding:16px 18px;border:1px solid var(--color-border);border-radius:10px;background:var(--color-card);color:var(--color-heading);font-size:.875rem;outline:none;resize:vertical;font-family:var(--font-primary);box-sizing:border-box;line-height:1.65;box-shadow:inset 0 1px 2px rgba(0,0,0,.03)}
+.rw-tab-pane textarea:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(31, 122, 140,.09)}
+.rw-tab-pane textarea:disabled{opacity:.5;cursor:not-allowed}
+.rw-save-status{font-size:.6875rem;color:var(--color-text-light);text-align:right;margin-top:8px;min-height:16px;font-weight:600}
+.rw-save-status.saving{color:var(--color-amber)}
+.rw-save-status.saved{color:var(--color-success)}
+.rw-save-status.error{color:var(--color-error)}
+.rw-save-status.unsaved{color:var(--color-warning)}
+
+/* â”€â”€â”€ Attachments â”€â”€â”€ */
+.rw-dropzone{border:1.5px dashed var(--color-border);border-radius:8px;padding:22px;text-align:center;color:var(--color-text-light);font-size:.75rem;cursor:pointer;transition:all .15s}
+.rw-dropzone:hover,.rw-dropzone.drag{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-soft)}
+.rw-dropzone svg{width:24px;height:24px;margin-bottom:8px;color:var(--color-text-light)}
+.rw-dropzone:hover svg{color:var(--color-primary)}
+.rw-upload-list{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.rw-upload-item{display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--color-bg);border:1px solid var(--color-border-light);border-radius:8px;font-size:.75rem}
+.rw-upload-item svg{width:15px;height:15px;color:var(--color-primary);flex-shrink:0}
+.rw-upload-name{flex:1;min-width:0;color:var(--color-heading);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rw-upload-size{color:var(--color-text-light);font-size:.625rem}
+
+/* â”€â”€â”€ Right: sticky reference column (independently scrollable) â”€â”€â”€ */
+.rw-right{position:sticky;top:calc(var(--nav-height) + 24px);max-height:calc(100vh - var(--nav-height) - 48px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--color-border) transparent;padding-right:2px}
+.ops-panel{display:flex;flex-direction:column;gap:var(--spacing-lg)}
+.ops-section{background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:20px 22px}
+.ops-title{display:flex;align-items:center;gap:9px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--color-heading);margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--color-border-light)}
+.ops-title svg{width:15px;height:15px;color:var(--color-primary);flex-shrink:0}
+.ops-body{display:flex;flex-direction:column;gap:12px}
+
+/* â”€â”€â”€ Vertical stepper â”€â”€â”€ */
+.rw-stepper{display:flex;flex-direction:column}
+.rw-step{display:grid;grid-template-columns:22px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;align-items:start;cursor:pointer;position:relative;border:none;background:none;text-align:left;width:100%;padding:3px 0}
+.rw-step:disabled{cursor:default}
+.rw-step-dot{grid-column:1;grid-row:1;justify-self:center;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6875rem;font-weight:800;background:var(--color-border-light);color:var(--color-text-light);border:2px solid var(--color-border);transition:all .2s}
+.rw-step-dot .rw-step-num{line-height:1}
+.rw-step-dot .rw-step-check{display:none;line-height:1}
+.rw-step-label{grid-column:2;grid-row:1;font-size:.8125rem;font-weight:600;color:var(--color-text-light);transition:color .2s;padding-top:3px;line-height:1.2}
+.rw-step-line{grid-column:1;grid-row:2;justify-self:center;width:2px;height:16px;background:var(--color-border);margin-top:2px;border-radius:100px}
+.rw-step:last-child .rw-step-line{display:none}
+.rw-step.completed .rw-step-num{display:none}
+.rw-step.completed .rw-step-check{display:block;font-size:.6875rem;color:#fff}
+.rw-step.completed .rw-step-dot{background:var(--color-success);border-color:var(--color-success);color:#fff}
+.rw-step.completed .rw-step-label{color:var(--color-success)}
+.rw-step.completed .rw-step-line{background:var(--color-success)}
+.rw-step.active .rw-step-dot{background:var(--color-primary);border-color:var(--color-primary);color:#fff;animation:rwStepPulse 2s infinite}
+.rw-step.active .rw-step-label{color:var(--color-heading);font-weight:800}
+.rw-step:hover:not(:disabled):not(.active) .rw-step-dot{border-color:var(--color-primary)}
+.rw-step:hover:not(:disabled) .rw-step-label{color:var(--color-heading)}
+@keyframes rwStepPulse{0%{box-shadow:0 0 0 0 rgba(217,119,6,.35)}70%{box-shadow:0 0 0 7px rgba(217,119,6,0)}100%{box-shadow:0 0 0 0 rgba(217,119,6,0)}}
+
+/* â”€â”€â”€ Status control â”€â”€â”€ */
+.rw-field{display:flex;flex-direction:column;gap:6px}
+.rw-field label{font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-light)}
+.rw-field select,.rw-field input{width:100%;padding:9px 12px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-card);color:var(--color-heading);font-size:.8125rem;font-family:var(--font-primary);outline:none;box-sizing:border-box}
+.rw-field select:focus,.rw-field input:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(31, 122, 140,.08)}
+.rw-field select{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+.rw-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 16px;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:1px solid var(--color-border);background:var(--color-card);color:var(--color-text);transition:all .15s;white-space:nowrap;font-family:var(--font-primary)}
+.rw-btn:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.rw-btn.primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+.rw-btn.primary:hover{background:var(--color-primary-hover);color:#fff}
+.rw-btn.success{background:#D1FAE5;color:#065F46;border-color:#A7F3D0}
+.rw-btn.success:hover{background:#A7F3D0;color:#065F46}
+.rw-btn.danger{background:#FEE2E2;color:#991B1B;border-color:#FECACA}
+.rw-btn.danger:hover{background:#FECACA;color:#991B1B}
+.rw-btn:disabled{opacity:.45;cursor:not-allowed}
+.rw-btn:disabled:hover{border-color:var(--color-border);color:var(--color-text)}
+.rw-btn.ghost{border-color:transparent;background:transparent}
+.rw-btn-row{display:flex;gap:8px}
+
+/* â”€â”€â”€ SLA timer â”€â”€â”€ */
+.rw-sla-timer{display:flex;flex-direction:column;gap:7px}
+.rw-sla-bar{height:7px;background:var(--color-border);border-radius:100px;overflow:hidden}
+.rw-sla-bar .fill{height:100%;border-radius:100px;background:var(--color-success);transition:width .5s}
+.rw-sla-bar.warning .fill{background:var(--color-amber)}
+.rw-sla-bar.breach .fill{background:var(--color-error)}
+.rw-sla-count{font-size:.875rem;font-weight:800;color:var(--color-heading);font-family:var(--font-mono)}
+.rw-sla-count.breach{color:var(--color-error)}
+.rw-sla-sub{font-size:.625rem;color:var(--color-text-light)}
+
+/* â”€â”€â”€ Engineer list â”€â”€â”€ */
+.rw-eng-search{position:relative}
+.rw-eng-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--color-text-light);pointer-events:none}
+.rw-eng-search input{width:100%;padding:8px 11px 8px 31px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-card);color:var(--color-heading);font-size:.75rem;outline:none;font-family:var(--font-primary);box-sizing:border-box}
+.rw-eng-search input:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(31, 122, 140,.08)}
+.rw-eng-list{display:flex;flex-direction:column;gap:5px;margin-top:8px;padding-right:3px}
+.rw-eng-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .12s;border:1px solid transparent}
+.rw-eng-item:hover{background:var(--color-bg)}
+.rw-eng-item.selected{background:var(--color-soft);border-color:var(--color-primary)}
+.rw-eng-avatar{width:28px;height:28px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.625rem;font-weight:800;flex-shrink:0}
+.rw-eng-info{flex:1;min-width:0}
+.rw-eng-name{font-size:.75rem;font-weight:700;color:var(--color-heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rw-eng-dept{font-size:.625rem;color:var(--color-text-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rw-eng-load{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;font-size:.5625rem;font-weight:800;padding:3px 7px;border-radius:100px;white-space:nowrap}
+.rw-eng-load.available{background:#D1FAE5;color:#065F46}
+.rw-eng-load.busy{background:#FEF3C7;color:#92400E}
+.rw-eng-load.offline{background:#F3F4F6;color:#9CA3AF}
+
+/* â”€â”€â”€ Metadata â”€â”€â”€ */
+.rw-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.rw-meta-item{display:flex;flex-direction:column;gap:2px}
+.rw-meta-label{font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-light)}
+.rw-meta-value{font-size:.8125rem;font-weight:700;color:var(--color-heading);word-break:break-word}
+
+/* â”€â”€â”€ History timeline â”€â”€â”€ */
+.rw-history{position:relative;padding-left:24px}
+.rw-history::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--color-border);border-radius:100px}
+.rw-tl-item{position:relative;padding-bottom:14px}
+.rw-tl-item:last-child{padding-bottom:0}
+.rw-tl-dot{position:absolute;left:-20px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--color-card);border:2px solid var(--color-text-light);z-index:1}
+.rw-tl-dot.status{border-color:var(--color-primary)}
+.rw-tl-dot.note{border-color:var(--color-amber)}
+.rw-tl-dot.assign{border-color:#3B82F6}
+.rw-tl-dot.system{border-color:var(--color-text-light)}
+.rw-tl-dot.resolve{border-color:var(--color-success)}
+.rw-tl-dot.close{border-color:#6B7280}
+.rw-tl-action{font-size:.8125rem;font-weight:700;color:var(--color-heading);line-height:1.3}
+.rw-tl-detail{font-size:.75rem;color:var(--color-text);margin-top:1px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.rw-tl-meta{font-size:.625rem;color:var(--color-text-light);margin-top:2px}
+.rw-ai-empty{padding:10px;text-align:center;color:var(--color-text-light);font-size:.75rem}
+
+/* â”€â”€â”€ Close hint â”€â”€â”€ */
+.rw-close-hint{font-size:.5625rem;color:var(--color-text-light);line-height:1.5}
+
+/* â”€â”€â”€ Validation errors â”€â”€â”€ */
+.rw-val-error{display:flex;align-items:flex-start;gap:8px;padding:9px 11px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;color:#991B1B;font-size:.6875rem;margin-bottom:10px}
+.rw-val-error svg{width:14px;height:14px;flex-shrink:0;color:#EF4444;margin-top:1px}
+.rw-val-error span{flex:1}
+
+/* â”€â”€â”€ Empty state â”€â”€â”€ */
+.rw-empty-state{text-align:center;padding:70px 20px;color:var(--color-text)}
+.rw-empty-state svg{margin-bottom:14px;color:var(--color-text-light)}
+.rw-empty-state h3{font-size:1rem;font-weight:700;color:var(--color-heading);margin:0 0 4px}
+.rw-empty-state p{font-size:.8125rem;margin:0}
+
+/* â”€â”€â”€ Close modal â”€â”€â”€ */
+.rw-close-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .2s}
+.rw-close-modal.active{opacity:1;visibility:visible}
+.rw-close-box{background:var(--color-card);border-radius:var(--radius-lg);padding:24px;width:460px;max-width:92vw;box-shadow:var(--shadow-xl);max-height:80vh;overflow-y:auto}
+.rw-close-title{font-size:1.0625rem;font-weight:700;color:var(--color-heading);margin:0 0 4px;display:flex;align-items:center;gap:8px}
+.rw-close-title svg{color:var(--color-success)}
+.rw-close-desc{font-size:.75rem;color:var(--color-text);margin-bottom:16px}
+.rw-close-summary{background:var(--color-bg);border-radius:8px;padding:12px 14px;margin-bottom:14px}
+.rw-close-summary-item{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:.75rem}
+.rw-close-summary-item .lbl{color:var(--color-text-light);font-weight:600;text-transform:uppercase;letter-spacing:.03em;font-size:.5625rem;flex-shrink:0}
+.rw-close-summary-item .val{color:var(--color-heading);font-weight:600;text-align:right;word-break:break-word}
+.rw-close-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.rw-close-actions button{height:34px;padding:0 20px;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;border:1px solid var(--color-border);background:var(--color-card);color:var(--color-text);transition:all .15s;font-family:var(--font-primary)}
+.rw-close-actions button.primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+.rw-close-actions button.primary:hover{background:var(--color-primary-hover)}
+.rw-close-actions button.success{background:var(--color-success);color:#fff;border-color:var(--color-success)}
+.rw-close-actions button.success:hover{background:#166534}
+.rw-close-actions button:hover{border-color:var(--color-primary);color:var(--color-primary)}
+
+/* â”€â”€â”€ Toast â”€â”€â”€ */
+.tp-toast{position:fixed;top:80px;right:20px;z-index:3000;background:var(--color-card);border:1px solid var(--color-border);border-left:3px solid var(--color-success);border-radius:8px;box-shadow:var(--shadow-lg);padding:10px 14px;font-size:.75rem;color:var(--color-heading);display:flex;align-items:center;gap:10px;max-width:340px;opacity:0;transform:translateY(-8px);transition:all .2s}
+.tp-toast.show{opacity:1;transform:translateY(0)}
+.tp-toast.error{border-left-color:var(--color-error)}
+.tp-toast.info{border-left-color:var(--color-primary)}
+.tp-toast-close{cursor:pointer;opacity:.6;margin-left:auto;font-size:1rem;line-height:1}
+
+/* â”€â”€â”€ Floating unsaved-changes warning â”€â”€â”€ */
+.rw-unsaved{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(10px);z-index:1500;display:flex;align-items:center;gap:8px;padding:9px 15px;background:var(--color-card);border:1px solid var(--color-amber);border-left:3px solid var(--color-amber);border-radius:8px;box-shadow:var(--shadow-lg);font-size:.6875rem;font-weight:700;color:var(--color-heading);opacity:0;visibility:hidden;transition:all .2s;max-width:92vw}
+.rw-unsaved.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.rw-unsaved svg{width:14px;height:14px;color:var(--color-amber);flex-shrink:0}
+
+@media(max-width:1080px){
+  .rw-grid{grid-template-columns:1fr}
+  .rw-right{position:static;max-height:none}
+  .rw-topbar-meta{margin-left:0;width:100%}
+  .rw-topbar-left{flex-wrap:wrap}
+}
+@media(max-width:560px){
+  .rw-body{padding:var(--spacing-sm)}
+  .rw-info-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+<nav class="navbar" role="navigation" aria-label="Engineer navigation">
+  <div class="navbar-inner">
+    <div class="navbar-left">
+      <a href="engineer-dashboard.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+      <div class="navbar-brand-text">
+        <span class="navbar-brand-name">ResolveOne</span>
+        <span class="navbar-brand-sub">Engineer Portal</span>
+      </div>
+    </div>
+    <div class="navbar-center" data-nav-links role="menubar">
+      <a href="engineer-dashboard.html" class="navbar-link" role="menuitem"><i data-lucide="layout-dashboard" size="16"></i>Dashboard</a>
+      <a href="engineer-tickets.html" class="navbar-link" role="menuitem"><i data-lucide="ticket" size="16"></i>Open Tickets</a>
+      <a href="engineer-resolution.html" class="navbar-link active" role="menuitem" aria-current="page"><i data-lucide="clipboard-check" size="16"></i>Resolution</a>
+      <a href="reports.html" class="navbar-link" role="menuitem"><i data-lucide="bar-chart-3" size="16"></i>Reports</a>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-dropdown-wrap">
+        <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>0</span></button>
+        <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+          <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+          <div class="dropdown-body" data-notif-list><div style="padding:24px;text-align:center;color:var(--color-text);font-size:0.8125rem;">No new notifications</div></div>
+          <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+        </div>
+      </div>
+      <div class="navbar-dropdown-wrap">
+        <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+          <div class="navbar-profile-avatar">EN</div>
+          <div class="navbar-profile-info"><span class="navbar-profile-name">Engineer</span></div>
+        </div>
+        <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+          <div class="dropdown-user-card"><div class="dropdown-user-avatar">EN</div><div class="dropdown-user-info"><span class="dropdown-user-name">Engineer</span><span class="dropdown-user-email">engineer@resolveone.com</span></div></div>
+          <div class="dropdown-divider"></div>
+          <a href="engineer-profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+        </div>
+      </div>
+      <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+    </div>
+  </div>
+</nav>
+
+<div class="rw-page">
+
+  <!-- Sticky top bar -->
+  <div class="rw-topbar">
+    <div class="rw-topbar-inner">
+      <div class="rw-topbar-left">
+        <select class="rw-topbar-select" data-ticket-select aria-label="Select ticket"><option value="">Select a ticket to work on...</option></select>
+        <button class="rw-btn ghost" data-back-to-selection style="display:none;"><i data-lucide="arrow-left" size="14"></i> Back to Selection</button>
+      </div>
+      <div class="rw-topbar-meta" data-header-meta style="display:none;">
+        <span class="rw-chip" data-hdr-status></span>
+        <span class="rw-chip" data-hdr-priority></span>
+        <span class="rw-chip" data-hdr-sla></span>
+        <span class="rw-topbar-eng" data-hdr-engineer></span>
+        <span class="rw-topbar-updated" data-hdr-updated></span>
+      </div>
+    </div>
+  </div>
+
+  <main class="rw-body">
+    <div class="rw-body-inner">
+
+      <!-- Empty state -->
+      <div class="rw-empty-state" data-empty-state>
+        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <h3>Select a ticket to begin</h3>
+        <p>Choose a ticket from the dropdown above to open the resolution workspace.</p>
+      </div>
+
+      <!-- Workspace -->
+      <div class="rw-workspace" data-workspace style="display:none;">
+        <div class="rw-grid">
+
+          <!-- â”€â”€â”€ LEFT: engineer workspace modules â”€â”€â”€ -->
+          <div class="rw-left">
+
+            <!-- Ticket Overview (compact metadata, accordion) -->
+            <section class="rw-panel open" data-panel="overview">
+              <header class="rw-panel-header" data-panel-toggle="overview">
+                <span class="rw-panel-title"><i data-lucide="info" size="14"></i> Ticket Overview</span>
+                <span class="rw-panel-chevron"><i data-lucide="chevron-down" size="14"></i></span>
+              </header>
+              <div class="rw-panel-body">
+                <div class="rw-info-grid">
+                  <div class="rw-info-item"><span class="rw-info-label">Ticket ID</span><span class="rw-info-value mono" data-rs-id></span></div>
+                  <div class="rw-info-full"><span class="rw-info-label">Subject</span><div class="rw-desc" data-rs-issue></div></div>
+                  <div class="rw-info-item"><span class="rw-info-label">Priority</span><span class="rw-info-value" data-rs-priority></span></div>
+                  <div class="rw-info-item"><span class="rw-info-label">Status</span><span class="rw-info-value" data-rs-status></span></div>
+                  <div class="rw-info-item"><span class="rw-info-label">Assigned Engineer</span><span class="rw-info-value" data-rs-engineer></span></div>
+                  <div class="rw-info-item"><span class="rw-info-label">Department</span><span class="rw-info-value" data-rs-dept></span></div>
+                  <div class="rw-info-item"><span class="rw-info-label">Created</span><span class="rw-info-value" data-rs-created></span></div>
+                  <div class="rw-info-item"><span class="rw-info-label">Updated</span><span class="rw-info-value" data-rs-updated></span></div>
+                  <div class="rw-info-item"><span class="rw-info-label">Requester</span><span class="rw-info-value" data-rs-reporter></span></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Status Update (engineer action) -->
+            <section class="ops-section">
+              <h4 class="ops-title"><i data-lucide="refresh-cw" size="14"></i> Status Update</h4>
+              <div class="ops-body">
+                <div class="rw-field">
+                  <label for="rs-status-select">Current Status</label>
+                  <select id="rs-status-select" data-select-status>
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Pending User">Pending User</option>
+                    <option value="Escalated">Escalated</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                  </select>
+                </div>
+                <div class="rw-btn-row">
+                  <button class="rw-btn primary" data-btn-status><i data-lucide="arrow-up" size="14"></i> Update Status</button>
+                  <button class="rw-btn" data-btn-undo-status style="display:none;"><i data-lucide="rotate-ccw" size="14"></i> Undo</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Assign Engineer (engineer action) -->
+            <section class="ops-section">
+              <h4 class="ops-title"><i data-lucide="user-plus" size="14"></i> Assign Engineer</h4>
+              <div class="ops-body">
+                <div class="rw-eng-search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" placeholder="Search engineers..." data-eng-search>
+                </div>
+                <div class="rw-field">
+                  <label for="rs-eng-dept">Department</label>
+                  <select id="rs-eng-dept" data-eng-dept>
+                    <option value="">All departments</option>
+                  </select>
+                </div>
+                <div class="rw-eng-list" data-eng-list></div>
+                <div class="rw-field">
+                  <label for="rs-eng-reason">Transfer Reason (optional)</label>
+                  <input id="rs-eng-reason" type="text" placeholder="e.g. Specialised skills required" data-eng-reason>
+                </div>
+                <button class="rw-btn primary" data-btn-assign><i data-lucide="user-check" size="14"></i> Assign</button>
+              </div>
+            </section>
+
+            <!-- Engineer Workspace (primary focus, largest card, always expanded) -->
+            <section class="rw-panel open" data-panel="workspace" data-static>
+              <header class="rw-panel-header">
+                <span class="rw-panel-title"><i data-lucide="pen-tool" size="14"></i> Engineer Workspace</span>
+              </header>
+              <div class="rw-panel-body">
+                <div class="rw-tabs" data-action-tabs>
+                  <button class="rw-tab active" data-tab="remarks"><i data-lucide="message-square" size="13"></i> Remarks</button>
+                  <button class="rw-tab" data-tab="resolution"><i data-lucide="file-text" size="13"></i> Resolution Notes</button>
+                  <button class="rw-tab" data-tab="internal"><i data-lucide="lock" size="13"></i> Internal Notes</button>
+                  <button class="rw-tab" data-tab="attachments"><i data-lucide="paperclip" size="13"></i> Attachments</button>
+                </div>
+
+                <div class="rw-tab-pane active" data-tab-content="remarks">
+                  <textarea placeholder="Enter your observations, diagnostic findings, and engineering remarks..." data-input-remarks></textarea>
+                  <div class="rw-save-status" data-status-remarks></div>
+                </div>
+                <div class="rw-tab-pane" data-tab-content="resolution">
+                  <textarea placeholder="Describe the steps taken to resolve this issue in detail..." data-input-resolution></textarea>
+                  <div class="rw-save-status" data-status-resolution></div>
+                </div>
+                <div class="rw-tab-pane" data-tab-content="internal">
+                  <textarea placeholder="Add internal notes visible to engineers and administrators..." data-input-internal></textarea>
+                  <div class="rw-save-status" data-status-internal></div>
+                </div>
+                <div class="rw-tab-pane" data-tab-content="attachments">
+                  <div class="rw-dropzone" data-dropzone>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                    <div>Click to attach or drag &amp; drop files</div>
+                    <input type="file" multiple style="display:none;" data-file-input>
+                  </div>
+                  <div class="rw-upload-list" data-upload-list></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Close Ticket (engineer action) -->
+            <section class="ops-section">
+              <h4 class="ops-title"><i data-lucide="check-circle" size="14"></i> Close Ticket</h4>
+              <div class="ops-body">
+                <div data-val-errors></div>
+                <button class="rw-btn success" data-btn-close><i data-lucide="check" size="14"></i> Close Ticket</button>
+                <div class="rw-close-hint" data-close-hint></div>
+              </div>
+            </section>
+          </div>
+
+          <!-- â”€â”€â”€ RIGHT: contextual reference modules â”€â”€â”€ -->
+          <aside class="rw-right">
+            <div class="ops-panel">
+
+              <section class="ops-section">
+                <h4 class="ops-title"><i data-lucide="workflow" size="14"></i> Workflow Progress</h4>
+                <div class="rw-stepper" data-stepper></div>
+              </section>
+
+              <!-- AI Analysis (reference, accordion) -->
+              <section class="rw-panel" data-panel="analysis">
+                <header class="rw-panel-header" data-panel-toggle="analysis">
+                  <span class="rw-panel-title"><i data-lucide="sparkles" size="14"></i> AI Analysis</span>
+                  <span class="rw-ai-summary" data-ai-summary="analysis"></span>
+                  <span class="rw-panel-chevron"><i data-lucide="chevron-down" size="14"></i></span>
+                </header>
+                <div class="rw-panel-body">
+                  <div data-rs-analysis-body><div class="rw-ai-empty">No AI analysis available.</div></div>
+                </div>
+              </section>
+
+              <!-- AI Recommendation (reference, accordion) -->
+              <section class="rw-panel" data-panel="recommendation">
+                <header class="rw-panel-header" data-panel-toggle="recommendation">
+                  <span class="rw-panel-title"><i data-lucide="wrench" size="14"></i> AI Recommendation <span class="rw-rec-badge"><i data-lucide="sparkle" size="10"></i> AI</span></span>
+                  <span class="rw-ai-summary" data-ai-summary="recommendation"></span>
+                  <span class="rw-panel-chevron"><i data-lucide="chevron-down" size="14"></i></span>
+                </header>
+                <div class="rw-panel-body">
+                  <div data-rs-rec-body><div class="rw-ai-empty">No recommendation available.</div></div>
+                </div>
+              </section>
+
+              <!-- SLA (reference) -->
+              <section class="ops-section">
+                <h4 class="ops-title"><i data-lucide="timer" size="14"></i> SLA</h4>
+                <div class="rw-sla-timer" data-sla-timer>
+                  <div class="rw-sla-bar" data-sla-bar><div class="fill"></div></div>
+                  <div class="rw-sla-count" data-sla-count>—</div>
+                  <div class="rw-sla-sub" data-sla-sub>—</div>
+                </div>
+              </section>
+
+              <!-- Ticket Metadata (reference) -->
+              <section class="ops-section">
+                <h4 class="ops-title"><i data-lucide="tag" size="14"></i> Ticket Metadata</h4>
+                <div class="rw-meta" data-meta></div>
+              </section>
+
+              <!-- Resolution History (reference) -->
+              <section class="ops-section">
+                <h4 class="ops-title"><i data-lucide="history" size="14"></i> Resolution History</h4>
+                <div class="rw-history" data-history-timeline>
+                  <div class="rw-ai-empty">No resolution history yet.</div>
+                </div>
+              </section>
+
+            </div>
+          </aside>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="rw-close-modal" data-close-modal>
+  <div class="rw-close-box">
+    <h3 class="rw-close-title"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Close Ticket</h3>
+    <p class="rw-close-desc">Please review the summary below before closing this ticket.</p>
+    <div class="rw-close-summary">
+      <div class="rw-close-summary-item"><span class="lbl">Ticket</span><span class="val" data-cs-ticket></span></div>
+      <div class="rw-close-summary-item"><span class="lbl">Resolution</span><span class="val" data-cs-resolution></span></div>
+      <div class="rw-close-summary-item"><span class="lbl">Engineer</span><span class="val" data-cs-engineer></span></div>
+      <div class="rw-close-summary-item"><span class="lbl">Time Taken</span><span class="val" data-cs-time></span></div>
+      <div class="rw-close-summary-item" style="border-top:1px solid var(--color-border);padding-top:8px;margin-top:4px;"><span class="lbl">Status</span><span class="val" data-cs-status style="color:#065F46;">Resolved â†’ Closed</span></div>
+    </div>
+    <div data-cs-errors></div>
+    <div class="rw-close-actions">
+      <button data-cs-cancel>Cancel</button>
+      <button class="success" data-cs-confirm><i data-lucide="check" size="14"></i> Close Ticket</button>
+    </div>
+  </div>
+</div>
+
+<footer class="tp-toast-container" data-toast-container></footer>
+
+<div class="rw-unsaved" data-unsaved-banner>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  <span>Unsaved changes — edits are pending and not yet saved.</span>
+</div>
+
+<div class="modal-overlay" data-modal-overlay>
+  <div class="modal-box">
+    <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    <h3 class="modal-title">Sign out?</h3>
+    <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+    <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+  </div>
+</div>
+
+<script src="js/modules/session.js"></script>
+<script src="js/modules/auth.js"></script>
+<script>
+(function(){
+  try {
+    var u = window.ResolveOneSession && window.ResolveOneSession.getUser();
+    if (u && u.role !== 'engineer' && u.role !== 'support_engineer') {
+      var roleMap = { admin: 'users.html', user: 'index.html' };
+      window.location.href = roleMap[u.role] || 'index.html';
+    }
+  } catch(e){}
+})();
+</script>
+<script src="js/modules/engineer-navbar.js"></script>
+<script src="js/modules/engineer-resolution.js?v=4"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    try { lucide.createIcons(); } catch (e) { console.warn('lucide.createIcons failed:', e); }
+    try {
+      if (window.EngineerNavbar) window.EngineerNavbar.init();
+    } catch (e) { console.error('EngineerNavbar.init() threw:', e); }
+    try {
+      if (window.EngineerResolution) window.EngineerResolution.init();
+    } catch (e) { console.error('EngineerResolution.init() threw:', e); }
+  });
+</script>
+</body>
+</html>

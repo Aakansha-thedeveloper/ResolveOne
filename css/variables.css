@@ -1,0 +1,104 @@
+:root {
+  /* ResolveOne enterprise palette
+     Jet Black #022B3A | Teal #1F7A8C | Pale Sky #BFDBF7 | Lavender #E1E5F2 | White #FFFFFF */
+  --color-bg: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-navbar: #022B3A;
+  --color-primary: #1F7A8C;
+  --color-primary-hover: #175E6B;
+  --color-ink: #022B3A;
+  --color-ink-hover: #1F7A8C;
+  --color-surface: #E1E5F2;
+  --color-soft: #BFDBF7;
+  --color-amber: #D97706;
+  --color-success: #15803D;
+  --color-warning: #C2410C;
+  --color-error: #B91C1C;
+  --color-heading: #022B3A;
+  --color-text: #6B7280;
+  --color-text-light: #9CA3AF;
+  --color-muted: #9CA3AF;
+  --color-border: #E1E5F2;
+  --color-border-light: rgba(225, 229, 242, 0.55);
+  --color-card-header: rgba(225, 229, 242, 0.35);
+
+  --font-primary: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --color-navbar-active: #1F7A8C;
+  --color-navbar-text: rgba(255, 255, 255, 0.55);
+  --color-navbar-muted: rgba(255, 255, 255, 0.3);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  --shadow-rgb: 15, 23, 42;
+  --shadow-sm: 0 1px 3px rgba(var(--shadow-rgb), 0.04);
+  --shadow-md: 0 4px 16px rgba(var(--shadow-rgb), 0.06);
+  --shadow-lg: 0 8px 32px rgba(var(--shadow-rgb), 0.08);
+  --shadow-xl: 0 20px 56px rgba(var(--shadow-rgb), 0.10);
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 96px;
+
+  --nav-height: 72px;
+  --container-max: 1200px;
+  --container-wide: 1440px;
+  --container-narrow: 680px;
+}
+
+body.dark-theme {
+  --color-bg: #13151A;
+  --color-card: #1A1D24;
+  --color-navbar: #0D0F12;
+  --color-primary: #4CA3B5;
+  --color-primary-hover: #63B5C6;
+  --color-ink: #022B3A;
+  --color-ink-hover: #1F7A8C;
+  --color-surface: #262A32;
+  --color-soft: #1E2A3A;
+  --color-amber: #F59E0B;
+  --color-success: #22C55E;
+  --color-warning: #EA580C;
+  --color-error: #DC2626;
+  --color-heading: #F1F5F9;
+  --color-text: #94A3B8;
+  --color-text-light: #64748B;
+  --color-muted: #64748B;
+  --color-border: #2D3139;
+  --color-border-light: #262A32;
+  --color-card-header: #20242C;
+  --color-navbar-active: #1A1D24;
+  --color-navbar-text: rgba(255, 255, 255, 0.5);
+  --color-navbar-muted: rgba(255, 255, 255, 0.2);
+  --shadow-rgb: 0, 0, 0;
+  --shadow-sm: 0 1px 3px rgba(var(--shadow-rgb), 0.2);
+  --shadow-md: 0 4px 16px rgba(var(--shadow-rgb), 0.3);
+  --shadow-lg: 0 8px 32px rgba(var(--shadow-rgb), 0.4);
+  --shadow-xl: 0 20px 56px rgba(var(--shadow-rgb), 0.5);
+}
+
+html.transitions-enabled *,
+html.transitions-enabled *::before,
+html.transitions-enabled *::after {
+  transition: background-color 0.3s ease,
+              color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.transitions-enabled *,
+  html.transitions-enabled *::before,
+  html.transitions-enabled *::after {
+    transition: none;
+  }
+}

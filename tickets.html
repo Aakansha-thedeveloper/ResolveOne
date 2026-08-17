@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ticket Management — ResolveOne Enterprise Admin Console">
+  <meta name="color-scheme" content="light dark">
+  <title>Ticket Management — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/ticket-management.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>
+body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}
+</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <div class="navbar-left">
+      <a href="index.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+      <div class="navbar-brand-text">
+        <span class="navbar-brand-name">ResolveOne</span>
+        <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+      </div>
+    </div>
+    <div class="navbar-center" data-nav-links role="menubar">
+      <a href="index.html" class="navbar-link" role="menuitem"><i data-lucide="home" size="16"></i>Home</a>
+      <a href="ai-assistant.html" class="navbar-link" role="menuitem"><i data-lucide="bot" size="16"></i>AI Assistant<span class="navbar-link-badge">Online</span></a>
+      <a href="knowledge-base.html" class="navbar-link" role="menuitem"><i data-lucide="book-open" size="16"></i>Knowledge Base</a>
+      <a href="help-center.html" class="navbar-link" role="menuitem"><i data-lucide="circle-help" size="16"></i>Help Center</a>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-dropdown-wrap">
+        <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>3</span></button>
+        <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+          <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+          <div class="dropdown-body" data-notif-list></div>
+          <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+        </div>
+      </div>
+      <div class="navbar-dropdown-wrap">
+        <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+          <div class="navbar-profile-avatar"></div>
+          <div class="navbar-profile-info"><span class="navbar-profile-name"></span></div>
+        </div>
+        <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+          <div class="dropdown-user-card"><div class="dropdown-user-avatar"></div><div class="dropdown-user-info"><span class="dropdown-user-name"></span><span class="dropdown-user-email"></span></div></div>
+          <div class="dropdown-divider"></div>
+          <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+          <a href="help-center.html" class="dropdown-item"><i data-lucide="circle-help" size="16"></i> Help & Support</a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+        </div>
+      </div>
+      <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+    </div>
+  </div>
+</nav>
+
+<main class="ticket-management-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="tp-header">
+      <div class="tp-header-left">
+        <h1 class="tp-title"><i data-lucide="ticket" size="22"></i>Ticket Management</h1>
+        <p class="tp-subtitle">Enterprise IT Operations Console — Triage, assign, investigate and resolve.</p>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="tp-kpi" data-kpi-grid>
+      <div class="tp-kpi-card">
+        <div class="tp-kpi-icon orange"><i data-lucide="inbox" size="18"></i></div>
+        <div class="tp-kpi-body">
+          <div class="tp-kpi-label">Open</div>
+          <div class="tp-kpi-value" data-kpi-open>—</div>
+          <div class="tp-kpi-trend neutral" data-kpi-open-trend>—</div>
+        </div>
+      </div>
+      <div class="tp-kpi-card">
+        <div class="tp-kpi-icon blue"><i data-lucide="clock" size="18"></i></div>
+        <div class="tp-kpi-body">
+          <div class="tp-kpi-label">In Progress</div>
+          <div class="tp-kpi-value" data-kpi-progress>—</div>
+          <div class="tp-kpi-trend" data-kpi-progress-trend></div>
+        </div>
+      </div>
+      <div class="tp-kpi-card">
+        <div class="tp-kpi-icon purple"><i data-lucide="user-clock" size="18"></i></div>
+        <div class="tp-kpi-body">
+          <div class="tp-kpi-label">Waiting User</div>
+          <div class="tp-kpi-value" data-kpi-waiting>—</div>
+          <div class="tp-kpi-trend" data-kpi-waiting-trend></div>
+        </div>
+      </div>
+      <div class="tp-kpi-card">
+        <div class="tp-kpi-icon green"><i data-lucide="check-circle" size="18"></i></div>
+        <div class="tp-kpi-body">
+          <div class="tp-kpi-label">Resolved Today</div>
+          <div class="tp-kpi-value" data-kpi-resolved>—</div>
+          <div class="tp-kpi-trend neutral" data-kpi-resolved-trend>—</div>
+        </div>
+      </div>
+      <div class="tp-kpi-card">
+        <div class="tp-kpi-icon red"><i data-lucide="alert-triangle" size="18"></i></div>
+        <div class="tp-kpi-body">
+          <div class="tp-kpi-label">High Priority</div>
+          <div class="tp-kpi-value" data-kpi-high>—</div>
+          <div class="tp-kpi-trend" data-kpi-high-trend></div>
+        </div>
+      </div>
+      <div class="tp-kpi-card">
+        <div class="tp-kpi-icon red"><i data-lucide="alert-octagon" size="18"></i></div>
+        <div class="tp-kpi-body">
+          <div class="tp-kpi-label">SLA Breached</div>
+          <div class="tp-kpi-value" data-kpi-sla>—</div>
+          <div class="tp-kpi-trend" data-kpi-sla-trend></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="tp-filter" data-filter-bar>
+      <div class="tp-filter-search">
+        <i data-lucide="search" size="14"></i>
+        <input type="text" placeholder="Search tickets..." data-filter-search>
+      </div>
+      <select data-filter-status><option value="">Status</option><option value="Open">Open</option><option value="Assigned">Assigned</option><option value="In Progress">In Progress</option><option value="Waiting User">Waiting User</option><option value="Escalated">Escalated</option><option value="Resolved">Resolved</option><option value="Closed">Closed</option></select>
+      <select data-filter-priority><option value="">Priority</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+      <select data-filter-department><option value="">Department</option></select>
+      <select data-filter-team><option value="">Team</option></select>
+      <select data-filter-engineer><option value="">Engineer</option></select>
+      <select data-filter-sort><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="priority">Priority</option></select>
+      <button class="tp-btn-icon" data-btn-refresh title="Refresh"><i data-lucide="refresh-cw" size="14"></i></button>
+      <button class="tp-btn-reset" data-btn-reset>Reset</button>
+      <span class="tp-filter-count" data-filter-count></span>
+    </div>
+
+    <!-- Queue (full width) -->
+    <div class="tp-queue">
+      <div data-tickets-loading class="tp-loading"><i data-lucide="loader-2" size="28"></i><p>Loading tickets...</p></div>
+      <div data-tickets-empty class="tp-empty" style="display:none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-light);opacity:.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        <h3>No tickets match your filters</h3>
+        <p>Try widening your search criteria or adjusting the filter selections above.</p>
+        <button class="tp-btn-reset" style="margin-top:14px" data-empty-reset-btn>Reset All Filters</button>
+      </div>
+      <div data-tickets-error class="tp-error" style="display:none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-light);opacity:.3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <h3>Failed to load tickets</h3>
+        <p>The backend server might be offline. Please verify the server is running and <button class="tp-btn-reset" style="display:inline-flex;vertical-align:middle;margin-left:4px" data-btn-refresh-error>try again</button>.</p>
+      </div>
+      <div data-ticket-cards></div>
+    </div>
+  </div>
+</main>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     RESOLVEONE ENTERPRISE TICKET INSPECTOR MODAL
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="tp-modal-overlay" data-tp-modal>
+  <div class="tp-modal">
+
+    <!-- â•â•â• HEADER (sticky — populated by JS) â•â•â• -->
+    <div class="tp-modal-header" data-tp-modal-header></div>
+
+    <!-- â•â•â• PREMIUM HORIZONTAL TABS â•â•â• -->
+    <div class="tp-modal-tabs" data-modal-tabs>
+      <button class="tp-modal-tab active" data-tab="overview">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Overview
+      </button>
+      <button class="tp-modal-tab" data-tab="conversation">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Conversation
+      </button>
+      <button class="tp-modal-tab" data-tab="diagnosis">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        AI Diagnosis
+      </button>
+      <button class="tp-modal-tab" data-tab="resolution">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+        Solution
+      </button>
+      <button class="tp-modal-tab" data-tab="actions">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Actions
+      </button>
+      <button class="tp-modal-tab" data-tab="notes">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Notes
+      </button>
+      <button class="tp-modal-tab" data-tab="activity">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Activity
+      </button>
+    </div>
+
+    <!-- â•â•â• SCROLLABLE BODY â•â•â• -->
+    <div class="tp-modal-body" data-tp-modal-body>
+
+      <!-- â”€â”€â”€ 1. OVERVIEW â”€â”€â”€ -->
+      <div class="tp-tab-content active" data-tab-content="overview">
+        <div class="tp-ov-grid">
+          <div class="tp-ov-card tp-ov-card-full">
+            <div class="tp-ov-card-title">Ticket Summary</div>
+            <div class="tp-ov-card-body" data-dt-issue></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Category</div>
+            <div class="tp-ov-card-body" data-dt-category></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Department</div>
+            <div class="tp-ov-card-body" data-dt-dept></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Reporter</div>
+            <div class="tp-ov-card-body" data-dt-reporter></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Engineer</div>
+            <div class="tp-ov-card-body" data-dt-engineer></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Priority</div>
+            <div class="tp-ov-card-body" data-dt-priority></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Status</div>
+            <div class="tp-ov-card-body" data-dt-status></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Created</div>
+            <div class="tp-ov-card-body mono" data-dt-created></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Last Updated</div>
+            <div class="tp-ov-card-body" data-dt-updated></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">SLA</div>
+            <div class="tp-ov-card-body" data-dt-sla></div>
+          </div>
+          <div class="tp-ov-card">
+            <div class="tp-ov-card-title">Team</div>
+            <div class="tp-ov-card-body" data-dt-team></div>
+          </div>
+          <div class="tp-ov-card tp-ov-card-full">
+            <div class="tp-ov-card-title">Tags</div>
+            <div class="tp-ov-card-body"><span class="tp-tag-list" data-dt-tags></span></div>
+          </div>
+          <div class="tp-ov-card tp-ov-card-full">
+            <div class="tp-ov-card-title">Attachments</div>
+            <div class="tp-ov-card-body"><span class="tp-attachment-list" data-dt-attachments></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ 2. CONVERSATION â”€â”€â”€ -->
+      <div class="tp-tab-content" data-tab-content="conversation">
+        <div class="tp-convo-wrap">
+          <div class="tp-convo" data-dt-convo></div>
+          <div class="tp-convo-reply">
+            <textarea class="tp-convo-reply-input" data-convo-reply-input placeholder="Type your reply..." rows="1"></textarea>
+            <button class="tp-btn tp-btn-primary tp-convo-reply-btn" data-convo-reply-btn>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ 3. AI DIAGNOSIS â”€â”€â”€ -->
+      <div class="tp-tab-content" data-tab-content="diagnosis">
+        <div class="tp-diag-report">
+          <div class="tp-diag-header">
+            <div class="tp-diag-header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <div>
+              <div class="tp-diag-header-title">AI Diagnostic Report</div>
+              <div class="tp-diag-header-sub">Automated analysis by ResolveOne AI</div>
+            </div>
+          </div>
+          <div class="tp-diag-meter">
+            <div class="tp-diag-meter-label">Confidence Level</div>
+            <div class="tp-diag-meter-bar">
+              <div class="tp-diag-meter-fill" data-dt-diag-conf-fill style="width:0%"></div>
+            </div>
+            <div class="tp-diag-meter-value" data-dt-diag-conf>—</div>
+          </div>
+          <div class="tp-diag-grid">
+            <div class="tp-diag-item">
+              <div class="tp-diag-item-label">Detected Category</div>
+              <div class="tp-diag-item-value" data-dt-diag-cat>—</div>
+            </div>
+            <div class="tp-diag-item">
+              <div class="tp-diag-item-label">Possible Cause</div>
+              <div class="tp-diag-item-value" data-dt-diag-cause>—</div>
+            </div>
+            <div class="tp-diag-item">
+              <div class="tp-diag-item-label">Affected Systems</div>
+              <div class="tp-diag-item-value" data-dt-diag-sys>—</div>
+            </div>
+            <div class="tp-diag-item">
+              <div class="tp-diag-item-label">Estimated Resolution</div>
+              <div class="tp-diag-item-value" data-dt-diag-eta>—</div>
+            </div>
+          </div>
+          <div class="tp-diag-matched" data-dt-diag-similar style="display:none">
+            <div class="tp-diag-matched-title">Matched Incidents</div>
+            <div class="tp-diag-matched-body"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ 4. RECOMMENDED SOLUTION â”€â”€â”€ -->
+      <div class="tp-tab-content" data-tab-content="resolution">
+        <div class="tp-res">
+          <div class="tp-res-card">
+            <div class="tp-res-card-header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+              Recommended Solution
+            </div>
+            <div class="tp-res-card-title" data-dt-res-title>—</div>
+            <div class="tp-res-card-desc" data-dt-res-desc>—</div>
+            <div class="tp-res-card-meta">
+              <div class="tp-res-meta-item">
+                <span class="tp-res-meta-label">Estimated Fix Time</span>
+                <span class="tp-res-meta-value" data-dt-res-eta>—</span>
+              </div>
+              <div class="tp-res-meta-item">
+                <span class="tp-res-meta-label">Why This Solution</span>
+                <span class="tp-res-meta-value" data-dt-res-why>—</span>
+              </div>
+            </div>
+            <div class="tp-res-card-step-label">Steps</div>
+            <div class="tp-res-card-steps" data-dt-res-steps>
+              <div class="tp-res-step">No steps available.</div>
+            </div>
+            <div class="tp-res-card-expected" data-dt-res-expected>—</div>
+            <div class="tp-res-card-actions">
+              <button class="tp-btn tp-btn-primary" data-dt-res-btn>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open KB Article
+              </button>
+              <button class="tp-btn" data-dt-res-copy>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy Solution
+              </button>
+              <button class="tp-btn" data-dt-res-share>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Share With User
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ 5. ADMIN ACTIONS â”€â”€â”€ -->
+      <div class="tp-tab-content" data-tab-content="actions">
+        <div class="tp-act-form">
+          <div class="tp-act-section">
+            <div class="tp-act-section-title">Ticket Configuration</div>
+            <div class="tp-act-grid">
+              <div class="tp-act-field">
+                <label class="tp-act-label">Engineer</label>
+                <select data-action-engineer><option value="">Unassigned</option></select>
+              </div>
+              <div class="tp-act-field">
+                <label class="tp-act-label">Department</label>
+                <select data-action-department><option value="">Not set</option></select>
+              </div>
+              <div class="tp-act-field">
+                <label class="tp-act-label">Priority</label>
+                <select data-action-priority><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+              </div>
+              <div class="tp-act-field">
+                <label class="tp-act-label">Status</label>
+                <select data-action-status><option value="Open">Open</option><option value="Assigned">Assigned</option><option value="In Progress">In Progress</option><option value="Waiting User">Waiting User</option><option value="Escalated">Escalated</option><option value="Resolved">Resolved</option><option value="Closed">Closed</option></select>
+              </div>
+              <div class="tp-act-field tp-act-field-full">
+                <label class="tp-act-label">Team</label>
+                <select data-action-team><option value="">Unassigned</option></select>
+              </div>
+              <div class="tp-act-field tp-act-field-full">
+                <label class="tp-act-label">Resolution Notes</label>
+                <textarea data-action-resolution rows="3" placeholder="Add resolution notes..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="tp-act-actions">
+            <button class="tp-btn tp-btn-primary" data-btn-save>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save Changes
+            </button>
+            <button class="tp-btn tp-btn-outline" data-btn-assign-eng>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              Assign
+            </button>
+            <button class="tp-btn tp-btn-success" data-btn-resolve>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Resolve
+            </button>
+            <button class="tp-btn tp-btn-danger" data-btn-escalate>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Escalate
+            </button>
+            <button class="tp-btn tp-btn-warning" data-btn-request>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Request Reply
+            </button>
+            <button class="tp-btn tp-btn-secondary" data-btn-close-ticket>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Close Ticket
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ 6. INTERNAL NOTES â”€â”€â”€ -->
+      <div class="tp-tab-content" data-tab-content="notes">
+        <div class="tp-notes-wrap">
+          <div class="tp-notes-timeline" data-dt-notes></div>
+          <div class="tp-notes-input-bar">
+            <textarea class="tp-notes-textarea" data-note-input placeholder="Add a private note..." rows="1"></textarea>
+            <button class="tp-btn tp-btn-primary" data-btn-add-note>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ 7. ACTIVITY TIMELINE â”€â”€â”€ -->
+      <div class="tp-tab-content" data-tab-content="activity">
+        <div class="tp-act-timeline" data-dt-timeline></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="tp-toast-container" data-toast-container></div>
+
+<div class="modal-overlay" data-modal-overlay>
+  <div class="modal-box">
+    <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    <h3 class="modal-title">Sign out?</h3>
+    <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+    <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+  </div>
+</div>
+
+<script src="js/modules/session.js"></script>
+  <script src="js/modules/auth.js"></script>
+  <script src="js/modules/navbar.js?v=5"></script>
+<script src="js/modules/tickets-page.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    lucide.createIcons();
+    if (window.NavbarModule) window.NavbarModule.init();
+    if (window.TicketsPage) window.TicketsPage.init();
+  });
+</script>
+</body>
+</html>

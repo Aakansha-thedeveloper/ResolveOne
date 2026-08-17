@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your ResolveOne account — Enterprise AI Support Platform.">
+  <meta name="color-scheme" content="light dark">
+  <title>Create Account — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/components/login.css?v=7">
+  <link rel="stylesheet" href="css/components/register.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled')})})();</script>
+  <main class="register-page">
+    <div class="register-card">
+      <div class="register-header">
+        <div class="register-logo" aria-hidden="true">R</div>
+        <h1 class="register-title">Create your account</h1>
+        <p class="register-subtitle">Join the ResolveOne enterprise support platform</p>
+      </div>
+
+      <form class="register-form" data-register-form novalidate>
+        <div class="register-field-row">
+          <div class="register-field">
+            <label class="register-field-label" for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" class="register-field-input" placeholder="Jane Doe" required autocomplete="name" data-reg-name>
+          </div>
+          <div class="register-field">
+            <label class="register-field-label" for="reg-email">Email</label>
+            <input type="email" id="reg-email" class="register-field-input" placeholder="jane@company.com" required autocomplete="email" inputmode="email" data-reg-email>
+          </div>
+        </div>
+
+        <div class="register-field-row">
+          <div class="register-field">
+            <label class="register-field-label" for="reg-phone">Phone Number</label>
+            <input type="tel" id="reg-phone" class="register-field-input" placeholder="+1 (555) 000-0000" autocomplete="tel" data-reg-phone>
+          </div>
+          <div class="register-field">
+            <label class="register-field-label" for="reg-dept">Department</label>
+            <input type="text" id="reg-dept" class="register-field-input" placeholder="Engineering, HR, Finance..." data-reg-dept>
+          </div>
+        </div>
+
+        <div class="register-field">
+          <label class="register-field-label">Account Type</label>
+          <div class="register-account-type" data-reg-account-type>
+            <label class="register-account-option is-selected" data-reg-role="user">
+              <input type="radio" name="account_type" value="user" checked>
+              <span class="register-account-icon">&#128100;</span>
+              <span class="register-account-label">Support User</span>
+              <span class="register-account-desc">Raise &amp; track IT issues</span>
+            </label>
+            <label class="register-account-option" data-reg-role="support_engineer">
+              <input type="radio" name="account_type" value="support_engineer">
+              <span class="register-account-icon">&#128295;</span>
+              <span class="register-account-label">Support Engineer</span>
+              <span class="register-account-desc">Resolve &amp; manage tickets</span>
+            </label>
+            <label class="register-account-option" data-reg-role="admin">
+              <input type="radio" name="account_type" value="admin">
+              <span class="register-account-icon">&#128736;</span>
+              <span class="register-account-label">Administrator</span>
+              <span class="register-account-desc">Full platform management</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="register-invitation" data-reg-invitation>
+          <strong>Administrator Registration</strong>
+          <p>Administrator accounts require an organization invitation. Enter your invitation code below to continue.</p>
+          <div class="register-field">
+            <label class="register-field-label" for="reg-invite">Invitation Code</label>
+            <input type="text" id="reg-invite" class="register-field-input" placeholder="Enter your invitation code" data-reg-invite-code>
+          </div>
+        </div>
+
+        <div class="register-field-row">
+          <div class="register-field">
+            <label class="register-field-label" for="reg-password">Password</label>
+            <div class="register-password-wrap">
+              <input type="password" id="reg-password" class="register-field-input" placeholder="Min. 8 characters" required autocomplete="new-password" data-reg-password>
+              <button type="button" class="register-password-toggle" data-reg-password-toggle aria-label="Toggle password visibility" tabindex="-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-reg-eye-icon><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-reg-eye-off-icon style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="register-field">
+            <label class="register-field-label" for="reg-confirm">Confirm Password</label>
+            <div class="register-password-wrap">
+              <input type="password" id="reg-confirm" class="register-field-input" placeholder="Re-enter password" required autocomplete="new-password" data-reg-confirm>
+              <button type="button" class="register-password-toggle" data-reg-confirm-toggle aria-label="Toggle password visibility" tabindex="-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-reg-confirm-eye-icon><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-reg-confirm-eye-off-icon style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="register-btn" data-reg-btn>
+          <span class="register-btn-content" data-reg-btn-content>
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+            Create Account
+          </span>
+          <span class="register-btn-loader" data-reg-btn-loader>
+            <svg class="register-spinner" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="31.4 31.4" stroke-linecap="round"/></svg>
+            Creating account...
+          </span>
+        </button>
+      </form>
+
+      <div class="register-error" data-reg-error style="display:none;" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <span data-reg-error-text></span>
+      </div>
+
+      <div class="register-server-error" data-reg-server-error style="display:none;" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <div>
+          <strong>Unable to connect</strong>
+          <p data-reg-server-error-text>The server is not responding. Please check your connection and try again.</p>
+        </div>
+      </div>
+
+      <div class="register-success" data-reg-success>
+        <div class="register-success-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Account created</h3>
+        <p data-reg-success-text>Your account has been created successfully. Redirecting to sign in...</p>
+      </div>
+
+      <div class="register-signin-link">
+        Already have an account? <a href="login.html">Sign in</a>
+      </div>
+    </div>
+  </main>
+  <script src="js/modules/session.js"></script>
+  <script src="js/modules/register.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+      if (window.RegisterModule) window.RegisterModule.init();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="User Management — ResolveOne Admin.">
+  <meta name="color-scheme" content="light dark">
+  <title>User Management — ResolveOne</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/ticket-management.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>
+body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}
+
+/* â”€â”€ Toast Container â”€â”€ */
+.tp-toast-container{position:fixed;bottom:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.tp-toast{pointer-events:auto;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;font-size:0.8125rem;font-weight:500;color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.15);animation:tpToastIn .25s ease;max-width:380px}
+.tp-toast--success{background:#059669}
+.tp-toast--error{background:#dc2626}
+.tp-toast--info{background:#2563eb}
+@keyframes tpToastOut{0%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(60px)}}
+@keyframes tpToastIn{0%{opacity:0;transform:translateX(60px)}100%{opacity:1;transform:translateX(0)}}
+
+/* â”€â”€ User Management Page â”€â”€ */
+.um-page{max-width:1360px;margin:0 auto;padding:32px 24px;min-height:calc(100vh - 64px)}
+.um-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.um-header-left{display:flex;align-items:center;gap:16px}
+.um-header-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1F7A8C,#022B3A);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.um-header-text h1{font-size:1.5rem;font-weight:700;color:var(--color-heading);margin:0;letter-spacing:-.02em}
+.um-header-text p{font-size:0.8125rem;color:var(--color-text);margin:4px 0 0;opacity:.7}
+.um-header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* â”€â”€ Stats Bar â”€â”€ */
+.um-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.um-stat{background:#fff;border:1px solid var(--color-border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.um-stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.um-stat-icon--total{background:rgba(99,102,241,.1);color:#6366f1}
+.um-stat-icon--active{background:rgba(5,150,105,.1);color:#059669}
+.um-stat-icon--inactive{background:rgba(239,68,68,.1);color:#ef4444}
+.um-stat-icon--admin{background:rgba(31,122,140,.1);color:#1F7A8C}
+.um-stat-info{display:flex;flex-direction:column}
+.um-stat-number{font-size:1.125rem;font-weight:700;color:var(--color-heading);line-height:1.2}
+.um-stat-label{font-size:0.6875rem;color:var(--color-text);opacity:.7;text-transform:uppercase;letter-spacing:.04em}
+
+/* â”€â”€ Search & Filter Bar â”€â”€ */
+.um-toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.um-search-wrap{flex:1;min-width:220px;position:relative}
+.um-search-wrap input{width:100%;height:40px;padding:0 14px 0 38px;border:1px solid var(--color-border);border-radius:10px;font-size:0.8125rem;background:#fff;color:var(--color-heading);outline:none;transition:border-color .15s,box-shadow .15s}
+.um-search-wrap input:focus{border-color:#1F7A8C;box-shadow:0 0 0 3px rgba(31,122,140,.1)}
+.um-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--color-text);opacity:.5;pointer-events:none;display:flex}
+.um-filter-select{height:40px;padding:0 32px 0 12px;border:1px solid var(--color-border);border-radius:10px;font-size:0.8125rem;background:#fff;color:var(--color-heading);outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .15s}
+.um-filter-select:focus{border-color:#1F7A8C;box-shadow:0 0 0 3px rgba(31,122,140,.1)}
+
+/* â”€â”€ Table â”€â”€ */
+.um-table-wrap{background:#fff;border:1px solid var(--color-border);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.um-table{width:100%;border-collapse:collapse}
+.um-table thead{background:var(--color-bg);border-bottom:1px solid var(--color-border)}
+.um-table th{padding:12px 16px;font-size:0.6875rem;font-weight:600;color:var(--color-text);text-transform:uppercase;letter-spacing:.05em;text-align:left;white-space:nowrap}
+.um-table td{padding:14px 16px;font-size:0.8125rem;color:var(--color-heading);border-bottom:1px solid var(--color-border);vertical-align:middle}
+.um-table tbody tr:last-child td{border-bottom:none}
+.um-table tbody tr:hover{background:rgba(31, 122, 140,.02)}
+
+.um-user-cell{display:flex;align-items:center;gap:12px}
+.um-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;flex-shrink:0}
+.um-avatar--admin{background:linear-gradient(135deg,#1F7A8C,#022B3A)}
+.um-avatar--agent{background:linear-gradient(135deg,#059669,#34d399)}
+.um-avatar--user{background:linear-gradient(135deg,#6366f1,#818cf8)}
+.um-user-name{font-weight:600;color:var(--color-heading)}
+.um-user-email{font-size:0.75rem;color:var(--color-text);opacity:.65;display:block;margin-top:1px}
+
+/* Badges */
+.um-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:6px;font-size:0.6875rem;font-weight:600;white-space:nowrap}
+.um-badge--admin{background:rgba(31,122,140,.1);color:#1F7A8C}
+.um-badge--user{background:rgba(99,102,241,.1);color:#6366f1}
+.um-badge--agent{background:rgba(5,150,105,.1);color:#059669}
+.um-badge--active{background:rgba(5,150,105,.1);color:#059669}
+.um-badge--inactive{background:rgba(239,68,68,.1);color:#ef4444}
+.um-badge--pending{background:rgba(245,158,11,.1);color:#f59e0b}
+.um-badge--locked{background:rgba(139,92,246,.1);color:#8b5cf6}
+.um-status-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.um-status-dot--active{background:#059669}
+.um-status-dot--inactive{background:#ef4444}
+.um-status-dot--pending{background:#f59e0b}
+.um-status-dot--locked{background:#8b5cf6}
+
+.um-action-btn{width:30px;height:30px;border:none;border-radius:8px;background:transparent;color:var(--color-text);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .12s;opacity:.55}
+.um-action-btn:hover{background:var(--color-bg);opacity:1}
+.um-action-btn--edit:hover{color:#1F7A8C}
+.um-action-btn--delete:hover{color:#dc2626}
+.um-action-btn--view:hover{color:#6366f1}
+
+/* â”€â”€ Loading Skeleton â”€â”€ */
+.um-loading td{padding:16px}
+.um-shimmer{height:16px;background:linear-gradient(90deg,var(--color-border),transparent);background-size:200% 100%;animation:shimmer 1.2s ease-in-out infinite;border-radius:6px;max-width:200px}
+.um-shimmer--sm{max-width:80px;height:14px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* â”€â”€ Empty State â”€â”€ */
+.um-empty{text-align:center;padding:60px 20px}
+.um-empty-icon{width:56px;height:56px;border-radius:16px;background:var(--color-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--color-text);opacity:.4}
+.um-empty h3{font-size:1rem;font-weight:600;color:var(--color-heading);margin:0 0 4px}
+.um-empty p{font-size:0.8125rem;color:var(--color-text);opacity:.6;margin:0}
+
+/* â”€â”€ Modals â”€â”€ */
+.um-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
+.um-modal{background:#fff;border-radius:18px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 16px 60px rgba(0,0,0,.2);animation:umModalIn .2s ease}
+.um-modal--lg{max-width:640px}
+@keyframes umModalIn{0%{opacity:0;transform:scale(.96) translateY(12px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.um-modal-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--color-border)}
+.um-modal-header h2{font-size:1rem;font-weight:700;color:var(--color-heading);margin:0;display:flex;align-items:center;gap:10px}
+.um-modal-close{width:32px;height:32px;border:none;border-radius:8px;background:transparent;color:var(--color-text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s}
+.um-modal-close:hover{background:var(--color-bg);color:var(--color-heading)}
+.um-modal-body{padding:20px 24px}
+.um-modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--color-border)}
+
+.um-field{margin-bottom:16px}
+.um-field:last-child{margin-bottom:0}
+.um-field label{display:block;font-size:0.75rem;font-weight:600;color:var(--color-text);margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em}
+.um-field input,.um-field select{width:100%;height:42px;padding:0 13px;border:1px solid var(--color-border);border-radius:10px;font-size:0.8125rem;background:#fff;color:var(--color-heading);outline:none;transition:border-color .15s,box-shadow .15s}
+.um-field input:focus,.um-field select:focus{border-color:#1F7A8C;box-shadow:0 0 0 3px rgba(31,122,140,.1)}
+.um-field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* â”€â”€ Delete Confirm â”€â”€ */
+.um-delete-icon{width:52px;height:52px;border-radius:16px;background:rgba(239,68,68,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#dc2626}
+.um-delete-text{text-align:center;margin-bottom:4px}
+.um-delete-text h3{font-size:1rem;font-weight:700;color:var(--color-heading);margin:0 0 4px}
+.um-delete-text p{font-size:0.8125rem;color:var(--color-text);opacity:.7;margin:0;line-height:1.5}
+
+/* â”€â”€ User Detail Modal â”€â”€ */
+.um-detail-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.um-detail-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.125rem;font-weight:700;color:#fff;flex-shrink:0}
+.um-detail-info h2{font-size:1.125rem;font-weight:700;color:var(--color-heading);margin:0}
+.um-detail-info p{font-size:0.75rem;color:var(--color-text);opacity:.65;margin:2px 0 0}
+.um-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.um-detail-item{padding:12px 14px;background:var(--color-bg);border-radius:10px}
+.um-detail-item-label{font-size:0.625rem;font-weight:600;color:var(--color-text);text-transform:uppercase;letter-spacing:.04em;opacity:.6;margin-bottom:3px}
+.um-detail-item-value{font-size:0.8125rem;font-weight:600;color:var(--color-heading)}
+
+.um-detail-section-title{font-size:0.75rem;font-weight:700;color:var(--color-heading);margin:0 0 10px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.03em}
+.um-ticket-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.um-ticket-stat{padding:12px;border:1px solid var(--color-border);border-radius:10px;text-align:center}
+.um-ticket-stat-num{font-size:1.125rem;font-weight:700;color:var(--color-heading)}
+.um-ticket-stat-label{font-size:0.625rem;color:var(--color-text);opacity:.6;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+
+/* â”€â”€ Activity Timeline â”€â”€ */
+.um-activity{max-height:200px;overflow-y:auto;margin-top:4px}
+.um-activity-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--color-border);position:relative}
+.um-activity-item:last-child{border-bottom:none}
+.um-activity-dot{width:8px;height:8px;border-radius:50%;background:#1F7A8C;flex-shrink:0;margin-top:3px}
+.um-activity-content{flex:1;min-width:0}
+.um-activity-action{font-size:0.75rem;font-weight:600;color:var(--color-heading)}
+.um-activity-detail{font-size:0.6875rem;color:var(--color-text);opacity:.6;margin-top:1px;display:block}
+.um-activity-time{font-size:0.625rem;color:var(--color-text);opacity:.4;display:block;margin-top:2px}
+.um-activity-empty{padding:24px 0;text-align:center;font-size:0.75rem;color:var(--color-text);opacity:.5}
+.um-no-wrap{white-space:nowrap}
+
+/* â”€â”€ Responsive â”€â”€ */
+@media(max-width:768px){
+  .um-header{flex-direction:column}
+  .um-toolbar{flex-direction:column}
+  .um-filter-select{width:100%}
+  .um-table{font-size:0.75rem}
+  .um-table th,.um-table td{padding:10px 12px}
+  .um-detail-grid{grid-template-columns:1fr}
+  .um-ticket-stats{grid-template-columns:1fr}
+  .um-stats{grid-template-columns:1fr 1fr}
+  .um-field-row{grid-template-columns:1fr}
+  .um-modal{max-width:calc(100vw - 32px);margin:0 auto;border-radius:14px}
+}
+</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <a href="index.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+        <div class="navbar-brand-text">
+          <span class="navbar-brand-name">ResolveOne</span>
+          <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+        </div>
+      </div>
+      <div class="navbar-center" data-nav-links role="menubar">
+        <a href="index.html" class="navbar-link" role="menuitem"><i data-lucide="home" size="16"></i>Home</a>
+        <a href="ai-assistant.html" class="navbar-link" role="menuitem"><i data-lucide="bot" size="16"></i>AI Assistant<span class="navbar-link-badge">Online</span></a>
+        <a href="tickets.html" class="navbar-link" role="menuitem"><i data-lucide="ticket" size="16"></i>Tickets</a>
+        <a href="knowledge-base.html" class="navbar-link" role="menuitem"><i data-lucide="book-open" size="16"></i>Knowledge Base</a>
+        <a href="users.html" class="navbar-link navbar-link--active" role="menuitem"><i data-lucide="users" size="16"></i>Users</a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-dropdown-wrap">
+          <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>3</span></button>
+          <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+            <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+            <div class="dropdown-body" data-notif-list></div>
+            <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+          </div>
+        </div>
+        <div class="navbar-dropdown-wrap">
+          <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+            <div class="navbar-profile-avatar"></div>
+            <div class="navbar-profile-info"><span class="navbar-profile-name"></span></div>
+          </div>
+          <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+            <div class="dropdown-user-card"><div class="dropdown-user-avatar"></div><div class="dropdown-user-info"><span class="dropdown-user-name"></span><span class="dropdown-user-email"></span></div></div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+            <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" data-theme-toggle><i data-lucide="moon" size="16"></i> Dark Mode</button>
+          </div>
+        </div>
+        <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="um-page">
+    <!-- Header -->
+    <div class="um-header">
+      <div class="um-header-left">
+        <div class="um-header-icon"><i data-lucide="users" size="20"></i></div>
+        <div class="um-header-text">
+          <h1>User Management</h1>
+          <p>Manage users, roles, and access permissions across the platform.</p>
+        </div>
+      </div>
+      <div class="um-header-actions">
+        <button class="btn btn-secondary btn-sm" data-um-refresh-btn style="height:36px;gap:6px;"><i data-lucide="refresh-cw" size="14"></i> Refresh</button>
+        <button class="btn btn-primary btn-sm" data-um-add-btn style="height:36px;gap:6px;"><i data-lucide="plus" size="14"></i> Add User</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="um-stats" data-um-stats>
+      <div class="um-stat">
+        <div class="um-stat-icon um-stat-icon--total"><i data-lucide="users" size="18"></i></div>
+        <div class="um-stat-info"><span class="um-stat-number" data-um-stat-total>0</span><span class="um-stat-label">Total Users</span></div>
+      </div>
+      <div class="um-stat">
+        <div class="um-stat-icon um-stat-icon--active"><i data-lucide="check-circle" size="18"></i></div>
+        <div class="um-stat-info"><span class="um-stat-number" data-um-stat-active>0</span><span class="um-stat-label">Active</span></div>
+      </div>
+      <div class="um-stat">
+        <div class="um-stat-icon um-stat-icon--inactive"><i data-lucide="x-circle" size="18"></i></div>
+        <div class="um-stat-info"><span class="um-stat-number" data-um-stat-inactive>0</span><span class="um-stat-label">Inactive</span></div>
+      </div>
+      <div class="um-stat">
+        <div class="um-stat-icon um-stat-icon--admin"><i data-lucide="shield" size="18"></i></div>
+        <div class="um-stat-info"><span class="um-stat-number" data-um-stat-admin>0</span><span class="um-stat-label">Admins</span></div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="um-toolbar">
+      <div class="um-search-wrap">
+        <span class="um-search-icon"><i data-lucide="search" size="16"></i></span>
+        <input type="text" data-um-search placeholder="Search by name, email, or phone..." spellcheck="false" autocomplete="off">
+      </div>
+      <select class="um-filter-select" data-um-filter-role>
+        <option value="">All Roles</option>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+        <option value="agent">Agent</option>
+      </select>
+      <select class="um-filter-select" data-um-filter-status>
+        <option value="">All Statuses</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="pending">Pending</option>
+        <option value="locked">Locked</option>
+      </select>
+      <select class="um-filter-select" data-um-filter-dept>
+        <option value="">All Departments</option>
+        <option value="IT Support">IT Support</option>
+        <option value="IT Administration">IT Administration</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Finance">Finance</option>
+        <option value="HR">HR</option>
+        <option value="Operations">Operations</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <div class="um-table-wrap">
+      <table class="um-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th style="text-align:right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody data-um-body></tbody>
+      </table>
+      <div class="um-empty" data-um-empty style="display:none;">
+        <div class="um-empty-icon"><i data-lucide="users" size="24"></i></div>
+        <h3>No users found</h3>
+        <p>Try adjusting your search or filter criteria.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <div class="um-modal-overlay" data-um-modal-overlay style="display:none;">
+    <div class="um-modal">
+      <div class="um-modal-header">
+        <h2><i data-lucide="user-plus" size="18"></i> <span data-um-modal-title>Add User</span></h2>
+        <button class="um-modal-close" data-um-modal-close><i data-lucide="x" size="18"></i></button>
+      </div>
+      <div class="um-modal-body">
+        <div class="um-field-row">
+          <div class="um-field">
+            <label>Full Name</label>
+            <input type="text" data-um-field-name placeholder="John Doe" spellcheck="false">
+          </div>
+          <div class="um-field">
+            <label>Email</label>
+            <input type="email" data-um-field-email placeholder="john@company.com" spellcheck="false">
+          </div>
+        </div>
+        <div class="um-field-row">
+          <div class="um-field">
+            <label>Phone</label>
+            <input type="text" data-um-field-phone placeholder="+1 (555) 000-0000">
+          </div>
+          <div class="um-field">
+            <label>Department</label>
+            <select data-um-field-dept>
+              <option value="">Select department</option>
+              <option value="IT Support">IT Support</option>
+              <option value="IT Administration">IT Administration</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Finance">Finance</option>
+              <option value="HR">HR</option>
+              <option value="Operations">Operations</option>
+            </select>
+          </div>
+        </div>
+        <div class="um-field-row">
+          <div class="um-field">
+            <label>Role</label>
+            <select data-um-field-role>
+              <option value="user">User</option>
+              <option value="agent">Agent</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="um-field">
+            <label>Status</label>
+            <select data-um-field-status>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="pending">Pending</option>
+              <option value="locked">Locked</option>
+            </select>
+          </div>
+        </div>
+        <div class="um-field">
+          <label>Temporary Password</label>
+          <input type="text" data-um-field-password placeholder="Leave blank for auto-generated" spellcheck="false">
+        </div>
+      </div>
+      <div class="um-modal-footer">
+        <button class="btn btn-secondary" data-um-modal-cancel>Cancel</button>
+        <button class="btn btn-primary" data-um-modal-save><i data-lucide="check" size="14"></i> Save User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="um-modal-overlay" data-um-delete-overlay style="display:none;">
+    <div class="um-modal" style="max-width:400px;">
+      <div class="um-modal-body" style="padding:28px 24px 20px;">
+        <div class="um-delete-icon"><i data-lucide="trash-2" size="24"></i></div>
+        <div class="um-delete-text">
+          <h3>Delete User</h3>
+          <p>Are you sure you want to delete <strong data-um-delete-name></strong>? This action cannot be undone and all associated data will be permanently removed.</p>
+        </div>
+      </div>
+      <div class="um-modal-footer" style="border-top:none;padding-top:0;">
+        <button class="btn btn-secondary" data-um-delete-cancel>Cancel</button>
+        <button class="btn btn-danger" data-um-delete-confirm><i data-lucide="trash-2" size="14"></i> Delete User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Detail Modal -->
+  <div class="um-modal-overlay" data-um-detail-overlay style="display:none;">
+    <div class="um-modal um-modal--lg">
+      <div class="um-modal-header">
+        <h2><i data-lucide="user" size="18"></i> User Details</h2>
+        <button class="um-modal-close" data-um-detail-close><i data-lucide="x" size="18"></i></button>
+      </div>
+      <div class="um-modal-body">
+        <div class="um-detail-header">
+          <div class="um-detail-avatar" data-um-detail-avatar style="background:linear-gradient(135deg,#1F7A8C,#022B3A);"></div>
+          <div class="um-detail-info">
+            <h2 data-um-detail-name></h2>
+            <p data-um-detail-email></p>
+          </div>
+        </div>
+        <div class="um-detail-grid">
+          <div class="um-detail-item"><div class="um-detail-item-label">Phone</div><div class="um-detail-item-value" data-um-detail-phone></div></div>
+          <div class="um-detail-item"><div class="um-detail-item-label">Department</div><div class="um-detail-item-value" data-um-detail-dept></div></div>
+          <div class="um-detail-item"><div class="um-detail-item-label">Role</div><div class="um-detail-item-value" data-um-detail-role></div></div>
+          <div class="um-detail-item"><div class="um-detail-item-label">Status</div><div class="um-detail-item-value" data-um-detail-status></div></div>
+          <div class="um-detail-item"><div class="um-detail-item-label">Last Login</div><div class="um-detail-item-value" data-um-detail-login>Never</div></div>
+          <div class="um-detail-item"><div class="um-detail-item-label">Created</div><div class="um-detail-item-value" data-um-detail-created></div></div>
+        </div>
+        <div class="um-detail-section-title"><i data-lucide="ticket" size="14"></i> Ticket Activity</div>
+        <div class="um-ticket-stats">
+          <div class="um-ticket-stat"><div class="um-ticket-stat-num" data-um-detail-tickets-total>0</div><div class="um-ticket-stat-label">Total Tickets</div></div>
+          <div class="um-ticket-stat"><div class="um-ticket-stat-num" data-um-detail-tickets-open>0</div><div class="um-ticket-stat-label">Open</div></div>
+          <div class="um-ticket-stat"><div class="um-ticket-stat-num" data-um-detail-tickets-resolved>0</div><div class="um-ticket-stat-label">Resolved</div></div>
+        </div>
+        <div class="um-detail-section-title"><i data-lucide="activity" size="14"></i> Recent Activity</div>
+        <div class="um-activity" data-um-activity-list></div>
+      </div>
+      <div class="um-modal-footer">
+        <button class="btn btn-secondary" data-um-detail-close-btn>Close</button>
+        <button class="btn btn-primary" data-um-detail-edit-btn><i data-lucide="pencil" size="14"></i> Edit User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal -->
+  <div class="modal-overlay" data-modal-overlay>
+    <div class="modal-box">
+      <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+      <h3 class="modal-title">Sign out?</h3>
+      <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+      <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+    </div>
+  </div>
+
+  <div class="tp-toast-container" data-toast-container></div>
+
+  <script src="js/modules/session.js"></script>
+  <script src="js/modules/auth.js"></script>
+  <script src="js/modules/navbar.js?v=5"></script>
+  <script src="js/modules/users-page.js?v=3"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+      if (window.NavbarModule) window.NavbarModule.init();
+      if (window.UsersPage) window.UsersPage.init();
+    });
+  </script>
+</body>
+</html>

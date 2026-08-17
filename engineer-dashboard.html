@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Engineer Dashboard — ResolveOne Support Engineer Portal">
+  <meta name="color-scheme" content="light dark">
+  <title>Dashboard — ResolveOne Engineer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=3">
+  <link rel="stylesheet" href="css/base.css?v=2">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=2">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=3">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .25s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}
+
+/* â”€â”€ Layout â”€â”€ */
+.ed-page{padding:24px 0 40px;min-height:calc(100vh - 64px);background:var(--color-bg);}
+:root{--color-hover:#F3F4F6}.dark-theme{--color-hover:#23272F}
+.ed-container{max-width:1280px;margin:0 auto;padding:0 24px;}
+
+/* â”€â”€ Header â”€â”€ */
+.ed-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:16px;}
+.ed-header-left h1{margin:0;font-size:1.5rem;font-weight:700;color:var(--color-heading);letter-spacing:-0.02em;}
+.ed-header-greeting{font-size:0.9375rem;color:var(--color-text);margin:4px 0 2px;}
+.ed-header-date{font-size:0.75rem;color:var(--color-text);opacity:0.7;margin:0;}
+.ed-header-right{display:flex;align-items:center;gap:12px;}
+.ed-refresh-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--color-border);border-radius:10px;background:var(--color-card);color:var(--color-text);font-size:0.8125rem;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s;}
+.ed-refresh-btn:hover{background:var(--color-hover);border-color:var(--color-primary);color:var(--color-primary);}
+.ed-refresh-btn:active{transform:scale(0.97);}
+.ed-refresh-btn svg{transition:transform .4s;}
+.ed-refresh-btn.is-loading svg{animation:ed-spin .6s linear infinite;}
+@keyframes ed-spin{to{transform:rotate(360deg)}}
+.ed-last-updated{font-size:0.6875rem;color:var(--color-text);opacity:0.6;}
+
+/* â”€â”€ Section Titles â”€â”€ */
+.ed-section{margin-bottom:28px;}
+.ed-section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.ed-section-title{font-size:1rem;font-weight:600;color:var(--color-heading);margin:0;}
+.ed-section-link{font-size:0.75rem;color:var(--color-primary);text-decoration:none;font-weight:500;}
+.ed-section-link:hover{text-decoration:underline;}
+
+/* â”€â”€ KPI Cards Grid â”€â”€ */
+.ed-kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:28px;}
+@media(max-width:1200px){.ed-kpi-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:600px){.ed-kpi-grid{grid-template-columns:repeat(2,1fr);}}
+.ed-kpi-card{background:var(--color-card);border-radius:16px;border:1px solid var(--color-border);padding:20px;transition:all .2s;cursor:default;position:relative;overflow:hidden;display:flex;flex-direction:column;}
+.ed-kpi-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06);transform:translateY(-2px);border-color:var(--color-primary);}
+.ed-kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.ed-kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ed-kpi-icon.blue{background:rgba(59,130,246,0.12);color:#3b82f6;}
+.ed-kpi-icon.green{background:rgba(16,185,129,0.12);color:#10b981;}
+.ed-kpi-icon.amber{background:rgba(245,158,11,0.12);color:#f59e0b;}
+.ed-kpi-icon.red{background:rgba(239,68,68,0.12);color:#ef4444;}
+.ed-kpi-icon.purple{background:rgba(139,92,246,0.12);color:#8b5cf6;}
+.ed-kpi-icon.teal{background:rgba(20,184,166,0.12);color:#14b8a6;}
+.ed-kpi-sparkline{width:64px;height:28px;flex-shrink:0;}
+.ed-kpi-value{font-size:1.75rem;font-weight:700;color:var(--color-heading);line-height:1.1;margin-bottom:4px;letter-spacing:-0.02em;}
+.ed-kpi-label{font-size:0.75rem;color:var(--color-text);margin-bottom:8px;}
+.ed-kpi-footer{display:flex;align-items:center;gap:6px;margin-top:auto;}
+.ed-kpi-trend{font-size:0.6875rem;font-weight:600;padding:2px 6px;border-radius:6px;}
+.ed-kpi-trend.up{background:rgba(16,185,129,0.1);color:#10b981;}
+.ed-kpi-trend.down{background:rgba(239,68,68,0.1);color:#ef4444;}
+.ed-kpi-trend.neutral{background:rgba(107,114,128,0.1);color:#6b7280;}
+.ed-kpi-period{font-size:0.6875rem;color:var(--color-text);opacity:0.7;}
+
+/* â”€â”€ Charts Grid â”€â”€ */
+.ed-charts-grid{display:grid;grid-template-columns:2fr 3fr 2fr;gap:16px;margin-bottom:28px;}
+@media(max-width:1024px){.ed-charts-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.ed-charts-grid{grid-template-columns:1fr;}}
+.ed-chart-card{background:var(--color-card);border-radius:16px;border:1px solid var(--color-border);padding:20px;transition:all .2s;}
+.ed-chart-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.04);}
+.ed-chart-card h3{font-size:0.875rem;font-weight:600;color:var(--color-heading);margin:0 0 16px;}
+.ed-chart-wrap{position:relative;width:100%;height:220px;display:flex;align-items:center;justify-content:center;}
+
+/* â”€â”€ Work Queue Table â”€â”€ */
+.ed-table-wrap{background:var(--color-card);border-radius:16px;border:1px solid var(--color-border);overflow:hidden;margin-bottom:28px;transition:all .2s;}
+.ed-table-wrap:hover{box-shadow:0 4px 20px rgba(0,0,0,0.04);}
+.ed-table{width:100%;border-collapse:collapse;}
+.ed-table th{text-align:left;padding:12px 20px;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text);border-bottom:1px solid var(--color-border);background:var(--color-bg);}
+.ed-table td{padding:12px 20px;font-size:0.8125rem;color:var(--color-text);border-bottom:1px solid var(--color-border);vertical-align:middle;}
+.ed-table tr:last-child td{border-bottom:none;}
+.ed-table tr{transition:background .1s;}
+.ed-table tbody tr:hover{background:var(--color-hover);}
+.ed-table .ed-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.6875rem;font-weight:600;}
+.ed-table .ed-badge.high{background:rgba(239,68,68,0.12);color:#ef4444;}
+.ed-table .ed-badge.medium{background:rgba(245,158,11,0.12);color:#f59e0b;}
+.ed-table .ed-badge.low{background:rgba(16,185,129,0.12);color:#10b981;}
+.ed-table .ed-badge.open{background:rgba(59,130,246,0.12);color:#3b82f6;}
+.ed-table .ed-badge.in-progress{background:rgba(245,158,11,0.12);color:#f59e0b;}
+.ed-table .ed-badge.resolved{background:rgba(16,185,129,0.12);color:#10b981;}
+.ed-table .ed-badge.closed{background:rgba(107,114,128,0.12);color:#6b7280;}
+.ed-table-action{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:8px;font-size:0.75rem;font-weight:500;border:1px solid var(--color-border);background:transparent;color:var(--color-text);cursor:pointer;transition:all .15s;text-decoration:none;font-family:inherit;}
+.ed-table-action:hover{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.ed-id-mono{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--color-text);}
+.ed-due-soon{color:#ef4444;font-weight:600;}
+.ed-due-ok{color:#10b981;}
+
+/* â”€â”€ Bottom Grid â”€â”€ */
+.ed-bottom-grid{display:grid;grid-template-columns:1.2fr 0.8fr 1fr;gap:16px;margin-bottom:28px;}
+@media(max-width:1024px){.ed-bottom-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.ed-bottom-grid{grid-template-columns:1fr;}}
+
+/* â”€â”€ Activity Timeline â”€â”€ */
+.ed-timeline{list-style:none;padding:0;margin:0;position:relative;}
+.ed-timeline::before{content:'';position:absolute;left:14px;top:8px;bottom:8px;width:2px;background:var(--color-border);}
+.ed-tl-item{display:flex;gap:14px;padding:10px 0;position:relative;}
+.ed-tl-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;font-size:0.75rem;}
+.ed-tl-dot.open{background:rgba(59,130,246,0.15);color:#3b82f6;}
+.ed-tl-dot.progress{background:rgba(245,158,11,0.15);color:#f59e0b;}
+.ed-tl-dot.resolved{background:rgba(16,185,129,0.15);color:#10b981;}
+.ed-tl-dot.closed{background:rgba(107,114,128,0.12);color:#6b7280;}
+.ed-tl-dot.high{background:rgba(239,68,68,0.15);color:#ef4444;}
+.ed-tl-content{flex:1;min-width:0;}
+.ed-tl-content p{margin:0 0 2px;font-size:0.8125rem;color:var(--color-text);line-height:1.4;}
+.ed-tl-content .ed-tl-title{font-weight:600;color:var(--color-heading);}
+.ed-tl-content .ed-tl-time{font-size:0.6875rem;color:var(--color-text);opacity:0.7;}
+.ed-tl-content .ed-tl-ticket{font-family:'JetBrains Mono',monospace;font-size:0.6875rem;color:var(--color-primary);}
+
+/* â”€â”€ Performance Cards â”€â”€ */
+.ed-perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ed-perf-card{background:var(--color-bg);border-radius:12px;padding:16px;border:1px solid var(--color-border);}
+.ed-perf-card .ed-perf-label{font-size:0.6875rem;color:var(--color-text);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 6px;}
+.ed-perf-card .ed-perf-value{font-size:1.25rem;font-weight:700;color:var(--color-heading);margin:0;}
+.ed-perf-card .ed-perf-sub{font-size:0.6875rem;color:var(--color-text);margin:2px 0 0;}
+
+/* â”€â”€ AI Widget â”€â”€ */
+.ed-ai-card{background:var(--color-card);border-radius:16px;border:1px solid var(--color-border);padding:20px;transition:all .2s;}
+.ed-ai-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.04);}
+.ed-ai-card .ed-ai-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.ed-ai-card .ed-ai-header h3{margin:0;font-size:0.875rem;font-weight:600;color:var(--color-heading);}
+.ed-ai-dot{width:6px;height:6px;border-radius:50%;background:#10b981;animation:ed-pulse 2s infinite;}
+@keyframes ed-pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.ed-ai-list{list-style:none;padding:0;margin:0;}
+.ed-ai-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--color-border);}
+.ed-ai-item:last-child{border-bottom:none;padding-bottom:0;}
+.ed-ai-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;}
+.ed-ai-icon.info{background:rgba(59,130,246,0.12);color:#3b82f6;}
+.ed-ai-icon.warn{background:rgba(245,158,11,0.12);color:#f59e0b;}
+.ed-ai-icon.ok{background:rgba(16,185,129,0.12);color:#10b981;}
+.ed-ai-item p{margin:0;font-size:0.75rem;color:var(--color-text);line-height:1.4;}
+.ed-ai-item strong{color:var(--color-heading);}
+
+/* â”€â”€ Quick Actions â”€â”€ */
+.ed-actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ed-action-card{background:var(--color-bg);border-radius:12px;border:1px solid var(--color-border);padding:16px;text-decoration:none;color:inherit;transition:all .15s;cursor:pointer;}
+.ed-action-card:hover{background:var(--color-hover);border-color:var(--color-primary);transform:translateY(-1px);}
+.ed-action-card .ed-action-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.ed-action-card .ed-action-title{font-size:0.8125rem;font-weight:600;color:var(--color-heading);margin:0 0 2px;}
+.ed-action-card .ed-action-desc{font-size:0.6875rem;color:var(--color-text);margin:0;}
+
+/* â”€â”€ Skeleton â”€â”€ */
+.ed-skel{background:var(--color-border);border-radius:8px;animation:ed-shimmer 1.5s infinite;position:relative;overflow:hidden;}
+.ed-skel::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);animation:ed-shimmer-slide 1.5s infinite;}
+@keyframes ed-shimmer{0%,100%{opacity:1}50%{opacity:0.6}}
+@keyframes ed-shimmer-slide{0%{left:-100%}100%{left:200%}}
+.ed-skel-kpi{height:120px;border-radius:16px;margin-bottom:16px;}
+.ed-skel-chart{height:240px;border-radius:16px;margin-bottom:28px;}
+.ed-skel-table{height:200px;border-radius:16px;margin-bottom:28px;}
+.ed-skel-widget{height:180px;border-radius:16px;}
+
+/* â”€â”€ Empty States â”€â”€ */
+.ed-empty{text-align:center;padding:32px 16px;color:var(--color-text);font-size:0.8125rem;}
+
+/* â”€â”€ Misc â”€â”€ */
+.ed-hidden{display:none !important;}
+</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+<nav class="navbar" role="navigation" aria-label="Engineer navigation">
+  <div class="navbar-inner">
+    <div class="navbar-left">
+      <a href="engineer-dashboard.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+      <div class="navbar-brand-text">
+        <span class="navbar-brand-name">ResolveOne</span>
+        <span class="navbar-brand-sub">Engineer Portal</span>
+      </div>
+    </div>
+    <div class="navbar-center" data-nav-links role="menubar">
+      <a href="engineer-dashboard.html" class="navbar-link active" role="menuitem" aria-current="page"><i data-lucide="layout-dashboard" size="16"></i>Dashboard</a>
+      <a href="engineer-tickets.html" class="navbar-link" role="menuitem"><i data-lucide="ticket" size="16"></i>Open Tickets</a>
+      <a href="engineer-resolution.html" class="navbar-link" role="menuitem"><i data-lucide="clipboard-check" size="16"></i>Resolution</a>
+      <a href="reports.html" class="navbar-link" role="menuitem"><i data-lucide="bar-chart-3" size="16"></i>Reports</a>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-dropdown-wrap">
+        <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>0</span></button>
+        <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+          <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+          <div class="dropdown-body" data-notif-list><div style="padding:24px;text-align:center;color:var(--color-text);font-size:0.8125rem;">No new notifications</div></div>
+          <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+        </div>
+      </div>
+      <div class="navbar-dropdown-wrap">
+        <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+          <div class="navbar-profile-avatar">EN</div>
+          <div class="navbar-profile-info"><span class="navbar-profile-name">Engineer</span></div>
+        </div>
+        <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+          <div class="dropdown-user-card"><div class="dropdown-user-avatar">EN</div><div class="dropdown-user-info"><span class="dropdown-user-name">Engineer</span><span class="dropdown-user-email">engineer@resolveone.com</span></div></div>
+          <div class="dropdown-divider"></div>
+          <a href="engineer-profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+        </div>
+      </div>
+      <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+    </div>
+  </div>
+</nav>
+
+<main class="ed-page">
+  <div class="ed-container">
+
+    <!-- â•â•â• Skeleton Loading â•â•â• -->
+    <div id="ed-skeleton">
+      <div class="ed-kpi-grid"><div class="ed-skel ed-skel-kpi"></div><div class="ed-skel ed-skel-kpi"></div><div class="ed-skel ed-skel-kpi"></div><div class="ed-skel ed-skel-kpi"></div><div class="ed-skel ed-skel-kpi"></div><div class="ed-skel ed-skel-kpi"></div></div>
+      <div class="ed-charts-grid"><div class="ed-skel ed-skel-chart"></div><div class="ed-skel ed-skel-chart"></div><div class="ed-skel ed-skel-chart"></div></div>
+      <div class="ed-skel ed-skel-table"></div>
+      <div class="ed-bottom-grid"><div class="ed-skel ed-skel-widget"></div><div class="ed-skel ed-skel-widget"></div><div class="ed-skel ed-skel-widget"></div></div>
+    </div>
+
+    <!-- â•â•â• Dashboard Content (initially hidden) â•â•â• -->
+    <div id="ed-content" style="display:none;">
+
+      <!-- â”€â”€â”€ SECTION 1: HEADER â”€â”€â”€ -->
+      <div class="ed-header">
+        <div class="ed-header-left">
+          <p class="ed-header-greeting" data-greeting>Good Evening, Engineer</p>
+          <h1>Engineer Dashboard</h1>
+          <p class="ed-header-date" data-date></p>
+        </div>
+        <div class="ed-header-right">
+          <span class="ed-last-updated" data-last-updated></span>
+          <button class="ed-refresh-btn" data-refresh-btn aria-label="Refresh dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ SECTION 2: KPI CARDS â”€â”€â”€ -->
+      <div class="ed-kpi-grid" data-kpi-grid>
+        <div class="ed-kpi-card">
+          <div class="ed-kpi-top">
+            <div class="ed-kpi-icon blue"><i data-lucide="briefcase" size="16"></i></div>
+          </div>
+          <div class="ed-kpi-value" data-kpi-assigned>0</div>
+          <div class="ed-kpi-label">Assigned Tickets</div>
+          <div class="ed-kpi-footer"><span class="ed-kpi-trend neutral" data-kpi-assigned-trend>Current load</span></div>
+        </div>
+        <div class="ed-kpi-card">
+          <div class="ed-kpi-top">
+            <div class="ed-kpi-icon amber"><i data-lucide="clock" size="16"></i></div>
+          </div>
+          <div class="ed-kpi-value" data-kpi-open>0</div>
+          <div class="ed-kpi-label">Open Tickets</div>
+          <div class="ed-kpi-footer"><span class="ed-kpi-trend neutral" data-kpi-open-trend>Needs action</span></div>
+        </div>
+        <div class="ed-kpi-card">
+          <div class="ed-kpi-top">
+            <div class="ed-kpi-icon green"><i data-lucide="check-circle" size="16"></i></div>
+          </div>
+          <div class="ed-kpi-value" data-kpi-resolved-today>0</div>
+          <div class="ed-kpi-label">Resolved Today</div>
+          <div class="ed-kpi-footer"><span class="ed-kpi-trend up" data-kpi-resolved-trend>Today</span></div>
+        </div>
+        <div class="ed-kpi-card">
+          <div class="ed-kpi-top">
+            <div class="ed-kpi-icon red"><i data-lucide="alert-triangle" size="16"></i></div>
+          </div>
+          <div class="ed-kpi-value" data-kpi-pending>0</div>
+          <div class="ed-kpi-label">Pending Resolution</div>
+          <div class="ed-kpi-footer"><span class="ed-kpi-trend down" data-kpi-pending-trend>Requires attention</span></div>
+        </div>
+        <div class="ed-kpi-card">
+          <div class="ed-kpi-top">
+            <div class="ed-kpi-icon purple"><i data-lucide="arrow-up" size="16"></i></div>
+          </div>
+          <div class="ed-kpi-value" data-kpi-high>0</div>
+          <div class="ed-kpi-label">High Priority</div>
+          <div class="ed-kpi-footer"><span class="ed-kpi-trend down" data-kpi-high-trend>Urgent</span></div>
+        </div>
+        <div class="ed-kpi-card">
+          <div class="ed-kpi-top">
+            <div class="ed-kpi-icon teal"><i data-lucide="timer" size="16"></i></div>
+          </div>
+          <div class="ed-kpi-value" data-kpi-avg-time>--</div>
+          <div class="ed-kpi-label">Avg Resolution Time</div>
+          <div class="ed-kpi-footer"><span class="ed-kpi-trend neutral" data-kpi-avg-trend>Per ticket</span></div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ SECTION 3: CHARTS â”€â”€â”€ -->
+      <div class="ed-section">
+        <div class="ed-section-header">
+          <h2 class="ed-section-title">Ticket Statistics</h2>
+        </div>
+        <div class="ed-charts-grid">
+          <div class="ed-chart-card">
+            <h3>Priority Distribution</h3>
+            <div class="ed-chart-wrap"><canvas id="chart-priority"></canvas></div>
+          </div>
+          <div class="ed-chart-card">
+            <h3>Category Distribution</h3>
+            <div class="ed-chart-wrap"><canvas id="chart-category"></canvas></div>
+          </div>
+          <div class="ed-chart-card">
+            <h3>Status Distribution</h3>
+            <div class="ed-chart-wrap"><canvas id="chart-status"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ SECTION 4: WORK QUEUE â”€â”€â”€ -->
+      <div class="ed-section">
+        <div class="ed-section-header">
+          <h2 class="ed-section-title">Today's Work Queue</h2>
+          <a href="engineer-tickets.html" class="ed-section-link">View All Tickets &rarr;</a>
+        </div>
+        <div class="ed-table-wrap">
+          <table class="ed-table">
+            <thead>
+              <tr>
+                <th>Ticket ID</th>
+                <th>Issue</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody data-work-queue></tbody>
+          </table>
+          <div class="ed-empty" data-empty-queue style="display:none;">No tickets in your work queue. All caught up!</div>
+        </div>
+      </div>
+
+      <!-- â”€â”€â”€ SECTION 5-7: BOTTOM GRID â”€â”€â”€ -->
+      <div class="ed-bottom-grid">
+
+        <!-- 5: Activity Timeline -->
+        <div class="ed-chart-card">
+          <div class="ed-section-header" style="margin-bottom:4px;">
+            <h2 class="ed-section-title">Recent Activity</h2>
+          </div>
+          <ul class="ed-timeline" data-timeline>
+            <li style="padding:24px;text-align:center;color:var(--color-text);font-size:0.8125rem;list-style:none;">Loading activity...</li>
+          </ul>
+        </div>
+
+        <!-- 6: Performance Summary -->
+        <div class="ed-chart-card">
+          <div class="ed-section-header" style="margin-bottom:12px;">
+            <h2 class="ed-section-title">Performance Summary</h2>
+          </div>
+          <div class="ed-perf-grid">
+            <div class="ed-perf-card">
+              <p class="ed-perf-label">Today's Resolution</p>
+              <p class="ed-perf-value" data-perf-today>--</p>
+              <p class="ed-perf-sub" data-perf-today-sub>of assigned tickets</p>
+            </div>
+            <div class="ed-perf-card">
+              <p class="ed-perf-label">Weekly Resolution</p>
+              <p class="ed-perf-value" data-perf-weekly>--</p>
+              <p class="ed-perf-sub" data-perf-weekly-sub>this week</p>
+            </div>
+            <div class="ed-perf-card">
+              <p class="ed-perf-label">Avg Response Time</p>
+              <p class="ed-perf-value" data-perf-response>--</p>
+              <p class="ed-perf-sub">First response</p>
+            </div>
+            <div class="ed-perf-card">
+              <p class="ed-perf-label">SLA Compliance</p>
+              <p class="ed-perf-value" data-perf-sla>--</p>
+              <p class="ed-perf-sub">Within target</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7: AI Assistant Widget -->
+        <div class="ed-ai-card">
+          <div class="ed-ai-header">
+            <div class="ed-ai-dot"></div>
+            <h3>AI Assistant</h3>
+          </div>
+          <ul class="ed-ai-list" data-ai-list>
+            <li style="padding:12px;text-align:center;color:var(--color-text);font-size:0.75rem;list-style:none;">Analyzing tickets...</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- â”€â”€â”€ SECTION 8: QUICK ACTIONS â”€â”€â”€ -->
+      <div class="ed-section">
+        <div class="ed-section-header">
+          <h2 class="ed-section-title">Quick Actions</h2>
+        </div>
+        <div class="ed-actions-grid">
+          <a href="engineer-tickets.html" class="ed-action-card">
+            <div class="ed-action-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;"><i data-lucide="ticket" size="16"></i></div>
+            <p class="ed-action-title">Open Ticket Queue</p>
+            <p class="ed-action-desc">View and manage your assigned tickets</p>
+          </a>
+          <a href="engineer-resolution.html" class="ed-action-card">
+            <div class="ed-action-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;"><i data-lucide="clipboard-check" size="16"></i></div>
+            <p class="ed-action-title">Pending Resolution</p>
+            <p class="ed-action-desc">Resolve tickets awaiting your action</p>
+          </a>
+          <a href="knowledge-base.html" class="ed-action-card">
+            <div class="ed-action-icon" style="background:rgba(16,185,129,0.12);color:#10b981;"><i data-lucide="book-open" size="16"></i></div>
+            <p class="ed-action-title">Knowledge Search</p>
+            <p class="ed-action-desc">Find solutions in the knowledge base</p>
+          </a>
+          <a href="reports.html" class="ed-action-card">
+            <div class="ed-action-icon" style="background:rgba(139,92,246,0.12);color:#8b5cf6;"><i data-lucide="bar-chart-3" size="16"></i></div>
+            <p class="ed-action-title">My Performance</p>
+            <p class="ed-action-desc">View your reports and analytics</p>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /ed-content -->
+  </div><!-- /ed-container -->
+</main>
+
+<div class="modal-overlay" data-modal-overlay>
+  <div class="modal-box">
+    <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    <h3 class="modal-title">Sign out?</h3>
+    <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+    <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+  </div>
+</div>
+
+<script src="js/modules/session.js?v=2"></script>
+<script src="js/modules/auth.js?v=2"></script>
+<script>
+(function(){
+  try {
+    var u = window.ResolveOneSession && window.ResolveOneSession.getUser();
+    if (u && u.role !== 'engineer' && u.role !== 'support_engineer') {
+      var roleMap = { admin: 'users.html', user: 'index.html' };
+      window.location.href = roleMap[u.role] || 'index.html';
+    }
+  } catch(e){}
+})();
+</script>
+<script src="js/modules/engineer-navbar.js?v=2"></script>
+<script src="js/modules/engineer-dashboard.js?v=2"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    lucide.createIcons();
+    if (window.EngineerNavbar) window.EngineerNavbar.init();
+    if (window.EngineerDashboard) window.EngineerDashboard.init();
+  });
+</script>
+</body>
+</html>

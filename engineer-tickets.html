@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Open Tickets — ResolveOne Support Engineer Portal">
+  <meta name="color-scheme" content="light dark">
+  <title>Open Tickets — ResolveOne Engineer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=7">
+  <link rel="stylesheet" href="css/utilities.css?v=8">
+  <link rel="stylesheet" href="css/components/navbar.css?v=7">
+  <link rel="stylesheet" href="css/components/dropdowns.css?v=7">
+  <link rel="stylesheet" href="css/components/ticket-management.css?v=7">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>
+body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}
+
+.et-drawer{position:fixed;top:0;right:0;width:40%;height:100%;background:var(--color-card);border-left:1px solid var(--color-border);z-index:1000;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);box-shadow:-8px 0 40px rgba(0,0,0,.1)}
+.et-drawer.open{transform:translateX(0)}
+.et-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--color-border);flex-shrink:0;background:var(--color-card);z-index:2}
+.et-drawer-header-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.et-drawer-id{font-family:var(--font-mono);font-size:.75rem;font-weight:700;color:var(--color-primary);white-space:nowrap}
+.et-drawer-badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:.625rem;font-weight:700;line-height:1.5;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+.et-drawer-badge.open{background:#FEF3C7;color:#92400E}
+.et-drawer-badge.progress{background:#DBEAFE;color:#1E40AF}
+.et-drawer-badge.resolved{background:#D1FAE5;color:#065F46}
+.et-drawer-badge.closed{background:#F3F4F6;color:#6B7280}
+.et-drawer-badge.escalated{background:#FEE2E2;color:#991B1B}
+.et-drawer-badge.p-high{background:#FEE2E2;color:#991B1B}
+.et-drawer-badge.p-medium{background:#FEF3C7;color:#92400E}
+.et-drawer-badge.p-low{background:#D1FAE5;color:#065F46}
+.et-drawer-close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text-light);cursor:pointer;transition:all .15s;flex-shrink:0}
+.et-drawer-close:hover{background:var(--color-border);color:var(--color-heading)}
+
+.et-drawer-tabs{display:flex;gap:0;padding:0 24px;border-bottom:1px solid var(--color-border);background:var(--color-card);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.et-drawer-tabs::-webkit-scrollbar{display:none}
+.et-drawer-tab{display:inline-flex;align-items:center;gap:6px;padding:12px 14px;font-size:.6875rem;font-weight:600;color:var(--color-text-light);cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .15s;font-family:var(--font-primary)}
+.et-drawer-tab svg{width:14px;height:14px;opacity:.6}
+.et-drawer-tab:hover{color:var(--color-heading)}
+.et-drawer-tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary)}
+.et-drawer-tab.active svg{opacity:1;color:var(--color-primary)}
+
+.et-drawer-body{flex:1;overflow-y:auto;padding:20px 24px 100px;scrollbar-width:thin}
+.et-drawer-body::-webkit-scrollbar{width:4px}
+.et-drawer-body::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:100px}
+.et-drawer-tab-content{display:none}
+.et-drawer-tab-content.active{display:block}
+
+.et-drawer-actions{position:absolute;bottom:0;left:0;right:0;padding:12px 24px;background:var(--color-card);border-top:1px solid var(--color-border);display:flex;gap:8px;flex-wrap:wrap;z-index:3}
+.et-da-btn{height:34px;padding:0 14px;border-radius:8px;font-size:.6875rem;font-weight:600;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);transition:all .15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-family:var(--font-primary)}
+.et-da-btn:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.et-da-btn.primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+.et-da-btn.primary:hover{background:var(--color-primary-hover)}
+.et-da-btn.success{background:#D1FAE5;color:#065F46;border-color:#A7F3D0}
+.et-da-btn.success:hover{background:#A7F3D0}
+.et-da-btn.danger{background:#FEE2E2;color:#991B1B;border-color:#FECACA}
+.et-da-btn.danger:hover{background:#FECACA}
+.et-da-btn.warning{background:#FEF3C7;color:#92400E;border-color:#FDE68A}
+.et-da-btn.warning:hover{background:#FDE68A}
+.et-da-btn:disabled{opacity:.5;cursor:default}
+
+.et-section{margin-bottom:22px}
+.et-section-title{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.et-section-title svg{width:14px;height:14px;color:var(--color-primary)}
+
+.et-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.et-info-item{display:flex;flex-direction:column;gap:2px}
+.et-info-label{font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-light)}
+.et-info-value{font-size:.75rem;font-weight:500;color:var(--color-heading);word-break:break-word}
+.et-info-value.mono{font-family:var(--font-mono)}
+.et-info-full{grid-column:1/-1}
+
+.et-desc-box{background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px;padding:14px 16px;font-size:.75rem;color:var(--color-heading);line-height:1.6;white-space:pre-wrap;word-break:break-word}
+
+.et-ai-card{background:var(--color-bg);border:1px solid var(--color-border);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.et-ai-card:last-child{margin-bottom:0}
+.et-ai-card-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.et-ai-card-header svg{width:18px;height:18px;flex-shrink:0}
+.et-ai-card-header.analysis svg{color:var(--color-primary)}
+.et-ai-card-header.recommendation svg{color:#065F46}
+.et-ai-card-title{font-size:.75rem;font-weight:700;color:var(--color-heading)}
+.et-ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.et-ai-item{display:flex;flex-direction:column;gap:2px;padding:6px 8px;background:var(--color-card);border-radius:8px}
+.et-ai-item-full{grid-column:1/-1}
+.et-ai-label{font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-light)}
+.et-ai-value{font-size:.6875rem;font-weight:600;color:var(--color-heading)}
+.et-ai-confidence{display:flex;align-items:center;gap:8px}
+.et-ai-confidence .bar{flex:1;height:6px;background:var(--color-border);border-radius:100px;overflow:hidden}
+.et-ai-confidence .bar .fill{height:100%;border-radius:100px;background:var(--color-primary);transition:width .6s ease}
+.et-ai-confidence .pct{font-size:.75rem;font-weight:700;color:var(--color-primary);min-width:36px;text-align:right}
+.et-ai-sentiment{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:.625rem;font-weight:600}
+.et-ai-sentiment.positive{background:#D1FAE5;color:#065F46}
+.et-ai-sentiment.neutral{background:#FEF3C7;color:#92400E}
+.et-ai-sentiment.negative{background:#FEE2E2;color:#991B1B}
+.et-ai-risk{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:.625rem;font-weight:600}
+.et-ai-risk.low{background:#D1FAE5;color:#065F46}
+.et-ai-risk.medium{background:#FEF3C7;color:#92400E}
+.et-ai-risk.high{background:#FEE2E2;color:#991B1B}
+.et-ai-keywords{display:flex;flex-wrap:wrap;gap:4px}
+.et-ai-keyword{display:inline-flex;padding:1px 7px;border-radius:100px;font-size:.5625rem;font-weight:600;background:var(--color-soft);color:var(--color-primary)}
+.et-ai-empty{padding:20px;text-align:center;color:var(--color-text-light);font-size:.75rem}
+.et-ai-steps{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.et-ai-step{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--color-card);border-radius:6px;font-size:.6875rem;color:var(--color-text);line-height:1.4}
+.et-ai-step::before{content:counter(step);counter-increment:step;font-size:.5625rem;font-weight:700;color:var(--color-primary);background:rgba(31, 122, 140,.08);width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.et-ai-steps{counter-reset:step}
+.et-ai-kb-links{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.et-ai-kb-link{display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--color-card);border-radius:6px;font-size:.625rem;color:var(--color-text);text-decoration:none;transition:all .1s}
+.et-ai-kb-link:hover{color:var(--color-primary)}
+
+.et-convo{display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto;padding-right:4px;margin-bottom:14px}
+.et-convo::-webkit-scrollbar{width:3px}
+.et-convo::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:100px}
+.et-convo-msg{max-width:90%;padding:10px 14px;border-radius:12px;font-size:.6875rem;line-height:1.5;position:relative}
+.et-convo-msg.user{background:var(--color-bg);color:var(--color-heading);align-self:flex-start;border:1px solid var(--color-border)}
+.et-convo-msg.engineer{background:rgba(31, 122, 140,.08);color:var(--color-heading);align-self:flex-end}
+.et-convo-msg .msg-sender{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-light);margin-bottom:3px}
+.et-convo-msg .msg-time{font-size:.5rem;color:var(--color-text-light);margin-top:4px;display:block;opacity:.7}
+.et-convo-reply{display:flex;gap:8px;align-items:flex-end}
+.et-convo-reply textarea{flex:1;padding:8px 10px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-bg);color:var(--color-heading);font-size:.75rem;outline:none;resize:none;min-height:32px;max-height:80px;font-family:var(--font-primary);transition:border-color .15s}
+.et-convo-reply textarea:focus{border-color:var(--color-primary)}
+.et-convo-reply button{height:32px;padding:0 14px;border-radius:8px;font-size:.6875rem;font-weight:600;cursor:pointer;border:none;background:var(--color-primary);color:#fff;transition:background .15s;flex-shrink:0}
+.et-convo-reply button:hover{background:var(--color-primary-hover)}
+.et-convo-reply button:disabled{opacity:.5;cursor:default}
+
+.et-timeline{position:relative;padding-left:20px;margin-bottom:16px}
+.et-timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:1.5px;background:var(--color-border)}
+.et-tl-item{position:relative;padding-bottom:14px}
+.et-tl-item:last-child{padding-bottom:0}
+.et-tl-dot{position:absolute;left:-17px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--color-card);border:2px solid var(--color-primary)}
+.et-tl-dot.system{border-color:var(--color-text-light)}
+.et-tl-dot.engineer{border-color:var(--color-primary)}
+.et-tl-dot.user{border-color:#022B3A}
+.et-tl-action{font-size:.6875rem;font-weight:600;color:var(--color-heading)}
+.et-tl-detail{font-size:.5625rem;color:var(--color-text);margin-top:1px}
+.et-tl-time{font-size:.5rem;color:var(--color-text-light);margin-top:2px;display:flex;align-items:center;gap:4px}
+
+.et-related-list{display:flex;flex-direction:column;gap:6px}
+.et-related-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:8px;cursor:pointer;transition:all .15s}
+.et-related-item:hover{border-color:var(--color-primary)}
+.et-related-item-left{display:flex;flex-direction:column;gap:2px;min-width:0}
+.et-related-item-id{font-family:var(--font-mono);font-size:.625rem;font-weight:600;color:var(--color-primary)}
+.et-related-item-issue{font-size:.6875rem;color:var(--color-heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.et-related-item-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+.et-kb-list{display:flex;flex-direction:column;gap:6px}
+.et-kb-item{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:8px;text-decoration:none;transition:all .15s}
+.et-kb-item:hover{border-color:var(--color-primary)}
+.et-kb-item-icon{width:28px;height:28px;border-radius:6px;background:var(--color-soft);display:flex;align-items:center;justify-content:center;color:var(--color-primary);flex-shrink:0}
+.et-kb-item-info{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.et-kb-item-title{font-size:.6875rem;font-weight:600;color:var(--color-heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.et-kb-item-category{font-size:.5625rem;color:var(--color-text-light)}
+
+.et-skeleton{background:var(--color-border);border-radius:8px;animation:etShimmer 1.5s infinite;position:relative;overflow:hidden}
+.et-skeleton::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);animation:etShimmerSlide 1.5s infinite}
+@keyframes etShimmer{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes etShimmerSlide{0%{left:-100%}100%{left:200%}}
+.et-skel-row{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--color-border);align-items:center}
+.et-skel-cell{height:16px;border-radius:6px}
+.et-skel-badge{height:22px;width:60px;border-radius:100px}
+
+.et-filter-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;min-height:0;transition:min-height .2s}
+.et-filter-chips:empty{min-height:0}
+.et-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:.625rem;font-weight:600;background:var(--color-soft);color:var(--color-primary);border:1px solid transparent;transition:all .15s;cursor:default}
+.et-chip-remove{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;cursor:pointer;color:var(--color-primary);opacity:.6;transition:opacity .15s;font-size:12px;line-height:1}
+.et-chip-remove:hover{opacity:1}
+.et-chip-count{font-size:.5625rem;color:var(--color-text-light);margin-left:4px;align-self:center}
+
+.et-pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--color-border);background:var(--color-card);font-size:.6875rem;color:var(--color-text)}
+.et-pagination-info{color:var(--color-text-light)}
+.et-pagination-btns{display:flex;gap:4px}
+.et-pg-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:6px;background:var(--color-card);color:var(--color-text);cursor:pointer;font-size:.625rem;transition:all .15s}
+.et-pg-btn:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.et-pg-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+.et-pg-btn:disabled{opacity:.3;cursor:default}
+.et-pg-btn:disabled:hover{border-color:var(--color-border);color:var(--color-text)}
+
+.et-table-wrap{background:var(--color-card);border-radius:12px;border:1px solid var(--color-border);overflow:auto;position:relative}
+.et-table{width:100%;border-collapse:collapse;min-width:1100px}
+.et-table th{position:sticky;top:0;z-index:2;text-align:left;padding:10px 14px;font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--color-text);border-bottom:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;user-select:none;white-space:nowrap;transition:color .15s}
+.et-table th:hover{color:var(--color-heading)}
+.et-table th .sort-icon{display:inline-block;width:12px;text-align:center;margin-left:3px;opacity:.3;font-size:10px}
+.et-table th .sort-icon.active{opacity:1;color:var(--color-primary)}
+.et-table th .resize-handle{position:absolute;right:0;top:0;bottom:0;width:4px;cursor:col-resize;background:transparent}
+.et-table th .resize-handle:hover{background:var(--color-border)}
+.et-table td{padding:10px 14px;font-size:.75rem;color:var(--color-text);border-bottom:1px solid var(--color-border-light);vertical-align:middle}
+.et-table tr:last-child td{border-bottom:none}
+.et-table tbody tr{cursor:pointer;transition:background .12s}
+.et-table tbody tr:hover{background:var(--color-soft)}
+.et-table tbody tr:active{background:var(--color-soft)}
+.et-table .td-id{font-family:var(--font-mono);font-size:.6875rem;font-weight:600;color:var(--color-primary)}
+.et-table .td-subject{font-weight:500;color:var(--color-heading);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.et-table .td-priority{display:inline-flex;align-items:center;padding:2px 8px;border-radius:100px;font-size:.5625rem;font-weight:700;line-height:1.4}
+.et-table .td-priority.high{background:#FEE2E2;color:#991B1B}
+.et-table .td-priority.medium{background:#FEF3C7;color:#92400E}
+.et-table .td-priority.low{background:#D1FAE5;color:#065F46}
+.et-table .td-status{display:inline-flex;align-items:center;padding:2px 8px;border-radius:100px;font-size:.5625rem;font-weight:700;line-height:1.4}
+.et-table .td-status.open{background:#FEF3C7;color:#92400E}
+.et-table .td-status.progress{background:#DBEAFE;color:#1E40AF}
+.et-table .td-status.resolved{background:#D1FAE5;color:#065F46}
+.et-table .td-status.closed{background:#F3F4F6;color:#6B7280}
+.et-table .td-status.escalated{background:#FEE2E2;color:#991B1B}
+.et-table .td-sla{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:.5625rem;font-weight:600}
+.et-table .td-sla.ok{background:#D1FAE5;color:#065F46}
+.et-table .td-sla.warning{background:#FEF3C7;color:#92400E}
+.et-table .td-sla.breach{background:#FEE2E2;color:#991B1B}
+.et-table .td-time{font-size:.625rem;color:var(--color-text-light);white-space:nowrap}
+.et-table .td-actions{display:flex;gap:4px}
+.et-table .td-action{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:var(--color-text-light);cursor:pointer;transition:all .12s;font-size:0;border:none;background:none}
+.et-table .td-action:hover{background:var(--color-bg);color:var(--color-primary)}
+.et-table .td-action svg{width:13px;height:13px}
+
+.et-header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.et-header-count{display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--color-card);border:1px solid var(--color-border);border-radius:8px;font-size:.75rem;font-weight:600;color:var(--color-heading)}
+.et-header-count svg{color:var(--color-primary)}
+.et-hdr-btn{height:34px;padding:0 14px;border-radius:8px;font-size:.6875rem;font-weight:600;cursor:pointer;border:1px solid var(--color-border);background:var(--color-card);color:var(--color-text);transition:all .15s;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-primary)}
+.et-hdr-btn:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.et-hdr-btn.primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+.et-hdr-btn.primary:hover{background:var(--color-primary-hover)}
+
+.et-note-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .2s}
+.et-note-modal.active{opacity:1;visibility:visible}
+.et-note-modal-box{background:var(--color-card);border-radius:16px;padding:24px;width:440px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.et-note-modal-title{font-size:1rem;font-weight:700;color:var(--color-heading);margin:0 0 4px}
+.et-note-modal-desc{font-size:.75rem;color:var(--color-text);margin-bottom:16px}
+.et-note-modal textarea{width:100%;padding:10px 12px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-bg);color:var(--color-heading);font-size:.8125rem;outline:none;resize:vertical;min-height:100px;font-family:var(--font-primary);transition:border-color .15s}
+.et-note-modal textarea:focus{border-color:var(--color-primary)}
+.et-note-modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+.et-note-modal-actions button{height:36px;padding:0 18px;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;border:1px solid var(--color-border);background:var(--color-card);color:var(--color-text);transition:all .15s;font-family:var(--font-primary)}
+.et-note-modal-actions button.primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+.et-note-modal-actions button.primary:hover{background:var(--color-primary-hover)}
+.et-note-modal-actions button:hover{border-color:var(--color-primary);color:var(--color-primary)}
+
+@media(max-width:1200px){.et-drawer{width:50%}}
+@media(max-width:900px){.et-drawer{width:100%;border-left:none}}
+@media(max-width:768px){
+  .et-drawer-tab{padding:10px 10px;font-size:.625rem}
+  .et-drawer-tab span{display:none}
+}
+</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+<nav class="navbar" role="navigation" aria-label="Engineer navigation">
+  <div class="navbar-inner">
+    <div class="navbar-left">
+      <a href="engineer-dashboard.html" class="navbar-logo" aria-hidden="true" style="text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;">R</a>
+      <div class="navbar-brand-text">
+        <span class="navbar-brand-name">ResolveOne</span>
+        <span class="navbar-brand-sub">Engineer Portal</span>
+      </div>
+    </div>
+    <div class="navbar-center" data-nav-links role="menubar">
+      <a href="engineer-dashboard.html" class="navbar-link" role="menuitem"><i data-lucide="layout-dashboard" size="16"></i>Dashboard</a>
+      <a href="engineer-tickets.html" class="navbar-link active" role="menuitem" aria-current="page"><i data-lucide="ticket" size="16"></i>Open Tickets</a>
+      <a href="engineer-resolution.html" class="navbar-link" role="menuitem"><i data-lucide="clipboard-check" size="16"></i>Resolution</a>
+      <a href="reports.html" class="navbar-link" role="menuitem"><i data-lucide="bar-chart-3" size="16"></i>Reports</a>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-dropdown-wrap">
+        <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications"><i data-lucide="bell" size="18"></i><span class="notif-dot" aria-hidden="true"></span><span class="notif-badge" data-notif-count>0</span></button>
+        <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+          <div class="dropdown-header"><h3 class="dropdown-title">Notifications</h3><button class="dropdown-action" data-mark-read>Mark all as read</button></div>
+          <div class="dropdown-body" data-notif-list><div style="padding:24px;text-align:center;color:var(--color-text);font-size:0.8125rem;">No new notifications</div></div>
+          <div class="dropdown-footer"><a href="#" class="dropdown-footer-link">View All Notifications</a></div>
+        </div>
+      </div>
+      <div class="navbar-dropdown-wrap">
+        <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+          <div class="navbar-profile-avatar">EN</div>
+          <div class="navbar-profile-info"><span class="navbar-profile-name">Engineer</span></div>
+        </div>
+        <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+          <div class="dropdown-user-card"><div class="dropdown-user-avatar">EN</div><div class="dropdown-user-info"><span class="dropdown-user-name">Engineer</span><span class="dropdown-user-email">engineer@resolveone.com</span></div></div>
+          <div class="dropdown-divider"></div>
+          <a href="engineer-profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+        </div>
+      </div>
+      <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" size="20"></i></button>
+    </div>
+  </div>
+</nav>
+
+<main class="ticket-management-page">
+  <div class="container" style="padding-top:32px;">
+
+    <div class="tp-header" style="margin-bottom:24px;">
+      <div class="tp-header-left">
+        <h1 class="tp-title" style="display:flex;align-items:center;gap:10px;">
+          <i data-lucide="ticket" size="22"></i> Open Tickets
+        </h1>
+        <p class="tp-subtitle">Real-time assigned ticket queue</p>
+      </div>
+      <div class="et-header-right">
+        <div class="et-header-count" data-ticket-count>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          <span data-count-val>0</span> Tickets
+        </div>
+        <button class="et-hdr-btn" data-refresh-btn><i data-lucide="refresh-cw" size="14"></i> Refresh</button>
+        <button class="et-hdr-btn primary" data-export-btn><i data-lucide="download" size="14"></i> Export</button>
+      </div>
+    </div>
+
+    <div class="tp-filter" style="margin-bottom:12px;">
+      <div class="tp-filter-search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Search by ID, subject, requester..." data-filter-search>
+      </div>
+      <select data-filter-status><option value="">All Statuses</option><option value="Open">Open</option><option value="In Progress">In Progress</option><option value="Resolved">Resolved</option><option value="Closed">Closed</option><option value="Escalated">Escalated</option></select>
+      <select data-filter-priority><option value="">All Priorities</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+      <select data-filter-category><option value="">All Categories</option></select>
+      <select data-filter-date><option value="">Assigned Date</option><option value="today">Today</option><option value="week">This Week</option><option value="month">This Month</option></select>
+      <select data-filter-sort><option value="created_desc">Newest First</option><option value="created_asc">Oldest First</option><option value="priority_desc">Priority: High-Low</option><option value="priority_asc">Priority: Low-High</option><option value="status_asc">Status: A-Z</option></select>
+      <button class="tp-btn-reset" data-reset-btn title="Reset all filters">Reset</button>
+      <span class="tp-filter-count" data-filter-count style="display:none;"></span>
+    </div>
+
+    <div class="et-filter-chips" data-filter-chips></div>
+
+    <div class="et-table-wrap">
+      <div class="tp-loading" data-loading-state style="display:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+        <h3>Loading tickets...</h3>
+        <p>Fetching your assigned ticket queue</p>
+      </div>
+      <div class="tp-empty" data-empty-state style="display:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <h3 data-empty-title>No tickets found</h3>
+        <p data-empty-desc>No tickets match your current filters. Try adjusting your search criteria.</p>
+      </div>
+      <div data-skeleton-state>
+        <div class="et-skel-row"><div class="et-skel-cell" style="width:90px;"></div><div class="et-skel-cell" style="width:200px;"></div><div class="et-skel-cell" style="width:100px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:130px;"></div><div class="et-skel-cell" style="width:50px;"></div><div class="et-skel-cell" style="width:80px;"></div><div class="et-skel-cell" style="width:70px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:100px;"></div></div>
+        <div class="et-skel-row"><div class="et-skel-cell" style="width:90px;"></div><div class="et-skel-cell" style="width:220px;"></div><div class="et-skel-cell" style="width:110px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:140px;"></div><div class="et-skel-cell" style="width:50px;"></div><div class="et-skel-cell" style="width:80px;"></div><div class="et-skel-cell" style="width:70px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:100px;"></div></div>
+        <div class="et-skel-row"><div class="et-skel-cell" style="width:100px;"></div><div class="et-skel-cell" style="width:180px;"></div><div class="et-skel-cell" style="width:90px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:120px;"></div><div class="et-skel-cell" style="width:50px;"></div><div class="et-skel-cell" style="width:80px;"></div><div class="et-skel-cell" style="width:70px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:100px;"></div></div>
+        <div class="et-skel-row"><div class="et-skel-cell" style="width:80px;"></div><div class="et-skel-cell" style="width:210px;"></div><div class="et-skel-cell" style="width:100px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:130px;"></div><div class="et-skel-cell" style="width:50px;"></div><div class="et-skel-cell" style="width:80px;"></div><div class="et-skel-cell" style="width:70px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:100px;"></div></div>
+        <div class="et-skel-row"><div class="et-skel-cell" style="width:90px;"></div><div class="et-skel-cell" style="width:190px;"></div><div class="et-skel-cell" style="width:105px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:125px;"></div><div class="et-skel-cell" style="width:50px;"></div><div class="et-skel-cell" style="width:80px;"></div><div class="et-skel-cell" style="width:70px;"></div><div class="et-skel-cell" style="width:60px;"></div><div class="et-skel-cell" style="width:100px;"></div></div>
+      </div>
+      <table class="et-table" data-tickets-table style="display:none;">
+        <thead>
+          <tr>
+            <th data-sort="ticket_number" style="width:100px;position:relative;">Ticket ID <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="issue" style="position:relative;">Subject <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="reporter" style="width:130px;position:relative;">Requester <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="department" style="width:110px;position:relative;">Department <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="priority" style="width:80px;position:relative;">Priority <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="status" style="width:90px;position:relative;">Status <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="category" style="width:110px;position:relative;">Category <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="created" style="width:110px;position:relative;">Created <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="updated" style="width:110px;position:relative;">Updated <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="sla" style="width:80px;position:relative;">SLA <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th data-sort="assignedEngineer" style="width:120px;position:relative;">Assigned <span class="sort-icon"></span><span class="resize-handle"></span></th>
+            <th style="width:70px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody data-tickets-body></tbody>
+      </table>
+      <div class="et-pagination" data-pagination style="display:none;">
+        <div class="et-pagination-info" data-pg-info></div>
+        <div class="et-pagination-btns" data-pg-btns></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="overlay" data-detail-overlay style="z-index:999;"></div>
+
+<div class="et-drawer" data-detail-panel>
+  <div class="et-drawer-header">
+    <div class="et-drawer-header-left">
+      <span class="et-drawer-id" data-dd-number></span>
+      <span class="et-drawer-badge" data-dd-priority-badge></span>
+      <span class="et-drawer-badge" data-dd-status-badge></span>
+    </div>
+    <button class="et-drawer-close" data-detail-close><i data-lucide="x" size="16"></i></button>
+  </div>
+
+  <div class="et-drawer-tabs" data-drawer-tabs>
+    <button class="et-drawer-tab active" data-tab="overview"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Overview</span></button>
+    <button class="et-drawer-tab" data-tab="activity"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Activity</span></button>
+    <button class="et-drawer-tab" data-tab="related"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Related</span></button>
+  </div>
+
+  <div class="et-drawer-body" data-drawer-body>
+    <div class="et-drawer-tab-content active" data-tab-content="overview">
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Ticket Information</h3>
+        <div class="et-info-grid" data-dd-overview-grid>
+          <div class="et-info-item"><span class="et-info-label">Requester</span><span class="et-info-value" data-dd-reporter></span></div>
+          <div class="et-info-item"><span class="et-info-label">Email</span><span class="et-info-value mono" data-dd-email></span></div>
+          <div class="et-info-item"><span class="et-info-label">Phone</span><span class="et-info-value" data-dd-phone></span></div>
+          <div class="et-info-item"><span class="et-info-label">Department</span><span class="et-info-value" data-dd-department></span></div>
+          <div class="et-info-item"><span class="et-info-label">Category</span><span class="et-info-value" data-dd-category></span></div>
+          <div class="et-info-item"><span class="et-info-label">Created</span><span class="et-info-value" data-dd-created></span></div>
+          <div class="et-info-item et-info-full"><span class="et-info-label">Issue Description</span></div>
+        </div>
+        <div class="et-desc-box" data-dd-issue style="margin-top:4px;"></div>
+      </div>
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> Attachments</h3>
+        <div class="et-ai-empty" data-dd-attachments>No attachments for this ticket.</div>
+      </div>
+
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Analysis</h3>
+        <div class="et-ai-card" data-ai-analysis>
+          <div class="et-ai-card-header analysis">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="et-ai-card-title">AI Analysis Report</span>
+          </div>
+          <div data-ai-analysis-body>
+            <div class="et-ai-empty">No AI analysis available for this ticket.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> AI Recommendation</h3>
+        <div class="et-ai-card" data-ai-recommendation>
+          <div class="et-ai-card-header recommendation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span class="et-ai-card-title">AI Recommendation</span>
+          </div>
+          <div data-ai-rec-body>
+            <div class="et-ai-empty">No recommendation available for this ticket.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="et-drawer-tab-content" data-tab-content="activity">
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Conversation</h3>
+        <div class="et-convo" data-dd-conversations></div>
+        <div class="et-convo-reply">
+          <textarea placeholder="Type a reply..." data-convo-input rows="1"></textarea>
+          <button data-convo-send disabled>Send</button>
+        </div>
+      </div>
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Activity Timeline</h3>
+        <div class="et-timeline" data-dd-timeline></div>
+      </div>
+    </div>
+
+    <div class="et-drawer-tab-content" data-tab-content="related">
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Related Tickets</h3>
+        <div class="et-related-list" data-dd-related-tickets>
+          <div class="et-ai-empty">No related tickets found.</div>
+        </div>
+      </div>
+      <div class="et-section">
+        <h3 class="et-section-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Linked Knowledge Base Articles</h3>
+        <div class="et-kb-list" data-dd-kb-articles>
+          <div class="et-ai-empty">No knowledge base articles linked.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="et-drawer-actions" data-drawer-actions>
+    <button class="et-da-btn primary" data-action-assign><i data-lucide="user-check" size="14"></i> Assign To Me</button>
+    <button class="et-da-btn success" data-action-accept><i data-lucide="check-circle" size="14"></i> Accept</button>
+    <button class="et-da-btn warning" data-action-escalate><i data-lucide="alert-triangle" size="14"></i> Escalate</button>
+    <button class="et-da-btn" data-action-note><i data-lucide="file-text" size="14"></i> Note</button>
+    <button class="et-da-btn" data-action-forward><i data-lucide="corner-up-right" size="14"></i> Forward</button>
+    <a href="engineer-resolution.html" class="et-da-btn" data-action-resolution><i data-lucide="clipboard-check" size="14"></i> Resolution</a>
+  </div>
+</div>
+
+<div class="et-note-modal" data-note-modal>
+  <div class="et-note-modal-box">
+    <h3 class="et-note-modal-title">Add Internal Note</h3>
+    <p class="et-note-modal-desc">This note will be visible to all engineers and administrators.</p>
+    <textarea placeholder="Type your internal note here..." data-note-textarea></textarea>
+    <div class="et-note-modal-actions">
+      <button data-note-cancel>Cancel</button>
+      <button class="primary" data-note-save>Add Note</button>
+    </div>
+  </div>
+</div>
+
+<footer class="tp-toast-container" data-toast-container></footer>
+
+<div class="modal-overlay" data-modal-overlay>
+  <div class="modal-box">
+    <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    <h3 class="modal-title">Sign out?</h3>
+    <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+    <div class="modal-actions"><button class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-danger" data-modal-confirm>Logout</button></div>
+  </div>
+</div>
+
+<script src="js/modules/session.js"></script>
+<script src="js/modules/auth.js"></script>
+<script>
+(function(){
+  try {
+    var u = window.ResolveOneSession && window.ResolveOneSession.getUser();
+    if (u && u.role !== 'engineer' && u.role !== 'support_engineer') {
+      var roleMap = { admin: 'users.html', user: 'index.html' };
+      window.location.href = roleMap[u.role] || 'index.html';
+    }
+  } catch(e){}
+})();
+</script>
+<script src="js/modules/engineer-navbar.js"></script>
+<script src="js/modules/engineer-tickets.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    lucide.createIcons();
+    if (window.EngineerNavbar) window.EngineerNavbar.init();
+    if (window.EngineerTickets) window.EngineerTickets.init();
+  });
+</script>
+</body>
+</html>

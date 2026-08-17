@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ResolveOne — Enterprise AI Support Platform. AI-powered IT help desk for modern enterprises.">
+  <meta name="color-scheme" content="light dark">
+  <title>ResolveOne — Enterprise AI Support Platform</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B65A12'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='800' fill='%23fff' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css?v=11">
+  <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.js"></script>
+<style>body{opacity:0}body.ready{opacity:1;animation:pageFadeIn .15s ease}@keyframes pageFadeIn{0%{opacity:0}100%{opacity:1}}</style>
+</head>
+<body>
+<script>(function(){var k='rs-theme',t=localStorage.getItem(k)||'light';if(t==='system')t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';if(t==='dark')document.body.classList.add('dark-theme');requestAnimationFrame(function(){document.documentElement.classList.add('transitions-enabled');requestAnimationFrame(function(){document.body.classList.add('ready')})})})();</script>
+
+  <!-- â”€â”€â”€ NAVBAR â”€â”€â”€ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <div class="navbar-logo" aria-hidden="true">R</div>
+        <div class="navbar-brand-text">
+          <span class="navbar-brand-name">ResolveOne</span>
+          <span class="navbar-brand-sub">Enterprise AI Support Platform</span>
+        </div>
+      </div>
+
+      <div class="navbar-center" data-nav-links role="menubar">
+        <a href="index.html" class="navbar-link active" role="menuitem" aria-current="page">
+          <i data-lucide="home" size="16"></i>
+          Home
+        </a>
+        <a href="ai-assistant.html" class="navbar-link" role="menuitem">
+          <i data-lucide="bot" size="16"></i>
+          AI Assistant
+          <span class="navbar-link-badge">Online</span>
+        </a>
+        <a href="knowledge-base.html" class="navbar-link" role="menuitem">
+          <i data-lucide="book-open" size="16"></i>
+          Knowledge Base
+        </a>
+        <a href="help-center.html" class="navbar-link" role="menuitem">
+          <i data-lucide="circle-help" size="16"></i>
+          Help Center
+        </a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-dropdown-wrap">
+          <button class="navbar-icon-btn" data-notif-toggle aria-label="Notifications">
+            <i data-lucide="bell" size="18"></i>
+            <span class="notif-dot" aria-hidden="true"></span>
+            <span class="notif-badge" data-notif-count>3</span>
+          </button>
+          <div class="navbar-dropdown notif-dropdown" data-notif-dropdown>
+            <div class="dropdown-header">
+              <h3 class="dropdown-title">Notifications</h3>
+              <button class="dropdown-action" data-mark-read>Mark all as read</button>
+            </div>
+            <div class="dropdown-body" data-notif-list></div>
+            <div class="dropdown-footer">
+              <a href="#" class="dropdown-footer-link">View All Notifications</a>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-dropdown-wrap">
+          <div class="navbar-profile" data-profile-toggle tabindex="0" role="button" aria-label="User profile">
+            <div class="navbar-profile-avatar"></div>
+            <div class="navbar-profile-info">
+              <span class="navbar-profile-name"></span>
+            </div>
+          </div>
+          <div class="navbar-dropdown profile-dropdown" data-profile-dropdown>
+            <div class="dropdown-user-card">
+              <div class="dropdown-user-avatar"></div>
+              <div class="dropdown-user-info">
+                <span class="dropdown-user-name"></span>
+                <span class="dropdown-user-email"></span>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item"><i data-lucide="user" size="16"></i> My Profile</a>
+            <a href="help-center.html" class="dropdown-item"><i data-lucide="circle-help" size="16"></i> Help & Support</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-item-danger" data-logout-btn><i data-lucide="log-out" size="16"></i> Logout</button>
+          </div>
+        </div>
+        <button class="navbar-mobile-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+          <i data-lucide="menu" size="20"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- â”€â”€â”€ HERO â”€â”€â”€ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="hero-label">
+              <span class="hero-label-dot"></span>
+              AI-Powered IT Support
+            </div>
+            <h1 class="hero-title" id="hero-title">
+              Resolve IT issues<br>
+              <span class="hero-title-highlight">before they escalate.</span>
+            </h1>
+            <p class="hero-description">
+              ResolveOne uses AI to analyze, diagnose, and resolve employee IT tickets instantly. Cut resolution time by 70% and let your team focus on what matters.
+            </p>
+            <div class="hero-actions">
+              <a href="ai-assistant.html" class="btn btn-primary">
+                <i data-lucide="sparkles" size="16"></i>
+                Report an Issue
+              </a>
+              <a href="ai-assistant.html" class="btn btn-outline">
+                <i data-lucide="play-circle" size="16"></i>
+                See How It Works
+              </a>
+            </div>
+            <div class="hero-kpi-row">
+              <div class="kpi-card">
+                <div class="kpi-icon green">
+                  <i data-lucide="check-circle" size="18"></i>
+                </div>
+                <div class="kpi-value" style="color: #1F7A8C;">94%</div>
+                <div class="kpi-label">AI Resolution Rate</div>
+                <div class="kpi-trend up">&uarr; 2.3%</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-icon amber">
+                  <i data-lucide="clock" size="18"></i>
+                </div>
+                <div class="kpi-value" style="color: #F59E0B;">&lt; 4 min</div>
+                <div class="kpi-label">Avg. Response Time</div>
+                <div class="kpi-trend down">&darr; 18 sec</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-icon yellow">
+                  <i data-lucide="ticket" size="18"></i>
+                </div>
+                <div class="kpi-value" style="color: #022B3A;">31k+</div>
+                <div class="kpi-label">Tickets Resolved</div>
+                <div class="kpi-trend up">+1,240</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-icon orange">
+                  <i data-lucide="users" size="18"></i>
+                </div>
+                <div class="kpi-value" style="color: var(--color-primary);">284</div>
+                <div class="kpi-label">Active Sessions</div>
+                <div class="kpi-trend neutral">Live now</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="hero-card">
+              <div class="hero-card-header">
+                <span class="hero-card-title">
+                  <i data-lucide="activity" size="18"></i>
+                  Live Activity
+                </span>
+                <span class="hero-card-status">AI Active</span>
+              </div>
+              <div class="hero-card-body">
+                <div class="hero-card-ticket">
+                  <div>
+                    <div class="hero-card-ticket-id mono">RSV-2399</div>
+                    <div class="hero-card-ticket-title">VPN connectivity issue</div>
+                  </div>
+                  <span class="hero-card-ticket-status badge badge-progress">Analyzing</span>
+                </div>
+                <div class="hero-card-ticket">
+                  <div>
+                    <div class="hero-card-ticket-id mono">RSV-2398</div>
+                    <div class="hero-card-ticket-title">ERP access denied</div>
+                  </div>
+                  <span class="hero-card-ticket-status badge badge-resolved">Resolved</span>
+                </div>
+                <div class="hero-card-ticket">
+                  <div>
+                    <div class="hero-card-ticket-id mono">RSV-2397</div>
+                    <div class="hero-card-ticket-title">Email sync failure</div>
+                  </div>
+                  <span class="hero-card-ticket-status badge badge-open">Open</span>
+                </div>
+              </div>
+            </div>
+            <div class="hero-decoration" aria-hidden="true"></div>
+            <div class="hero-decoration-2" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€â”€ AI WORKSPACE PREVIEW â”€â”€â”€ -->
+    <section class="workspace-preview" aria-labelledby="workspace-preview-title" data-workspace-preview>
+      <div class="container">
+        <div class="workspace-preview-grid">
+          <div class="workspace-preview-content">
+            <span class="section-label">AI Workspace</span>
+            <h2 class="section-title" id="workspace-preview-title">Intelligent Ticket Resolution</h2>
+            <p class="section-subtitle" style="margin-bottom: var(--spacing-lg);">
+              Describe your issue and let AI handle the rest — from intelligent analysis to recommended solutions and real-time tracking.
+            </p>
+            <ul style="display: flex; flex-direction: column; gap: var(--spacing-sm); margin-bottom: var(--spacing-xl);">
+              <li style="display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--color-text);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                AI-powered issue diagnostics
+              </li>
+              <li style="display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--color-text);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Similar ticket matching from 50K+ resolved issues
+              </li>
+              <li style="display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--color-text);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Automated ticket creation and team assignment
+              </li>
+            </ul>
+            <a href="ai-assistant.html" class="btn btn-primary">
+              <i data-lucide="wand-2" size="16"></i>
+              Open AI Assistant
+            </a>
+          </div>
+
+          <div class="workspace-preview-visual">
+            <div class="workspace-preview-card">
+              <div class="workspace-preview-steps">
+                <div class="workspace-preview-step completed">
+                  <div class="workspace-preview-step-dot completed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <span class="workspace-preview-step-label">Report</span>
+                </div>
+                <div class="workspace-preview-step active">
+                  <div class="workspace-preview-step-dot active">2</div>
+                  <span class="workspace-preview-step-label">Analysis</span>
+                </div>
+                <div class="workspace-preview-step">
+                  <div class="workspace-preview-step-dot pending">3</div>
+                  <span class="workspace-preview-step-label">Match</span>
+                </div>
+                <div class="workspace-preview-step">
+                  <div class="workspace-preview-step-dot pending">4</div>
+                  <span class="workspace-preview-step-label">Solve</span>
+                </div>
+                <div class="workspace-preview-step">
+                  <div class="workspace-preview-step-dot pending">5</div>
+                  <span class="workspace-preview-step-label">Track</span>
+                </div>
+              </div>
+
+              <div class="workspace-preview-form">
+                <div class="workspace-preview-form-row">
+                  <select class="workspace-preview-select" disabled>
+                    <option>Network & Connectivity</option>
+                  </select>
+                  <input class="workspace-preview-input" type="text" placeholder="Brief title..." disabled>
+                </div>
+                <div class="workspace-preview-form-row">
+                  <input class="workspace-preview-input" type="text" placeholder="Describe your issue in detail..." style="width: 100%;" disabled>
+                </div>
+              </div>
+
+              <div class="workspace-preview-cta" data-workspace-preview-cta data-href="ai-assistant.html" role="button" tabindex="0">
+                <span class="workspace-preview-cta-text">
+                  Try the full AI workflow
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€â”€ ENTERPRISE METRICS â”€â”€â”€ -->
+    <section class="statistics" aria-labelledby="stats-title">
+      <div class="container">
+        <div class="statistics-header">
+          <span class="section-label">Platform Metrics</span>
+          <h2 class="section-title" id="stats-title">Enterprise Scale, Measured</h2>
+          <p class="section-subtitle" style="margin: 0 auto;">Real-time metrics from across your organisation's IT support operations.</p>
+        </div>
+        <div class="statistics-grid">
+          <div class="stat-card">
+            <div class="stat-card-icon orange">
+              <i data-lucide="ticket" size="18"></i>
+            </div>
+            <div class="stat-card-value" data-stat-value="12470">0</div>
+            <div class="stat-card-label">Tickets Resolved This Month</div>
+            <span class="stat-card-trend up">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              +12.3%
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon green">
+              <i data-lucide="clock" size="18"></i>
+            </div>
+            <div class="stat-card-value" data-stat-value="3">0</div>
+            <div class="stat-card-label">Avg Resolution Time (min)</div>
+            <span class="stat-card-trend down">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              -8.1%
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon amber">
+              <i data-lucide="check-circle" size="18"></i>
+            </div>
+            <div class="stat-card-value" data-stat-value="97">0<span style="font-family: var(--font-primary); font-size: 1.25rem;">%</span></div>
+            <div class="stat-card-label">First-Contact Resolution</div>
+            <span class="stat-card-trend up">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              +2.4%
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon warning">
+              <i data-lucide="users" size="18"></i>
+            </div>
+            <div class="stat-card-value" data-stat-value="12400">0</div>
+            <div class="stat-card-label">Active Employees</div>
+            <span class="stat-card-trend up">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              +5.7%
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€â”€ QUICK ACTIONS â”€â”€â”€ -->
+    <section class="quick-actions" aria-labelledby="quick-actions-title">
+      <div class="container">
+        <div class="quick-actions-header">
+          <span class="section-label">Quick Actions</span>
+          <h2 class="section-title" id="quick-actions-title">What do you need help with?</h2>
+          <p class="section-subtitle" style="margin: 0 auto;">Navigate to the right tool for the task at hand.</p>
+        </div>
+        <div class="quick-actions-grid">
+          <div class="quick-action-card" tabindex="0" role="link">
+            <div class="quick-action-icon primary">
+              <i data-lucide="bug" size="20"></i>
+            </div>
+            <div class="quick-action-title">Report an Issue</div>
+            <div class="quick-action-desc">Submit a new IT support ticket with AI-powered diagnostics and instant analysis.</div>
+            <div class="quick-action-footer">
+              Open Issue Form
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+          <a href="ai-assistant.html" class="quick-action-card" tabindex="0" role="link" style="text-decoration:none;color:inherit;display:block;">
+            <div class="quick-action-icon amber">
+              <i data-lucide="bot" size="20"></i>
+            </div>
+            <div class="quick-action-title">AI Assistant</div>
+            <div class="quick-action-desc">Chat with ResolveAI for instant help, troubleshooting, and guided resolutions.</div>
+            <div class="quick-action-footer">
+              Open AI Assistant
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a href="ai-assistant.html" class="quick-action-card" tabindex="0" role="link" style="text-decoration:none;color:inherit;display:block;">
+            <div class="quick-action-icon green">
+              <i data-lucide="clipboard-list" size="20"></i>
+            </div>
+            <div class="quick-action-title">My Tickets</div>
+            <div class="quick-action-desc">Track, update, and manage all your active support tickets in one place.</div>
+            <div class="quick-action-footer">
+              View My Tickets
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a href="knowledge-base.html" class="quick-action-card" tabindex="0" role="link" style="text-decoration:none;color:inherit;display:block;">
+            <div class="quick-action-icon warning">
+              <i data-lucide="book-open" size="20"></i>
+            </div>
+            <div class="quick-action-title">Knowledge Base</div>
+            <div class="quick-action-desc">Browse 5,000+ articles for instant self-service solutions to common issues.</div>
+            <div class="quick-action-footer">
+              Browse Articles
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a href="tickets.html" class="quick-action-card" tabindex="0" role="link" style="text-decoration:none;color:inherit;display:none;" data-admin-only>
+            <div class="quick-action-icon primary">
+              <i data-lucide="ticket" size="20"></i>
+            </div>
+            <div class="quick-action-title">Ticket Management</div>
+            <div class="quick-action-desc">View all tickets, update statuses, and manage assignments across the organization.</div>
+            <div class="quick-action-footer">
+              Manage Tickets
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a href="users.html" class="quick-action-card" tabindex="0" role="link" style="text-decoration:none;color:inherit;display:none;" data-admin-only>
+            <div class="quick-action-icon amber">
+              <i data-lucide="users" size="20"></i>
+            </div>
+            <div class="quick-action-title">User Management</div>
+            <div class="quick-action-desc">Create, edit, and manage user accounts and role permissions.</div>
+            <div class="quick-action-footer">
+              Manage Users
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a href="reports.html" class="quick-action-card" tabindex="0" role="link" style="text-decoration:none;color:inherit;display:none;" data-admin-only>
+            <div class="quick-action-icon green">
+              <i data-lucide="bar-chart-3" size="20"></i>
+            </div>
+            <div class="quick-action-title">Reports</div>
+            <div class="quick-action-desc">Analytics dashboard with ticket metrics, category breakdown, and KPIs.</div>
+            <div class="quick-action-footer">
+              View Reports
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€â”€ AI WORKFLOW â”€â”€â”€ -->
+    <section class="workflow" aria-labelledby="workflow-title">
+      <div class="container">
+        <div class="workflow-header">
+          <span class="section-label">How It Works</span>
+          <h2 class="section-title" id="workflow-title">AI-Powered Resolution Workflow</h2>
+          <p class="section-subtitle" style="margin: 0 auto;">From issue report to resolution in four intelligent steps.</p>
+        </div>
+        <div class="workflow-grid">
+          <div class="workflow-step-card">
+            <div class="workflow-step-number">1</div>
+            <div class="workflow-step-title">Submit Issue</div>
+            <div class="workflow-step-desc">Employee describes the problem through the AI workspace or assistant interface.</div>
+          </div>
+          <div class="workflow-step-card">
+            <div class="workflow-step-number">2</div>
+            <div class="workflow-step-title">AI Analysis</div>
+            <div class="workflow-step-desc">AI scans 50K+ resolved tickets and knowledge base for matching patterns.</div>
+          </div>
+          <div class="workflow-step-card">
+            <div class="workflow-step-number">3</div>
+            <div class="workflow-step-title">Smart Resolution</div>
+            <div class="workflow-step-desc">AI recommends solutions or auto-assigns to the right team with context.</div>
+          </div>
+          <div class="workflow-step-card">
+            <div class="workflow-step-number">4</div>
+            <div class="workflow-step-title">Track & Close</div>
+            <div class="workflow-step-desc">Real-time tracking with SLA monitoring until the issue is fully resolved.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€â”€ ENTERPRISE CAPABILITIES â”€â”€â”€ -->
+    <section class="capabilities" aria-labelledby="capabilities-title">
+      <div class="container">
+        <div class="capabilities-header">
+          <span class="section-label">Enterprise Capabilities</span>
+          <h2 class="section-title" id="capabilities-title">Built for Scale, Designed for IT</h2>
+          <p class="section-subtitle">Everything your organisation needs to manage IT support at enterprise scale.</p>
+        </div>
+        <div class="capabilities-grid">
+          <div class="capability-card">
+            <div class="capability-icon primary">
+              <i data-lucide="brain" size="22"></i>
+            </div>
+            <h3 class="capability-title">Local AI Engine</h3>
+            <p class="capability-desc">Ollama-powered LLM runs fully on-premise. Zero data leaves your infrastructure. Enterprise-grade privacy by design.</p>
+          </div>
+          <div class="capability-card">
+            <div class="capability-icon amber">
+              <i data-lucide="search" size="22"></i>
+            </div>
+            <h3 class="capability-title">Intelligent Knowledge Base</h3>
+            <p class="capability-desc">AI-driven semantic search across 5,000+ articles. Automatically suggests relevant solutions based on issue context.</p>
+          </div>
+          <div class="capability-card">
+            <div class="capability-icon green">
+              <i data-lucide="bar-chart-3" size="22"></i>
+            </div>
+            <h3 class="capability-title">Real-Time Analytics</h3>
+            <p class="capability-desc">Live dashboards with SLA tracking, trend analysis, and team performance metrics. Make data-driven IT decisions.</p>
+          </div>
+          <div class="capability-card">
+            <div class="capability-icon warning">
+              <i data-lucide="shield" size="22"></i>
+            </div>
+            <h3 class="capability-title">Role-Based Access</h3>
+            <p class="capability-desc">Granular permissions for employees, IT staff, and admins. SSO integration with Azure AD, Okta, and more.</p>
+          </div>
+          <div class="capability-card">
+            <div class="capability-icon slate">
+              <i data-lucide="refresh-cw" size="22"></i>
+            </div>
+            <h3 class="capability-title">Automated Workflows</h3>
+            <p class="capability-desc">AI-driven ticket routing, auto-assignment, escalation rules, and SLA enforcement without manual intervention.</p>
+          </div>
+          <div class="capability-card">
+            <div class="capability-icon indigo">
+              <i data-lucide="globe" size="22"></i>
+            </div>
+            <h3 class="capability-title">Multi-Tenant Architecture</h3>
+            <p class="capability-desc">Support multiple departments, regions, and subsidiaries under a single unified platform with isolated data.</p>
+          </div>
+        </div>
+        <div class="capabilities-cta">
+          <a href="#" class="btn btn-outline">
+            View All Features
+            <i data-lucide="arrow-right" size="16"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€â”€ RECENT TICKETS PREVIEW â”€â”€â”€ -->
+    <section class="recent-tickets" aria-labelledby="tickets-title">
+      <div class="container">
+        <div class="tickets-header">
+          <div>
+            <span class="section-label">Live Feed</span>
+            <h2 class="section-title" id="tickets-title">Recent Tickets</h2>
+          </div>
+          <a href="#" class="btn btn-outline btn-sm">
+            View All Tickets
+            <i data-lucide="arrow-right" size="14"></i>
+          </a>
+        </div>
+        <div class="tickets-table-wrapper">
+          <table class="tickets-table">
+            <thead>
+              <tr>
+                <th scope="col">Ticket ID</th>
+                <th scope="col">Issue</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Status</th>
+                <th scope="col">Assignee</th>
+                <th scope="col">SLA</th>
+              </tr>
+            </thead>
+            <tbody data-tickets-body></tbody>
+          </table>
+        </div>
+        <div class="tickets-footer">
+            <a href="ai-assistant.html" class="btn btn-link">
+            View Full Ticket List
+            <i data-lucide="arrow-right" size="14"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€â”€ CTA â”€â”€â”€ -->
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-decoration" aria-hidden="true"></div>
+          <div class="cta-decoration-2" aria-hidden="true"></div>
+          <div class="cta-content">
+            <div class="cta-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Get Started
+            </div>
+            <h2 class="cta-title" id="cta-title">Ready to transform your IT support?</h2>
+            <p class="cta-desc">Join 200+ enterprises already using ResolveOne to reduce ticket resolution time by 70% and improve employee satisfaction.</p>
+            <div class="cta-actions">
+              <a href="#" class="cta-btn-primary">
+                <i data-lucide="rocket" size="16"></i>
+                Start Free Trial
+              </a>
+              <a href="#" class="cta-btn-secondary">
+                <i data-lucide="calendar" size="16"></i>
+                Schedule a Demo
+              </a>
+            </div>
+            <div class="cta-stats">
+              <div class="cta-stat">
+                <span class="cta-stat-value">99.9%</span>
+                <span class="cta-stat-label">Uptime Guarantee</span>
+              </div>
+              <div class="cta-stat">
+                <span class="cta-stat-value">&lt;4 min</span>
+                <span class="cta-stat-label">Avg Response</span>
+              </div>
+              <div class="cta-stat">
+                <span class="cta-stat-value">4.9/5</span>
+                <span class="cta-stat-label">Employee Rating</span>
+              </div>
+              <div class="cta-stat">
+                <span class="cta-stat-value">ISO 27001</span>
+                <span class="cta-stat-label">Certified Secure</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- â”€â”€â”€ FOOTER â”€â”€â”€ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">R</div>
+            <span class="footer-logo-text">ResolveOne</span>
+          </div>
+          <p class="footer-desc">Enterprise AI Support Platform. Intelligent ticket resolution for modern IT teams.</p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-link" aria-label="GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+            <a href="#" class="footer-social-link" aria-label="Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+            <a href="#" class="footer-social-link" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Platform</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">AI Workspace</a></li>
+            <li><a href="#" class="footer-link">Knowledge Base</a></li>
+            <li><a href="#" class="footer-link">Ticket System</a></li>
+            <li><a href="ai-assistant.html" class="footer-link">Ticket Tracking</a></li>
+            <li><a href="#" class="footer-link">Integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">About Us</a></li>
+            <li><a href="#" class="footer-link">Careers</a></li>
+            <li><a href="#" class="footer-link">Blog</a></li>
+            <li><a href="#" class="footer-link">Press Kit</a></li>
+            <li><a href="#" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <ul class="footer-links">
+            <li><a href="help-center.html" class="footer-link">Documentation</a></li>
+            <li><a href="#" class="footer-link">API Reference</a></li>
+            <li><a href="#" class="footer-link">Status Page</a></li>
+            <li><a href="#" class="footer-link">SLA Details</a></li>
+            <li><a href="#" class="footer-link">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 ResolveOne. All rights reserved.</span>
+        <div class="footer-bottom-links">
+          <a href="#" class="footer-bottom-link">Privacy Policy</a>
+          <a href="#" class="footer-bottom-link">Terms of Service</a>
+          <a href="#" class="footer-bottom-link">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="js/modules/session.js"></script>
+<script src="js/modules/auth.js"></script>
+<script src="js/modules/ai-workspace.js"></script>
+<script src="js/modules/statistics.js"></script>
+<script src="js/modules/tickets.js"></script>
+<script src="js/modules/navbar.js?v=5"></script>
+<script src="js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    lucide.createIcons();
+  });
+</script>
+  <div class="modal-overlay" data-modal-overlay>
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <h3 class="modal-title">Sign out?</h3>
+      <p class="modal-desc">You are about to sign out of your ResolveOne account.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" data-modal-cancel>Cancel</button>
+        <button class="btn btn-danger" data-modal-confirm>Logout</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
